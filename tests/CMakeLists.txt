@@ -12,7 +12,7 @@ target_link_libraries(BigIntUnitTest
 
   add_test(BigIntUnitTest BigIntUnitTest)
   
-  set_target_properties(BigIntUnitTest PROPERTIES FOLDER ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/testbin)
+  set_target_properties(BigIntUnitTest PROPERTIES RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/testbin")
 
 
 

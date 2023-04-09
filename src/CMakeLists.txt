@@ -9,10 +9,10 @@ target_link_libraries(BigInt)
 
 add_executable(driver driver.cpp)
 
-set_target_properties(driver PROPERTIES FOLDER ${CMAKE_RUNTIME_OUTPUT_DIRECTORY})
-
-
 target_link_libraries(driver BigInt)
+
+set_target_properties(driver PROPERTIES RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/bin")
+
 set(CMAKE_CXX_STANDARD 14)
 
 source_group(
