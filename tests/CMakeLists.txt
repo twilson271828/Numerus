@@ -1,7 +1,6 @@
+enable_testing()
+
 find_package(GTest REQUIRED)
-if (NOT GTEST_LIBRARY)
-  message("GTest not found!")
-endif()
 
 add_executable(BigIntUnitTest BigIntUnitTest.cpp)
 
