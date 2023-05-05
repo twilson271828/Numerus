@@ -4,8 +4,8 @@ add_library(BigInt BigInt.cpp ${HEADER_LIST})
 
 target_include_directories(BigInt PUBLIC ../include)
 
-target_compile_features(BigInt PUBLIC cxx_std_11)
-target_link_libraries(BigInt)
+target_compile_features(BigInt PUBLIC cxx_std_23)
+target_link_libraries(BigInt armadillo)
 
 add_executable(driver driver.cpp)
 

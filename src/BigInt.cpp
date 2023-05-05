@@ -1,5 +1,31 @@
 #include "../include/BigInt.hpp"
 
+
+std::complex<double> BigInt::exponentiate(size_t k,size_t n, size_t N) {
+
+    double x = 0.0;
+    double y = 0.0;
+    double theta = (2* M_PI *k * n)/N;
+   
+    x = std::cos(theta);
+    y = std::sin(theta);
+    std::complex<double> omega(x,y);
+    return omega;    
+
+}
+
+std::complex<double> BigInt::dift(std::vector<std::complex<double>>& input,size_t n) {
+
+    size_t N = input.size();
+    std::complex<double> coeff(0.0,0.0);
+    
+    for (int k = 0; k < N; k++) {   
+            coeff += input[k]*exponentiate(k,n,N);       
+    }
+    coeff /= N;
+    return coeff;
+} 
+
 BigInt BigInt::vsub(BigInt &x,BigInt &y) const {
 
     BigInt z;
@@ -242,6 +268,13 @@ int BigInt::operator[](const int i) const {
     return numerus[i];
 
 }
+
+
+BigInt BigInt::operator / (const BigInt &num) const {
+
+    return num;
+}
+
 
 BigInt BigInt::operator - (const BigInt &num) const{
 BigInt x = *this;
