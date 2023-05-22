@@ -1,17 +1,20 @@
 #include "../include/BigInt.hpp"
 #include <bitset>
 
-size_t bitrev(size_t n,size_t k) {
+//bitrev(j, 8) gives 0, 4, 2, 6, 1, 5, 3, 7 for j = 0, . . . , 7
 
- size_t rev = 0;
- 
-    // traversing bits of 'n' from the right
-    for (size_t i =0;i < k;i++) {
-      ;
+size_t bitrev(size_t n) {
+
+    unsigned int NO_OF_BITS = sizeof(n) * 8;
+    size_t reverse_num = 0;
+    int i;
+    for (i = 0; i < NO_OF_BITS; i++) {
+        if ((n & (1 << i)))
+            reverse_num |= 1 << ((NO_OF_BITS - 1) - i);
     }
+    return reverse_num;
+
  
-    // required number
-    return rev;
 }
 int bitwise_operators(){
 
@@ -41,9 +44,9 @@ int bitwise_operators(){
 
 int main() {
 
-    bitwise_operators();
-    //for (size_t i = 0;i < 8;i++){
-    //std::cout << bitrev(i,64) <<"\n";
-    //}
-    //return 0;
+    //bitwise_operators();
+    for (int i = 0; i < 8;i++) {
+      std::cout <<bitrev(i) <<std::endl;
+
+    }
 }
