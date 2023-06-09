@@ -24,11 +24,11 @@ size_t BigInt::bitrev(size_t n) {
 }
 
 
-std::complex<double> BigInt::exponentiate(size_t k,size_t n, size_t N) {
+std::complex<double> BigInt::exponentiate(size_t k,size_t n) {
 
     double x = 0.0;
     double y = 0.0;
-    double theta = (2* M_PI *k * n)/N;
+    double theta = (2* M_PI *k * n);
    
     x = std::cos(theta);
     y = std::sin(theta);
@@ -37,25 +37,25 @@ std::complex<double> BigInt::exponentiate(size_t k,size_t n, size_t N) {
 
 }
 
-std::complex<double> BigInt::dft(std::vector<std::complex<double>>& input) {
+std::complex<double> BigInt::dft(std::vector<std::complex<double>>& input,size_t n) {
 
     size_t N = input.size();
     std::complex<double> coeff(0.0,0.0);
     
     for (int k = 0; k < N; k++) {   
-            coeff += input[k]*exponentiate(-k,k,N);       
+            coeff += input[k]*exponentiate(-k,n);       
     }
     coeff /= N;
     return coeff;
 } 
 
-std::complex<double> BigInt::dift(std::vector<std::complex<double>>& input) {
+std::complex<double> BigInt::dift(std::vector<std::complex<double>>& input, size_t n) {
 
     size_t N = input.size();
     std::complex<double> coeff(0.0,0.0);
     
     for (int k = 0; k < N; k++) {   
-            coeff += input[k]*exponentiate(k,k,N);       
+            coeff += input[k]*exponentiate(k,n);       
     }
     coeff /= N;
     return coeff;
