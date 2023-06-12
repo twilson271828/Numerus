@@ -43,9 +43,9 @@ std::complex<double> BigInt::dft(std::vector<std::complex<double>>& input,size_t
     std::complex<double> coeff(0.0,0.0);
     
     for (int k = 0; k < N; k++) {   
-            coeff += input[k]*exponentiate(-k,n);       
+            coeff += input[k]/exponentiate(k,n);       
     }
-    coeff /= N;
+    //coeff /= N;
     return coeff;
 } 
 
@@ -57,7 +57,7 @@ std::complex<double> BigInt::dift(std::vector<std::complex<double>>& input, size
     for (int k = 0; k < N; k++) {   
             coeff += input[k]*exponentiate(k,n);       
     }
-    coeff /= N;
+    //coeff /= N;
     return coeff;
 } 
 
