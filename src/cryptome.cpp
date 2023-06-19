@@ -26,7 +26,12 @@ std::complex<double> exponentiate(size_t k,size_t n,size_t N) {
     y = std::sin(theta);
     std::complex<double> omega(x,y);
     return omega;    
+}
 
+
+BigInt Schonhage_Strassen(BigInt &x,BigInt&y) {
+
+    return x;
 }
 
 
@@ -39,17 +44,18 @@ std::complex<double> dift(std::vector<std::complex<double>>& input, size_t n) {
     for (int k = 0; k < N; k++) {   
             coeff += input[k]*exponentiate(k,n,N);       
     }
-    coeff /= N;
-#if 0
+    
+
     if (abs(coeff.real()) < 1e-6) {
         coeff.real(0.0);
     }
-#endif
+
     if (abs(coeff.imag()) < 1e-6) {
-       std::cout << "coeff.imag() =" << coeff.imag() << "\n";
        coeff.imag(0.0);    
     }
 
+
+    coeff /= N;
     return coeff;
 } 
 
