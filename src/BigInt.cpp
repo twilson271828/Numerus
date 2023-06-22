@@ -126,6 +126,16 @@ BigInt BigInt::Schonhage_Strassen(BigInt &x,BigInt&y) const {
     return x;
 }
 
+BigInt BigInt::karatsuba(BigInt &x, BigInt &y) const {
+
+    return x;
+}
+
+BigInt BigInt::Toom3(BigInt &x, BigInt &y) const {
+    return x;
+
+}
+
 BigInt BigInt::vmult(BigInt &x,BigInt &y) const {
     
     int n = x.size();

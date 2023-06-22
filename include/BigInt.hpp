@@ -20,7 +20,9 @@
             BigInt vsub(BigInt &x,BigInt &y) const;
             BigInt vadd(BigInt &x,BigInt &y) const;
             BigInt vmult(BigInt &x, BigInt &y) const;
+            BigInt karatsuba(BigInt &x, BigInt &y) const;
             BigInt Schonhage_Strassen(BigInt &x,BigInt&y) const;
+            BigInt Toom3(BigInt &x, BigInt &y) const;
             std::complex<double> exponentiate(size_t k,size_t n,size_t N);
             std::complex<double> dift(std::vector<std::complex<double>> &input,size_t n); 
             std::complex<double> dft(std::vector<std::complex<double>> &input,size_t n); 

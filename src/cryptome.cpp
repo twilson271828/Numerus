@@ -80,7 +80,7 @@ std::complex<double> dft(std::vector<std::complex<double>>& input,size_t n) {
 } 
 
 int main() {
-
+#if 0
     std::complex<double> c0(1,0);
     std::complex<double> c1(2,-1);
     std::complex<double> c2(0,-1);
@@ -114,5 +114,7 @@ std::cout << "x5 = " << x5 << "\n";
 std::cout << "x6 = " << x6 << "\n";
 std::cout << "x7 = " << x7 << "\n";
    
+#endif
+BigInt x("9225353535353535222");
   
 }
