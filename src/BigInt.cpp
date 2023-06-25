@@ -24,6 +24,17 @@ size_t BigInt::bitrev(size_t n) {
 }
 
 
+std::pair<BigInt,BigInt> BigInt::base10_decomposition(BigInt&x, BigInt &base) const {
+    int n = base.size();
+    for (int i = 0; i < n; i++) {
+
+        
+    }
+
+     //std::pair <std::string,double> product2 ("tomatoes",2.30); 
+    
+}
+
 std::complex<double> BigInt::exponentiate(size_t k,size_t n,size_t N){
 
     double x = 0.0;

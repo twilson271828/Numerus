@@ -17,7 +17,7 @@
          SIGN sign;
 
         private:
-            BigInt base_decomposition(BigInt&x) const;
+            std::pair<BigInt,BigInt> base10_decomposition(BigInt&x,BigInt &base) const;
             BigInt vsub(BigInt &x,BigInt &y) const;
             BigInt vadd(BigInt &x,BigInt &y) const;
             BigInt vmult(BigInt &x, BigInt &y) const;

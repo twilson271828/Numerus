@@ -116,5 +116,10 @@ std::cout << "x7 = " << x7 << "\n";
    
 #endif
 BigInt x("9225353535353535222");
+
+int n = x.size();
+std::cout << "x = " << x << std::endl;
+std::cout << "x[0] = " << x[0] << std::endl;
+std::cout << "x[n-1] = " << x[n-1] << std::endl;
   
 }
