@@ -2,6 +2,33 @@
 #include <bitset>
 #include <limits>
 
+std::pair<BigInt,BigInt> base10_decomposition(BigInt&x, BigInt &base)  {
+    int n = base.size();
+    int N = x.size();
+    BigInt xl,xr;
+    std::cout << "blah" << "\n";
+    #if 0
+    for (int i = 0; i < n; i++) {
+        xl.insert(x[i],i);
+        
+    }
+    #endif
+    int ix = 0;
+    for (int j = N-1;j > n; j--) {
+        std::cout << x[j] << "\n";
+        xr.insert(x[j],ix);
+        ix += 1;
+    }
+     
+
+    std::cout << "xl = " << xl <<"\n";
+    std::cout << "xr = " << xr <<"\n";
+
+    std::pair<BigInt,BigInt> decomp(xl,xr);
+    return decomp;
+     //std::pair <std::string,double> product2 ("tomatoes",2.30); 
+    
+}
 
 
 size_t bitrev(size_t n) {
@@ -115,11 +142,9 @@ std::cout << "x6 = " << x6 << "\n";
 std::cout << "x7 = " << x7 << "\n";
    
 #endif
-BigInt x("9225353535353535222");
+BigInt x("12345");
+BigInt base("1000");
+std::pair<BigInt,BigInt> decomposition = base10_decomposition(x,base);
 
-int n = x.size();
-std::cout << "x = " << x << std::endl;
-std::cout << "x[0] = " << x[0] << std::endl;
-std::cout << "x[n-1] = " << x[n-1] << std::endl;
   
 }

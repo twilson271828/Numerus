@@ -26,11 +26,21 @@ size_t BigInt::bitrev(size_t n) {
 
 std::pair<BigInt,BigInt> BigInt::base10_decomposition(BigInt&x, BigInt &base) const {
     int n = base.size();
+    int N = x.size();
+    BigInt xl,xr;
     for (int i = 0; i < n; i++) {
-
+        xl.insert(x[i],i);
         
     }
+    for (int j = n;j < N; j++) {
+        xr.insert(x[j],j);
+    }
 
+    std::cout << "xl = " << xl <<"\n";
+    std::cout << "xr = " << xr <<"\n";
+
+    std::pair<BigInt,BigInt> decomp(xl,xr);
+    return decomp;
      //std::pair <std::string,double> product2 ("tomatoes",2.30); 
     
 }
