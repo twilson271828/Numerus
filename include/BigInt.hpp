@@ -4,6 +4,7 @@
     #include <string>
     #include <cmath>
     #include <complex>
+    #include <bitset>
     //#include <armadillo>
     
     enum SIGN {POS,NEG};
@@ -13,6 +14,7 @@
         private:
 
          std::vector<int> numerus;
+         std::vector<std::bitset<4>> binary_numerus;
 
          SIGN sign;
 
