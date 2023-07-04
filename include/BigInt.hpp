@@ -39,7 +39,7 @@
 
         BigInt(const BigInt &num);
 
-        BigInt(const long &num);
+        //BigInt(const long &num);
 
         /// @brief 
         /// @param m 

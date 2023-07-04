@@ -237,9 +237,11 @@ BigInt::BigInt() {
 
 BigInt::BigInt(const BigInt &num){
     numerus = num.numerus;
+    binary_numerus = num.binary_numerus;
     sign = num.sign;
 }
 
+#if 0
 BigInt::BigInt(const long &num) {
  BigInt z;
  
@@ -255,8 +257,9 @@ BigInt::BigInt(const long &num) {
     }
 
     *this = z;    
-
 }
+
+#endif
 
 BigInt::BigInt(const std::string c) {
     sign = POS;
@@ -284,6 +287,8 @@ BigInt::BigInt(const std::string c) {
     
         int x = int(ch) - int('0');
         numerus.push_back(x);
+        std::bitset<4> b(x);
+        binary_numerus.push_back(b);
         }
         
     }
@@ -322,12 +327,20 @@ std::ostream& operator <<(std::ostream & out,const BigInt& num) {
     }
     out<<"\n";
 
+    for(auto x: num.binary_numerus) {
+        out << x;        
+    }
+    out<<"\n";
+
+
     return out;
 
 }
 
 void BigInt::insert(const int &val,const int &ix) {
     numerus.insert(numerus.begin()+ix,val);
+    std::bitset<4> b(val);
+    binary_numerus.insert(binary_numerus.begin()+ix,b);
     }
 
 int BigInt::operator[](const int i) const {
