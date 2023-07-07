@@ -136,6 +136,13 @@ BigInt BigInt::Toom3(BigInt &x, BigInt &y) const {
 
 }
 
+BigInt BigInt::vbmult(BigInt &x,BigInt&y) const {
+
+
+    return x;
+
+}
+
 BigInt BigInt::vmult(BigInt &x,BigInt &y) const {
     
     int n = x.size();
