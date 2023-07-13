@@ -12,7 +12,7 @@
 
         private:
 
-         std::vector<int> numerus;
+         std::vector<uint8_t> numerus;
 
          SIGN sign;
 
