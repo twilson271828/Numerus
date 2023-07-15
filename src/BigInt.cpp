@@ -126,6 +126,12 @@ BigInt BigInt::Schonhage_Strassen(BigInt &x,BigInt&y) const {
     return x;
 }
 
+
+represent BigInt::representation(size_t m) {
+    size_t n = this->size();
+
+}
+
 BigInt BigInt::karatsuba(BigInt &x, BigInt &y) const {
 
     return x;
@@ -184,8 +190,6 @@ BigInt BigInt::vmult(BigInt &x,BigInt &y) const {
     return a;
 
     }
-
-
 
 
 BigInt BigInt::vadd(BigInt &x,BigInt &y) const {
@@ -330,7 +334,7 @@ void BigInt::insert(const int &val,const int &ix) {
     numerus.insert(numerus.begin()+ix,val);
     }
 
-int BigInt::operator[](const int i) const {
+size_t BigInt::operator[](const int i) const {
 
     return numerus[i];
 
@@ -519,7 +523,7 @@ int BigInt::get_sign() const {
 
 }
 
-int BigInt::size() const {
+size_t BigInt::size() const {
 
     return numerus.size();
 }

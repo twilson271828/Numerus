@@ -8,6 +8,7 @@
     
     enum SIGN {POS,NEG};
 
+    
     class BigInt {
 
         private:
@@ -20,6 +21,7 @@
             BigInt vsub(BigInt &x,BigInt &y) const;
             BigInt vadd(BigInt &x,BigInt &y) const;
             BigInt vmult(BigInt &x, BigInt &y) const;
+            represent representation(size_t m);
             BigInt karatsuba(BigInt &x, BigInt &y) const;
             BigInt Schonhage_Strassen(BigInt &x,BigInt&y) const;
             BigInt Toom3(BigInt &x, BigInt &y) const;
@@ -44,8 +46,8 @@
         /// @param add_to_front 
         BigInt m10(const int m, bool add_to_front = false) const;
        
-        int operator[](const int i) const;
-        int size() const;
+        size_t operator[](const int i) const;
+        size_t size() const;
 
         int get_sign() const;
 
@@ -92,4 +94,10 @@
 
         
 
+    };
+
+    struct represent{
+        BigInt r;
+        BigInt c;
+        size_t m;
     };
