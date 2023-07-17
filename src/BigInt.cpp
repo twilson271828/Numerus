@@ -127,9 +127,31 @@ BigInt BigInt::Schonhage_Strassen(BigInt &x,BigInt&y) const {
 }
 
 
-represent BigInt::representation(size_t m) {
-    size_t n = this->size();
+BigInt BigInt::slice(size_t i,size_t j) const {
+    BigInt z;
+     // Starting and Ending iterators
+    auto start = this->numerus.begin() + i;
+    auto end = this->numerus.end() + j + 1;
+ 
+    // To store the sliced vector
+    std::vector<uint8_t> result(j - i + 1);
+    z.numerus = result;
+    std::copy(start,end,z.numerus.begin());
+    return z;
 
+}
+
+represent BigInt::representation(size_t m) const {
+    size_t n = this->size();
+    BigInt r;
+    BigInt c;
+
+    represent z;
+    z.r = r;
+    z.c =c;
+    z.m = m;
+    return z;
+    
 }
 
 BigInt BigInt::karatsuba(BigInt &x, BigInt &y) const {
@@ -287,7 +309,8 @@ BigInt::BigInt(const std::string c) {
         else { 
     
         int x = int(ch) - int('0');
-        numerus.push_back(x);
+        std::cout << "pushing back: " << x << "\n";
+        numerus.push_back((uint8_t)x);
         }
         
     }

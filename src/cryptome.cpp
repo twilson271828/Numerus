@@ -116,5 +116,10 @@ std::cout << "x7 = " << x7 << "\n";
    
 #endif
 BigInt x("9225353535353535222");
+
+//BigInt y = x.slice(0,5);
+std::cout << "x = " << x << "\n";
+//std::cout << "y = " << y << "\n";
+
   
 }
