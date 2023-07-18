@@ -22,7 +22,6 @@
             BigInt vsub(BigInt &x,BigInt &y) const;
             BigInt vadd(BigInt &x,BigInt &y) const;
             BigInt vmult(BigInt &x, BigInt &y) const;
-            represent representation(size_t m) const;
             BigInt karatsuba(BigInt &x, BigInt &y) const;
             BigInt Schonhage_Strassen(BigInt &x,BigInt&y) const;
             BigInt Toom3(BigInt &x, BigInt &y) const;
@@ -46,9 +45,7 @@
         /// @param m 
         /// @param add_to_front 
         BigInt m10(const int m, bool add_to_front = false) const;
-
         BigInt slice(size_t i,size_t j) const;
-       
         size_t operator[](const int i) const;
         size_t size() const;
 
@@ -90,6 +87,8 @@
         BigInt operator --();
 
         BigInt operator ! ()const; 
+
+        represent representation(size_t m) const;
 
         friend std::ostream& operator<<(std::ostream &out,const BigInt& num);
 

@@ -129,6 +129,16 @@ BigInt BigInt::Schonhage_Strassen(BigInt &x,BigInt&y) const {
 
 BigInt BigInt::slice(size_t i,size_t j) const {
     BigInt z;
+    if (i > j) {
+        std::cout << " The starting index for BigInt::slice must be less than the ending index.\n";
+        std::exit(0);
+    }
+
+    if (i < 0 || j < 0) {
+        std::cout << "The starting and ending indices for the BigInt::slice routine must be greater than or equal to 0\n";
+        std::exit(0);
+    }
+    
      // Starting and Ending iterators
     auto start = this->numerus.begin() + i;
     auto end = this->numerus.end() + j + 1;
@@ -147,8 +157,8 @@ represent BigInt::representation(size_t m) const {
     BigInt c;
 
     represent z;
-    z.r = r;
-    z.c =c;
+    z.r = this->slice(0,m-1);
+    z.c =this->slice(m,n);
     z.m = m;
     return z;
     

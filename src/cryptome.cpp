@@ -115,11 +115,18 @@ std::cout << "x6 = " << x6 << "\n";
 std::cout << "x7 = " << x7 << "\n";
    
 #endif
-BigInt x("9225353535353535222");
+BigInt x("922");
 
-//BigInt y = x.slice(0,5);
-std::cout << "x = " << x << "\n";
-//std::cout << "y = " << y << "\n";
+size_t m = 2;
+
+represent z = x.representation(m);
+
+std::cout << "z.r =" << z.r << "\n";
+std::cout << "z.c = " << z.c << "\n";
+std::cout << "z.m = " << z.m <<"\n";
+
+
+
 
   
 }
