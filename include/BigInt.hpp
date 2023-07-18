@@ -91,8 +91,6 @@
 
         BigInt operator ! ()const; 
 
-
-        
         friend std::ostream& operator<<(std::ostream &out,const BigInt& num);
 
         

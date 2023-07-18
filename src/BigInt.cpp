@@ -308,9 +308,8 @@ BigInt::BigInt(const std::string c) {
         }
         else { 
     
-        int x = int(ch) - int('0');
-        std::cout << "pushing back: " << x << "\n";
-        numerus.push_back((uint8_t)x);
+        uint8_t x = int(ch) - int('0');   
+        numerus.push_back(x);
         }
         
     }
@@ -345,7 +344,7 @@ std::ostream& operator <<(std::ostream & out,const BigInt& num) {
     }
     
     for(auto x: num.numerus) {
-        out << x;        
+        out << (unsigned int)x;        
     }
     out<<"\n";
 
