@@ -157,8 +157,10 @@ represent BigInt::representation(size_t m) const {
     BigInt c;
 
     represent z;
-    z.r = this->slice(0,m-1);
-    z.c =this->slice(m,n);
+    std::cout << "[n-m,n-1] = [" << n-m << ","<< n-1 <<"]" <<  "\n";
+    std::cout << "[0,n-m-1] = [" << 0 << ","<< n-m-1 << "]" <<  "\n";
+    z.r = this->slice(n-m,n-1);
+    z.c =this->slice(0,n-m-1);
     z.m = m;
     return z;
     
