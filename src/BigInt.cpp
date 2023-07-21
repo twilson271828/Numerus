@@ -168,7 +168,12 @@ represent BigInt::representation(size_t m) const {
 
 BigInt BigInt::karatsuba(BigInt &x, BigInt &y) const {
 
-    return x;
+    size_t n = x.size();
+    size_t m = y.size();
+
+    size_t k = std::min(n,m);
+
+
 }
 
 BigInt BigInt::Toom3(BigInt &x, BigInt &y) const {
