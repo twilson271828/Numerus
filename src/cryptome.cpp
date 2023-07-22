@@ -125,8 +125,8 @@ size_t m = 3;
 
 represent z = x.representation(m);
 std::cout << "x = " << x <<"\n";
-std::cout << "z.r =" << z.r << "\n";
-std::cout << "z.c = " << z.c << "\n";
+std::cout << "z.x1 =" << z.x1 << "\n";
+std::cout << "z.x0 = " << z.x0 << "\n";
 std::cout << "z.m = " << z.m <<"\n";
 
 

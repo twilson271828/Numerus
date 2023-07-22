@@ -98,8 +98,8 @@
 
 
     struct represent{
-        BigInt r;
-        BigInt c;
+        BigInt x1;
+        BigInt x0;
         size_t m;
     };
 

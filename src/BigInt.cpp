@@ -173,6 +173,15 @@ BigInt BigInt::karatsuba(BigInt &x, BigInt &y) const {
 
     size_t k = std::min(n,m);
 
+    if (k-1 > 0) {
+        represent rep_x = x.representation(k-1);
+        represent rep_y = y.representation(k-1);
+        BigInt z2 = rep_x.x1*rep_y.x1;
+        BigInt z1 = rep_x.x1*rep_y.x0+rep_x.x0*rep_y.x1;
+        BigInt z0 =rep_x.x0*rep_y.x0;
+        
+    }
+
 
 }
 
