@@ -1,5 +1,6 @@
 #include "../include/BigInt.hpp"
 #include <bitset>
+#include <cmath>
 #include <limits>
 
 
@@ -123,13 +124,15 @@ BigInt x("12345");
 //std::cout << "z = " << z << "\n";
 size_t m = 3;
 
-represent z = x.representation(m);
-std::cout << "x = " << x <<"\n";
-std::cout << "z.x1 =" << z.x1 << "\n";
-std::cout << "z.x0 = " << z.x0 << "\n";
-std::cout << "z.m = " << z.m <<"\n";
+//represent z = x.representation(m);
+//std::cout << "x = " << x <<"\n";
+//std::cout << "z.x1 =" << z.x1 << "\n";
+//std::cout << "z.x0 = " << z.x0 << "\n";
+//std::cout << "z.m = " << z.m <<"\n";
 
+long int z = 12;
 
+std::cout << "z/5 = " << (int)std::floor(z/6) << "\n";
 
 
   

@@ -159,8 +159,8 @@ represent BigInt::representation(size_t m) const {
     represent z;
     std::cout << "[n-m,n-1] = [" << n-m << ","<< n-1 <<"]" <<  "\n";
     std::cout << "[0,n-m-1] = [" << 0 << ","<< n-m-1 << "]" <<  "\n";
-    z.r = this->slice(n-m,n-1);
-    z.c =this->slice(0,n-m-1);
+    z.x1 = this->slice(n-m,n-1);
+    z.x0 =this->slice(0,n-m-1);
     z.m = m;
     return z;
     
@@ -168,10 +168,16 @@ represent BigInt::representation(size_t m) const {
 
 BigInt BigInt::karatsuba(BigInt &x, BigInt &y) const {
 
-    size_t n = x.size();
+    size_t n = x.size(); 
     size_t m = y.size();
 
+    if (n < 10 && y < 10) {
+
+        return x*y;
+    }
+
     size_t k = std::min(n,m);
+
 
     if (k-1 > 0) {
         represent rep_x = x.representation(k-1);
@@ -181,8 +187,8 @@ BigInt BigInt::karatsuba(BigInt &x, BigInt &y) const {
         BigInt z0 =rep_x.x0*rep_y.x0;
         
     }
-
-
+    
+    return x;
 }
 
 BigInt BigInt::Toom3(BigInt &x, BigInt &y) const {
