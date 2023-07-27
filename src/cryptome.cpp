@@ -116,7 +116,7 @@ std::cout << "x6 = " << x6 << "\n";
 std::cout << "x7 = " << x7 << "\n";
    
 #endif
-BigInt x("12345");
+BigInt x("3141592654");
 
 //size_t m = x.size();
 //BigInt z = x.slice(1,m-1);
@@ -124,15 +124,13 @@ BigInt x("12345");
 //std::cout << "z = " << z << "\n";
 size_t m = 3;
 
-//represent z = x.representation(m);
-//std::cout << "x = " << x <<"\n";
-//std::cout << "z.x1 =" << z.x1 << "\n";
-//std::cout << "z.x0 = " << z.x0 << "\n";
-//std::cout << "z.m = " << z.m <<"\n";
+split split_x = x.split_it(m);
+std::cout << "x = " << x <<"\n";
+std::cout << "split_x.x1 =" << split_x.x1 << "\n";
+std::cout << "split_x.x0 = " << split_x.x0 << "\n";
+std::cout << "split_x.m = " << split_x.m <<"\n";
 
-long int z = 12;
 
-std::cout << "z/5 = " << (int)std::floor(z/6) << "\n";
 
 
   

@@ -151,16 +151,16 @@ BigInt BigInt::slice(size_t i,size_t j) const {
 
 }
 
-represent BigInt::representation(size_t m) const {
+split BigInt::split_it(size_t m) const {
     size_t n = this->size();
     BigInt r;
     BigInt c;
 
-    represent z;
+    split z;
     std::cout << "[n-m,n-1] = [" << n-m << ","<< n-1 <<"]" <<  "\n";
     std::cout << "[0,n-m-1] = [" << 0 << ","<< n-m-1 << "]" <<  "\n";
-    z.x1 = this->slice(n-m,n-1);
-    z.x0 =this->slice(0,n-m-1);
+    z.x0 = this->slice(n-m,n-1);
+    z.x1 =this->slice(0,n-m-1);
     z.m = m;
     return z;
     
@@ -176,17 +176,37 @@ BigInt BigInt::karatsuba(BigInt &x, BigInt &y) const {
         return x*y;
     }
 
-    size_t k = std::min(n,m);
+    size_t k = std::max(n,m);
+    size_t k2 = std::floor(k/2);
+
+    split split_x = x.split_it(k2);
+    split split_y = y.split_it(k2);
+    //BigInt z2 = split_x.x1*split_y.x1;
+    //BigInt z1 = split_x.x1*split_y.x0+split_x.x0*split_y.x1;
+    //BigInt z0 =split_x.x0*split_y.x0;
+    BigInt low_x = split_x.x0;
+    BigInt low_y = split_y.x0;
+    BigInt high_x = split_x.x1;
+    BigInt high_y = split_y.x1;
+    
+    BigInt xsum = low_x+high_x;
+    BigInt ysum = low_y+high_y;
+
+    BigInt z0 = karatsuba(low_x,low_y);
+    BigInt z1 = karatsuba(xsum,ysum);
+    BigInt z2 = karatsuba(high_x,high_y);
+
+    BigInt first = z2.m10(k2*2,false);
+    BigInt second = z1-z2-z0;
+    second = second.m10(k2,false);
+    BigInt third = z0;
+
+    return first + second + third;
 
 
-    if (k-1 > 0) {
-        represent rep_x = x.representation(k-1);
-        represent rep_y = y.representation(k-1);
-        BigInt z2 = rep_x.x1*rep_y.x1;
-        BigInt z1 = rep_x.x1*rep_y.x0+rep_x.x0*rep_y.x1;
-        BigInt z0 =rep_x.x0*rep_y.x0;
+
         
-    }
+    
     
     return x;
 }

@@ -8,7 +8,7 @@
     
     enum SIGN {POS,NEG};
 
-    struct represent;
+    struct split;
 
     class BigInt {
 
@@ -88,7 +88,7 @@
 
         BigInt operator ! ()const; 
 
-        represent representation(size_t m) const;
+        split split_it(size_t m) const;
 
         friend std::ostream& operator<<(std::ostream &out,const BigInt& num);
 
@@ -97,7 +97,7 @@
     };
 
 
-    struct represent{
+    struct split{
         BigInt x1;
         BigInt x0;
         size_t m;
