@@ -130,6 +130,7 @@ BigInt BigInt::Schonhage_Strassen(BigInt &x,BigInt&y) const {
 BigInt BigInt::slice(size_t i,size_t j) const {
     BigInt z;
     if (i > j) {
+        std::cout << "[i,j] = " << "["<< i << " , " << j << "]\n";
         std::cout << " The starting index for BigInt::slice must be less than the ending index.\n";
         std::exit(0);
     }
