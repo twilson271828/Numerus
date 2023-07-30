@@ -145,9 +145,17 @@ BigInt BigInt::slice(size_t i,size_t j) const {
     auto end = this->numerus.end() + j + 1;
  
     // To store the sliced vector
-    std::vector<uint8_t> result(j - i + 1);
+    //std::vector<uint8_t> result(j - i + 1);
+    std::vector<uint8_t> result(j - i +1);
     z.numerus = result;
+    
+    std::cout << "i = " << i << "\n";
+    std::cout << "j = " << j << "\n"; 
+    std::cout << "j - i + 1= " << j - i + 1 << "\n";
+
+
     std::copy(start,end,z.numerus.begin());
+    
     return z;
 
 }
@@ -158,8 +166,10 @@ split BigInt::split_it(size_t m) const {
     BigInt c;
 
     split z;
-    std::cout << "[n-m,n-1] = [" << n-m << ","<< n-1 <<"]" <<  "\n";
-    std::cout << "[0,n-m-1] = [" << 0 << ","<< n-m-1 << "]" <<  "\n";
+    //std::cout << "[n-m,n-1] = [" << n-m << ","<< n-1 <<"]" <<  "\n";
+    //std::cout << "[0,n-m-1] = [" << 0 << ","<< n-m-1 << "]" <<  "\n";
+    std::cout << "m = " << m << "\n";
+    std::cout << "Splitting:  " << *this << "\n";
     z.x0 = this->slice(n-m,n-1);
     z.x1 =this->slice(0,n-m-1);
     z.m = m;
@@ -172,7 +182,7 @@ BigInt BigInt::karatsuba(BigInt &x, BigInt &y) const {
     size_t n = x.size(); 
     size_t m = y.size();
 
-    if (n < 10 && y < 10) {
+    if (n < 10 || y < 10) {
 
         return x*y;
     }

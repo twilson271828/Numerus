@@ -116,19 +116,17 @@ std::cout << "x6 = " << x6 << "\n";
 std::cout << "x7 = " << x7 << "\n";
    
 #endif
-BigInt x("12345");
-BigInt y("6789");
+BigInt x("1234545534534534534534534534");
+BigInt y("6789353555355553535353553535");
 
 BigInt z;
 
-BigInt f = z.karatsuba(x,y);
+split z1 = y.split_it(14);
+//BigInt f = z.karatsuba(x,y);
 
-std::cout << "x = " << x << "\n";
-std::cout << "y = " << y << "\n";
-std::cout << "f = " << f << "\n";
-
-
-
+//std::cout << "x = " << x << "\n";
+//std::cout << "y = " << y << "\n";
+//std::cout << "f = " << f << "\n";
 
   
 }
