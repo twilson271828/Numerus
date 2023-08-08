@@ -121,7 +121,8 @@ BigInt y("6789353555355553535353553535");
 
 BigInt z;
 
-split z1 = y.split_it(14);
+BigInt z1 = y.slice(0,10);
+std::cout << "z1 = " << z1 << "\n";
 //BigInt f = z.karatsuba(x,y);
 
 //std::cout << "x = " << x << "\n";

@@ -142,11 +142,11 @@ BigInt BigInt::slice(size_t i,size_t j) const {
     
      // Starting and Ending iterators
     auto start = this->numerus.begin() + i;
-    auto end = this->numerus.end() + j + 1;
+    auto end = this->numerus.begin() + i + j+1;
  
     // To store the sliced vector
     //std::vector<uint8_t> result(j - i + 1);
-    std::vector<uint8_t> result(j - i +1);
+    std::vector<uint8_t> result(j - i + 1);
     z.numerus = result;
     
     std::cout << "i = " << i << "\n";
