@@ -11,6 +11,7 @@ class BigIntTest: public::testing::Test{
       me = BigInt("-271828");
       mpi = BigInt("-314159");
 
+
   }
     void TearDown() override {
 
@@ -114,6 +115,15 @@ TEST_F(BigIntTest,m10Test) {
   BigInt z_add_3_to_rear = z.m10(3);
   EXPECT_EQ(z3a,z_add_3_to_front);
   EXPECT_EQ(z3b,z_add_3_to_rear);
+
+}
+
+TEST_F(BigIntTest,SliceTests) {
+
+  BigInt z("6789353555355553535353553535");
+  BigInt zslice1("67893535553");
+  BigInt z1 = z.slice(0,10);
+  EXPECT_EQ(zslice1,z1);
 
 }
 

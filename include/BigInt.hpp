@@ -45,7 +45,7 @@
         /// @param m 
         /// @param add_to_front 
         BigInt m10(const int m, bool add_to_front = false) const;
-        BigInt slice(size_t i,size_t j) const;
+        BigInt slice(int i,int j) const;
         size_t operator[](const int i) const;
         size_t size() const;
 
