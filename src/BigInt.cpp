@@ -216,10 +216,6 @@ BigInt BigInt::karatsuba(BigInt &x, BigInt &y) const {
 
     return first + second + third;
 
-
-
-        
-    
     
     return x;
 }
@@ -351,7 +347,10 @@ BigInt::BigInt(const long &num) {
 
 BigInt::BigInt(const std::string c) {
     sign = POS;
-    
+    if (c == "NAN") {
+        sign = UNDEFINED;
+        return;
+    }
     try{
 
     int n = c.size();

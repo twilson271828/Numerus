@@ -85,8 +85,11 @@ int main() {
   BigInt z("6789353555355553535353553535");
   BigInt zslice1("67893535553");
   BigInt z1 = z.slice(-1,-1);
-  std::cout << "z1 = " << z1 << "\n";
- 
+
+  BigInt z3;
+
+  std::cout << "z1 = " << z1 <<"\n";
+  
 
 
 

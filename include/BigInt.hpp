@@ -6,7 +6,7 @@
     #include <complex>
     //#include <armadillo>
     
-    enum SIGN {POS,NEG};
+    enum SIGN {POS,NEG,UNDEFINED};
 
     struct split;
 
