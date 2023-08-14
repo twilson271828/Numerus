@@ -83,12 +83,20 @@ std::complex<double> dft(std::vector<std::complex<double>>& input,size_t n) {
 int main() {
 
   BigInt z("6789353555355553535353553535");
+  std::cout << "z is " << z.size() << " digits long. \n";
   BigInt zslice1("67893535553");
   BigInt z1 = z.slice(-1,-1);
+  BigInt z2 = z.slice(5,5);
+  BigInt z3 = z.slice(0,1000);
+  BigInt z4 = z.slice(27,34);
+  BigInt z5 = z.slice(27,28);
 
-  BigInt z3;
+  std::cout << "z2 = " << z2 <<"\n";
+  std::cout << "z3 = " << z3 <<"\n";
+  std::cout << "z4 = " << z4 <<"\n";
+  std::cout << "z5 = " << z5 <<"\n";
 
-  std::cout << "z1 = " << z1 <<"\n";
+
   
 
 

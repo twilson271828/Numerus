@@ -130,16 +130,21 @@ BigInt BigInt::Schonhage_Strassen(BigInt &x,BigInt&y) const {
 BigInt BigInt::slice(int i,int j) const {
     BigInt z;
 
+    if ((j - i)+i > this->size()){
+      std::cout << "The slice range [i,j] is greater than the length of this number.\n";
+      return BigInt("NAN");
+
+    }
    
     if (i > j) {
         std::cout << "[i,j] = " << "["<< i << " , " << j << "]\n";
         std::cout << " The starting index for BigInt::slice must be less than the ending index.\n";
-        std::exit(0);
+        return BigInt("NAN");
     }
 
     if ( (i < 0) || (j < 0) ) {
         std::cout << "The starting and ending indices for the BigInt::slice routine must be greater than or equal to 0\n";
-        std::exit(0);
+        return BigInt("NAN");
     }
     
      // Starting and Ending iterators
