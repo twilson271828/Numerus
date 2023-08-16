@@ -129,8 +129,8 @@ BigInt BigInt::Schonhage_Strassen(BigInt &x,BigInt&y) const {
 
 BigInt BigInt::slice(int i,int j) const {
     BigInt z;
-
-    if ((j - i)+i > this->size()){
+     std::cout << "(j - i) + i = " << (j - i)+i << "\n";
+    if ((j - i)+i > this->size() - 1){
       std::cout << "The slice range [i,j] is greater than the length of this number.\n";
       return BigInt("NAN");
 
@@ -156,9 +156,9 @@ BigInt BigInt::slice(int i,int j) const {
     std::vector<uint8_t> result(j - i + 1);
     z.numerus = result;
     
-    std::cout << "i = " << i << "\n";
-    std::cout << "j = " << j << "\n"; 
-    std::cout << "j - i + 1= " << j - i + 1 << "\n";
+    //std::cout << "i = " << i << "\n";
+    //std::cout << "j = " << j << "\n"; 
+    //std::cout << "j - i + 1= " << j - i + 1 << "\n";
 
 
     std::copy(start,end,z.numerus.begin());
@@ -609,8 +609,10 @@ int BigInt::get_sign() const {
 
     if (sign == NEG)
         return -1;
-    else
+    else if (sign == POS)
         return 1;
+    else
+        return 0;
 
 }
 
