@@ -87,8 +87,9 @@ int main() {
  
   size_t i = z.size() -1;
   size_t j = z.size() -1;
-  BigInt z6 = z.slice(i,j);
-  //std::cout << "z6 = " << z6 << "\n";
+  
+  BigInt z6 = z.slice(z.size()-1,z.size()-1);
+  std::cout << "z6 = " << z6 << "\n";
 
   
 }

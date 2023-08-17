@@ -137,9 +137,10 @@ TEST_F(BigIntTest,SliceTests) {
 
   BigInt z6 = z.slice(27,28);
   EXPECT_EQ(z6.get_sign(),0);
-  //BigInt z4 = z.slice(27,34);
-  //BigInt z5 = z.slice(27,28);
 
+  BigInt z7 = z.slice(z.size()-1,z.size()-1);
+  EXPECT_EQ(z7,BigInt("8") );
+ 
 }
 
 TEST_F(BigIntTest, SubtractionTests) {

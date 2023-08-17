@@ -149,7 +149,7 @@ BigInt BigInt::slice(int i,int j) const {
     
      // Starting and Ending iterators
     auto start = this->numerus.begin() + i;
-    auto end = this->numerus.begin() + i + j+1;
+    auto end = this->numerus.begin() + i + (j- i)+1;
  
     // To store the sliced vector
     //std::vector<uint8_t> result(j - i + 1);
@@ -189,7 +189,7 @@ BigInt BigInt::karatsuba(BigInt &x, BigInt &y) const {
     size_t n = x.size(); 
     size_t m = y.size();
 
-    if (n < 10 || y < 10) {
+    if (n < 10 && y < 10) {
 
         return x*y;
     }
