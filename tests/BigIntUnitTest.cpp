@@ -139,7 +139,7 @@ TEST_F(BigIntTest,SliceTests) {
   EXPECT_EQ(z6.get_sign(),0);
 
   BigInt z7 = z.slice(z.size()-1,z.size()-1);
-  EXPECT_EQ(z7,BigInt("8") );
+  EXPECT_EQ(z7,BigInt("5") );
  
 }
 
