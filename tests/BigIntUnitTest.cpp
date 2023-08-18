@@ -118,6 +118,14 @@ TEST_F(BigIntTest,m10Test) {
 
 }
 
+TEST_F(BigIntTest,split_it_tests) {
+
+BigInt z("6789424643665457123213125523442134324234242352342380724234242");
+EXPECT_EQ(z,z);
+
+
+}
+
 TEST_F(BigIntTest,SliceTests) {
 
   BigInt z("6789353555355553535353553535");

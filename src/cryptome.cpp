@@ -124,14 +124,25 @@ BigInt karatsuba(BigInt &x, BigInt &y)  {
 
 int main() {
 
-  BigInt z("6789353555355553535353553538");
+  size_t k = 10;
+  BigInt z("6789424643665457123213125523442134324234242352342380724234242");
 
- 
-  size_t i = z.size() -1;
-  size_t j = z.size() -1;
-  
-  BigInt z6 = z.slice(z.size()-1,z.size()-1);
-  std::cout << "z6 = " << z6 << "\n";
+  split split10 = z.split_it(k);
 
-  
+  std:: cout << "split10.x0 = "<< split10.x0 << "\n";
+  std:: cout << "split10.x1 = "<< split10.x1 << "\n";
+
+  size_t m = 0;
+  split split0=z.split_it(m);
+  std:: cout << "split0.x0 = "<< split0.x0 << "\n";
+  std::cout << "split0.x0 sign = " << split0.x0.get_sign() << "\n";
+  std:: cout << "split0.x1 = "<< split0.x1 << "\n";
+  std::cout << "z.size() = " << z.size() << "\n";
+
+
+  size_t n = z.size();
+  split split_n = z.split_it(n);
+  std:: cout << "split_n.x0 = "<< split_n.x0 << "\n";
+  std:: cout << "split_n.x1 = "<< split_n.x1 << "\n";
+
 }
