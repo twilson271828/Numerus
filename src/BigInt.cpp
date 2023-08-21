@@ -129,9 +129,9 @@ BigInt BigInt::Schonhage_Strassen(BigInt &x,BigInt&y) const {
 
 BigInt BigInt::slice(int i,int j) const {
     BigInt z;
-     std::cout << "(j - i) + i = " << (j - i)+i << "\n";
+    
     if ((j - i)+i > this->size() - 1){
-      std::cout << "The slice range [i,j] is greater than the length of this number.\n";
+      std::cout << "The slice range [i,j] = [" << i << ","<< j << "] is greater than the length of " << *this << "\n";
       return BigInt("NAN");
 
     }
@@ -156,11 +156,6 @@ BigInt BigInt::slice(int i,int j) const {
     std::vector<uint8_t> result(j - i + 1);
     z.numerus = result;
     
-    //std::cout << "i = " << i << "\n";
-    //std::cout << "j = " << j << "\n"; 
-    //std::cout << "j - i + 1= " << j - i + 1 << "\n";
-
-
     std::copy(start,end,z.numerus.begin());
     
     return z;
@@ -173,18 +168,16 @@ split BigInt::split_it(size_t m) const {
     BigInt c;
 
     split z;
-    //std::cout << "[n-m,n-1] = [" << n-m << ","<< n-1 <<"]" <<  "\n";
-    //std::cout << "[0,n-m-1] = [" << 0 << ","<< n-m-1 << "]" <<  "\n";
-    std::cout << "m = " << m << "\n";
+   
     std::cout << "Splitting:  " << *this << "\n";
-    z.x0 = this->slice(n-m,n-1);
-    z.x1 =this->slice(0,n-m-1);
+    z.x1 = this->slice(n-m,n-1);
+    z.x0 =this->slice(0,n-m-1);
     z.m = m;
     return z;
     
 }
 
-BigInt BigInt::karatsuba(BigInt &x, BigInt &y) const {
+BigInt BigInt::karatsuba1(BigInt &x, BigInt &y) const {
 
     size_t n = x.size(); 
     size_t m = y.size();
@@ -199,9 +192,7 @@ BigInt BigInt::karatsuba(BigInt &x, BigInt &y) const {
 
     split split_x = x.split_it(k2);
     split split_y = y.split_it(k2);
-    //BigInt z2 = split_x.x1*split_y.x1;
-    //BigInt z1 = split_x.x1*split_y.x0+split_x.x0*split_y.x1;
-    //BigInt z0 =split_x.x0*split_y.x0;
+ 
     BigInt low_x = split_x.x0;
     BigInt low_y = split_y.x0;
     BigInt high_x = split_x.x1;
@@ -210,9 +201,9 @@ BigInt BigInt::karatsuba(BigInt &x, BigInt &y) const {
     BigInt xsum = low_x+high_x;
     BigInt ysum = low_y+high_y;
 
-    BigInt z0 = karatsuba(low_x,low_y);
-    BigInt z1 = karatsuba(xsum,ysum);
-    BigInt z2 = karatsuba(high_x,high_y);
+    BigInt z0 = karatsuba1(low_x,low_y);
+    BigInt z1 = karatsuba1(xsum,ysum);
+    BigInt z2 = karatsuba1(high_x,high_y);
 
     BigInt first = z2.m10(k2*2,false);
     BigInt second = z1-z2-z0;
