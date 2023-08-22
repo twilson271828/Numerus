@@ -128,8 +128,25 @@ int main() {
 
   BigInt z1("12345");
   BigInt z2("6789");
-  BigInt z3 = karatsuba(z1,z2);
-  std::cout << "z3 = " << z3 << "\n";
+
+  size_t n = z1.size(); 
+  size_t m = z2.size();
+  size_t k = std::max(n,m);
+  size_t k2 = std::floor(k/2);
+  std::cout << "k2 = " << k2 <<"\n";
+
+  split z3 = z1.split_it(k2);
+  std::cout << "z3.x0 = " << z3.x0 << "\n";
+  std::cout << "z3.x1 = " << z3.x1 << "\n";
+  std::cout << "z3.m = " << z3.m << "\n";
+
+  split z4 = z2.split_it(k2);
+  std::cout << "z4.x0 = " << z4.x0 << "\n";
+  std::cout << "z4.x1 = " << z4.x1 << "\n";
+  std::cout << "z4.m = " << z4.m << "\n";
+
+  //BigInt z3 = karatsuba(z1,z2);
+  //std::cout << "z3 = " << z3 << "\n";
 
 
 }
