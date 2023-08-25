@@ -170,8 +170,8 @@ split BigInt::split_it(size_t m) const {
     split z;
    
     std::cout << "Splitting:  " << *this << "\n";
-    z.x1 = this->slice(n-m,n-1);
-    z.x0 =this->slice(0,n-m-1);
+    z.xhigh = this->slice(n-m,n-1);
+    z.xlow =this->slice(0,n-m-1);
     z.m = m;
     return z;
     
@@ -182,7 +182,7 @@ BigInt BigInt::karatsuba1(BigInt &x, BigInt &y) const {
     size_t n = x.size(); 
     size_t m = y.size();
 
-    if (n < 10 && y < 10) {
+    if (n < 2 && y < 2) {
 
         return x*y;
     }
@@ -193,10 +193,10 @@ BigInt BigInt::karatsuba1(BigInt &x, BigInt &y) const {
     split split_x = x.split_it(k2);
     split split_y = y.split_it(k2);
  
-    BigInt low_x = split_x.x0;
-    BigInt low_y = split_y.x0;
-    BigInt high_x = split_x.x1;
-    BigInt high_y = split_y.x1;
+    BigInt high_x = split_x.xhigh;
+    BigInt high_y = split_y.xhigh;
+    BigInt low_x = split_x.xlow;
+    BigInt low_y = split_y.xlow;
     
     BigInt xsum = low_x+high_x;
     BigInt ysum = low_y+high_y;
@@ -212,8 +212,7 @@ BigInt BigInt::karatsuba1(BigInt &x, BigInt &y) const {
 
     return first + second + third;
 
-    
-    return x;
+
 }
 
 BigInt BigInt::Toom3(BigInt &x, BigInt &y) const {

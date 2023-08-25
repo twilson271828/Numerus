@@ -23,10 +23,10 @@ BigInt karatsuba(BigInt &x, BigInt &y) {
     //BigInt z2 = split_x.x1*split_y.x1;
     //BigInt z1 = split_x.x1*split_y.x0+split_x.x0*split_y.x1;
     //BigInt z0 =split_x.x0*split_y.x0;
-    BigInt low_x = split_x.x0;
-    BigInt low_y = split_y.x0;
-    BigInt high_x = split_x.x1;
-    BigInt high_y = split_y.x1;
+    BigInt low_x = split_x.xlow;
+    BigInt low_y = split_y.xlow;
+    BigInt high_x = split_x.xhigh;
+    BigInt high_y = split_y.xhigh;
     
     BigInt xsum = low_x+high_x;
     BigInt ysum = low_y+high_y;
@@ -132,21 +132,22 @@ int main() {
   size_t n = z1.size(); 
   size_t m = z2.size();
   size_t k = std::max(n,m);
-  size_t k2 = std::floor(k/2);
-  std::cout << "k2 = " << k2 <<"\n";
+  //size_t k2 = std::floor(k/2);
+  //std::cout << "k2 = " << k2 <<"\n";
+  size_t k2 = 3;
 
   split z3 = z1.split_it(k2);
-  std::cout << "z3.x0 = " << z3.x0 << "\n";
-  std::cout << "z3.x1 = " << z3.x1 << "\n";
+  std::cout << "z3.xlow = " << z3.xlow << "\n";
+  std::cout << "z3.xhigh = " << z3.xhigh << "\n";
   std::cout << "z3.m = " << z3.m << "\n";
 
   split z4 = z2.split_it(k2);
-  std::cout << "z4.x0 = " << z4.x0 << "\n";
-  std::cout << "z4.x1 = " << z4.x1 << "\n";
+  std::cout << "z4.xlow = " << z4.xlow << "\n";
+  std::cout << "z4.xhigh = " << z4.xhigh << "\n";
   std::cout << "z4.m = " << z4.m << "\n";
 
-  //BigInt z3 = karatsuba(z1,z2);
-  //std::cout << "z3 = " << z3 << "\n";
+  BigInt z5 = karatsuba(z1,z2);
+  std::cout << "z5 = " << z5 <<"\n";
 
 
 }
