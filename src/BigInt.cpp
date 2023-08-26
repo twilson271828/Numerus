@@ -170,8 +170,8 @@ split BigInt::split_it(size_t m) const {
     split z;
    
     std::cout << "Splitting:  " << *this << "\n";
-    z.xhigh = this->slice(n-m,n-1);
-    z.xlow =this->slice(0,n-m-1);
+    z.xright = this->slice(n-m,n-1);
+    z.xleft =this->slice(0,n-m-1);
     z.m = m;
     return z;
     
@@ -193,10 +193,10 @@ BigInt BigInt::karatsuba1(BigInt &x, BigInt &y) const {
     split split_x = x.split_it(k2);
     split split_y = y.split_it(k2);
  
-    BigInt high_x = split_x.xhigh;
-    BigInt high_y = split_y.xhigh;
-    BigInt low_x = split_x.xlow;
-    BigInt low_y = split_y.xlow;
+    BigInt high_x = split_x.xleft;
+    BigInt high_y = split_y.xleft;
+    BigInt low_x = split_x.xright;
+    BigInt low_y = split_y.xright;
     
     BigInt xsum = low_x+high_x;
     BigInt ysum = low_y+high_y;
@@ -261,9 +261,7 @@ BigInt BigInt::vmult(BigInt &x,BigInt &y) const {
             
         BigInt a;
         for (int i =0;i< vecs.size();i++) {
-            std::cout << "i = " << i << ", "<< vecs[i] <<"\n";
             a = vadd(a,vecs[i]);        
-            std::cout << "a = " << a << "\n";
         }
     return a;
 

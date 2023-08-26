@@ -97,8 +97,8 @@
 
 
     struct split{
-        BigInt xhigh;
-        BigInt xlow;
+        BigInt xleft;
+        BigInt xright;
         size_t m;
     };
 
