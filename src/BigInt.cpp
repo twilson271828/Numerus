@@ -164,6 +164,7 @@ BigInt BigInt::slice(int i,int j) const {
 
 split BigInt::split_it(size_t m) const {
     size_t n = this->size();
+   
     BigInt r;
     BigInt c;
 

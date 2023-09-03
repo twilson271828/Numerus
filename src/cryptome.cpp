@@ -8,12 +8,13 @@ BigInt karatsuba(BigInt &x, BigInt &y) {
 
     size_t n = x.size(); 
     size_t m = y.size();
-    size_t k = std::max(n,m);
-    size_t k2 = std::floor(k/2);
-
-    if (n == 1) {
+      if (n < 2 || m < 2) {
         return x*y;
     }
+
+    size_t k = std::max(n,m);
+    size_t k2 = std::ceil(k/2);
+
 
     split split_x = x.split_it(k2);
     split split_y = y.split_it(k2);
@@ -23,24 +24,18 @@ BigInt karatsuba(BigInt &x, BigInt &y) {
     BigInt high_x = split_x.xleft;
     BigInt high_y = split_y.xleft;
     
-    BigInt xsum = low_x+high_x;
-    BigInt ysum = low_y+high_y;
+    BigInt z2 = karatsuba(high_x,high_y);
+    BigInt z0 = karatsuba(low_x,low_y);
+    BigInt w1 = high_x + low_x;
+    BigInt w2 = high_y + low_y;
 
-
-    BigInt U = karatsuba(high_x,high_y);
-    BigInt V = karatsuba(low_x,low_y);
-    BigInt w1 = high_x - low_x;
-    BigInt w2 = high_y - low_y;
-
-    BigInt W = karatsuba(w1,w2);
+    BigInt z1 = karatsuba(w1,w2);
     
+   BigInt W = z1-z2-z0;
+   BigInt P = z2.m10(k2*2,false) + W.m10(k2,false)+ z0;
    
-    BigInt Z = U+V-W;
-
-    BigInt P = U.m10(k2*2,false) + Z.m10(k2,false)+V;
-
-    return P;
-
+   return P;
+    
 }
 
 
@@ -123,8 +118,8 @@ std::complex<double> dft(std::vector<std::complex<double>>& input,size_t n) {
 
 int main() {
 
-  BigInt z1("12345976");
-  BigInt z2("67897787");
+  BigInt z1("12345");
+  BigInt z2("6789");
 
   size_t n = z1.size(); 
   size_t m = z2.size();
