@@ -16,9 +16,7 @@ BigInt karatsuba(BigInt &x, BigInt &y) {
     if (n < m) {
         x = x.m10(m-n,true);
     }
-
-    std::cout << "x = " << x;
-    std::cout << "y = " << y;
+        
 
       if (n < 2 || m < 2) {
         return x*y;
@@ -27,13 +25,10 @@ BigInt karatsuba(BigInt &x, BigInt &y) {
     size_t k = std::max(n,m);
     size_t k2 = std::floor(k/2);
 
-    std::cout << "k2 = " << k2 << "\n";
-
-
-    split split_x = x.split_it(k2);
-    printSplit(split_x);
+    
+    split split_x = x.split_it(k2);    
     split split_y = y.split_it(k2);
-    printSplit(split_y);
+    
  
     BigInt low_x = split_x.xright;
     BigInt low_y = split_y.xright;

@@ -169,8 +169,7 @@ split BigInt::split_it(size_t m) const {
     BigInt c;
 
     split z;
-   
-    std::cout << "Splitting:  " << *this;
+       
     z.xright = this->slice(n-m,n-1);
     z.xleft =this->slice(0,n-m-1);
     z.m = m;
@@ -178,41 +177,49 @@ split BigInt::split_it(size_t m) const {
     
 }
 
-BigInt BigInt::karatsuba1(BigInt &x, BigInt &y) const {
+BigInt BigInt::karatsuba(BigInt &x, BigInt &y) const {
 
     size_t n = x.size(); 
     size_t m = y.size();
 
-    if (n < 2 && y < 2) {
+    if (n > m) {
 
+        y = y.m10(n-m,true);
+    }
+    if (n < m) {
+        x = x.m10(m-n,true);
+    }
+        
+
+      if (n < 2 || m < 2) {
         return x*y;
     }
 
     size_t k = std::max(n,m);
     size_t k2 = std::floor(k/2);
 
-    split split_x = x.split_it(k2);
+    
+    split split_x = x.split_it(k2);    
     split split_y = y.split_it(k2);
+    
  
-    BigInt high_x = split_x.xleft;
-    BigInt high_y = split_y.xleft;
     BigInt low_x = split_x.xright;
     BigInt low_y = split_y.xright;
+    BigInt high_x = split_x.xleft;
+    BigInt high_y = split_y.xleft;
     
-    BigInt xsum = low_x+high_x;
-    BigInt ysum = low_y+high_y;
+    BigInt z2 = karatsuba(high_x,high_y);
+    BigInt z0 = karatsuba(low_x,low_y);
+    BigInt w1 = high_x + low_x;
+    BigInt w2 = high_y + low_y;
 
-    BigInt z0 = karatsuba1(low_x,low_y);
-    BigInt z1 = karatsuba1(xsum,ysum);
-    BigInt z2 = karatsuba1(high_x,high_y);
-
-    BigInt first = z2.m10(k2*2,false);
-    BigInt second = z1-z2-z0;
-    second = second.m10(k2,false);
-    BigInt third = z0;
-
-    return first + second + third;
-
+    BigInt z1 = karatsuba(w1,w2);
+    
+   BigInt W = z1-z2-z0;
+   
+   BigInt P = z2.m10(k2*2,false) + W.m10(k2,false)+ z0;
+   
+   return P;
 
 }
 
@@ -397,13 +404,29 @@ BigInt BigInt::m10(int m, bool add_to_front) const {
 
 std::ostream& operator <<(std::ostream & out,const BigInt& num) {
    
+    size_t n = num.size();
     if(num.sign == NEG){
         out << "-";
     }
-    
-    for(auto x: num.numerus) {
-        out << (unsigned int)x;        
+   
+   int i = 0;
+   if (num[i]== 0) {
+    while(num[i]==0 && i < n) {
+        ++i;
     }
+    while (i < n) {
+        out << (unsigned int)num[i];
+        i++;
+    }
+   
+   }
+   else {
+     for(auto x: num.numerus) {
+        out << (unsigned int)x;        
+     }
+
+   }
+
     out<<"\n";
 
     return out;
