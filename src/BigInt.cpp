@@ -170,7 +170,7 @@ split BigInt::split_it(size_t m) const {
 
     split z;
    
-    std::cout << "Splitting:  " << *this << "\n";
+    std::cout << "Splitting:  " << *this;
     z.xright = this->slice(n-m,n-1);
     z.xleft =this->slice(0,n-m-1);
     z.m = m;

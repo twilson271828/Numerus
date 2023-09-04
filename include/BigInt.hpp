@@ -102,6 +102,13 @@
         size_t m;
     };
 
+    inline void printSplit(const split& p){
+        std::cout << "high_p = " << p.xleft;
+        std::cout << "low_p = " << p.xright;
+        std::cout << "m = " << p.m << "\n";
+
+    }
+
 
 
     

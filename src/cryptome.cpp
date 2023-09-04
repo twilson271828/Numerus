@@ -13,11 +13,15 @@ BigInt karatsuba(BigInt &x, BigInt &y) {
     }
 
     size_t k = std::max(n,m);
-    size_t k2 = std::ceil(k/2);
+    size_t k2 = std::floor(k/2);
+
+    std::cout << "k2 = " << k2 << "\n";
 
 
     split split_x = x.split_it(k2);
+    printSplit(split_x);
     split split_y = y.split_it(k2);
+    printSplit(split_y);
  
     BigInt low_x = split_x.xright;
     BigInt low_y = split_y.xright;
@@ -121,22 +125,7 @@ int main() {
   BigInt z1("12345");
   BigInt z2("6789");
 
-  size_t n = z1.size(); 
-  size_t m = z2.size();
-  size_t k = std::max(n,m);
- 
-  size_t k2 = 3;
-
-  split z3 = z1.split_it(k2);
-  std::cout << "z3.xright = " << z3.xright << "\n";
-  std::cout << "z3.xleft = " << z3.xleft << "\n";
-  std::cout << "z3.m = " << z3.m << "\n";
-
-  split z4 = z2.split_it(k2);
-  std::cout << "z4.xleft = " << z4.xleft << "\n";
-  std::cout << "z4.xright = " << z4.xright << "\n";
-  std::cout << "z4.m = " << z4.m << "\n";
-
+  
   BigInt z5 = karatsuba(z1,z2);
   std::cout << "z5 = " << z5 <<"\n";
 
