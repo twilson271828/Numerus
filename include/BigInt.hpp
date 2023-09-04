@@ -46,7 +46,7 @@ public:
   BigInt slice(int i, int j) const;
   size_t operator[](const int i) const;
   size_t size() const;
-
+    
   int get_sign() const;
 
   /// @brief

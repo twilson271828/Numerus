@@ -117,7 +117,7 @@ int main() {
   BigInt z1("12345");
   BigInt z2("6789");
 
-  BigInt z5 = karatsuba(z1, z2);
+  BigInt z5 = z1*z2;
   std::cout << "z5 = " << z5 << "\n";
 
   BigInt z6 = z1 * z2;

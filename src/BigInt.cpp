@@ -170,7 +170,7 @@ split BigInt::split_it(size_t m) const {
 }
 
 BigInt BigInt::karatsuba(BigInt &x, BigInt &y) const {
-
+  
   size_t n = x.size();
   size_t m = y.size();
 
@@ -217,6 +217,10 @@ BigInt BigInt::vmult(BigInt &x, BigInt &y) const {
 
   int n = x.size();
   int m = y.size();
+
+  if (n > 50 && m > 50) {
+    return karatsuba(x,y);
+  }
 
   int shift = 0;
   int carry = 0;
