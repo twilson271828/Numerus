@@ -3,59 +3,8 @@
 #include <cmath>
 #include <limits>
 
-BigInt karatsuba(BigInt &x, BigInt &y) {
 
-  size_t n = x.size();
-  size_t m = y.size();
 
-  if (n > m) {
-
-    y = y.m10(n - m, true);
-  }
-  if (n < m) {
-    x = x.m10(m - n, true);
-  }
-
-  if (n < 2 || m < 2) {
-    return x * y;
-  }
-
-  size_t k = std::max(n, m);
-  size_t k2 = std::floor(k / 2);
-
-  split split_x = x.split_it(k2);
-  split split_y = y.split_it(k2);
-
-  BigInt low_x = split_x.xright;
-  BigInt low_y = split_y.xright;
-  BigInt high_x = split_x.xleft;
-  BigInt high_y = split_y.xleft;
-
-  BigInt z2 = karatsuba(high_x, high_y);
-  BigInt z0 = karatsuba(low_x, low_y);
-  BigInt w1 = high_x + low_x;
-  BigInt w2 = high_y + low_y;
-
-  BigInt z1 = karatsuba(w1, w2);
-
-  BigInt W = z1 - z2 - z0;
-
-  BigInt P = z2.m10(k2 * 2, false) + W.m10(k2, false) + z0;
-
-  return P;
-}
-
-size_t bitrev(size_t n) {
-
-  // const size_t K = sizeof(n)*8;
-  const size_t K = 4;
-  std::cout << "K = " << K << "\n";
-  std::bitset<K> b(n);
-
-  std::cout << n << " in binary is " << b << "\n";
-
-  return 0;
-}
 
 std::complex<double> exponentiate(size_t k, size_t n, size_t N) {
 
@@ -69,7 +18,6 @@ std::complex<double> exponentiate(size_t k, size_t n, size_t N) {
   return omega;
 }
 
-BigInt Schonhage_Strassen(BigInt &x, BigInt &y) { return x; }
 
 std::complex<double> dift(std::vector<std::complex<double>> &input, size_t n) {
 
@@ -112,15 +60,40 @@ std::complex<double> dft(std::vector<std::complex<double>> &input, size_t n) {
   return coeff;
 }
 
+
+BigInt Schonhage_Strassen(BigInt &x, BigInt &y) { return x; }
+
+
+
 int main() {
+  std::vector< std::complex<double> > X ={{1,0},{2,-1 },{0,-1},{-1,2}};
+  std::cout << "X[0] = " << X[0]<< "\n";
+  std::cout << "X[1] = " << X[1]<< "\n";
+  std::cout << "X[2] = " << X[2]<< "\n";
+  std::cout << "X[3] = " << X[3]<< "\n";
 
-  BigInt z1("12345");
-  BigInt z2("6789");
+  std::complex<double> Y0 = dft(X,0);
+  std::complex<double> Y1 = dft(X,1);
+  std::complex<double> Y2 = dft(X,2);
+  std::complex<double> Y3 = dft(X,3);
 
-  BigInt z5 = z1*z2;
-  std::cout << "z5 = " << z5 << "\n";
+  std::cout << "Y[0] = " << Y0 << "\n";
+  std::cout << "Y[1] = " << Y1 << "\n";
+  std::cout << "Y[2] = " << Y2 << "\n";
+  std::cout << "Y[3] = " << Y3 << "\n";
 
-  BigInt z6 = z1 * z2;
+  std::vector< std::complex<double> > Y ={Y0,Y1,Y2,Y3};
 
-  std::cout << "z6 = " << z6 << "\n";
+  std::complex<double> Z0 = dift(Y,0);
+  std::complex<double> Z1 = dift(Y,1);
+  std::complex<double> Z2 = dift(Y,2);
+  std::complex<double> Z3 = dift(Y,3);
+
+  std::cout << "Z[0] = " << Z0 << "\n";
+  std::cout << "Z[1] = " << Z1 << "\n";
+  std::cout << "Z[2] = " << Z2 << "\n";
+  std::cout << "Z[3] = " << Z3 << "\n";
+
+ return 0;
+ 
 }
