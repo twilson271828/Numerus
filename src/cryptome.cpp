@@ -53,9 +53,7 @@ std::vector<std::complex<double>> dift(std::vector<std::complex<double>> &X){
 
 }
 
-
-
-std::complex<double> dft(std::vector<std::complex<double>> &input, size_t n) {
+std::complex<double> dft_coef(std::vector<std::complex<double>> &input, size_t n) {
 
   size_t N = input.size();
   std::complex<double> coeff(0.0, 0.0);
@@ -74,6 +72,23 @@ std::complex<double> dft(std::vector<std::complex<double>> &input, size_t n) {
 
   return coeff;
 }
+
+
+std::vector<std::complex<double>> dft(std::vector<std::complex<double>> &X){
+
+std::vector<std::complex<double> > y;
+  size_t N = X.size();
+  for (int ix =0;ix < N;ix++) {
+    std::complex<double> coef = dft_coef(X,ix);
+    y.push_back(coef);
+
+  }
+
+  return y;
+
+}
+
+
 
 
 BigInt Schonhage_Strassen(BigInt &x, BigInt &y) { return x; }
