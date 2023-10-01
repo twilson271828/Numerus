@@ -18,8 +18,7 @@ std::complex<double> exponentiate(size_t k, size_t n, size_t N) {
   return omega;
 }
 
-
-std::complex<double> dift(std::vector<std::complex<double>> &input, size_t n) {
+std::complex<double> dift_coef(std::vector<std::complex<double>> &input, size_t n) {
 
   size_t N = input.size();
   std::complex<double> coeff(0.0, 0.0);
@@ -39,6 +38,22 @@ std::complex<double> dift(std::vector<std::complex<double>> &input, size_t n) {
   coeff /= N;
   return coeff;
 }
+
+std::vector<std::complex<double>> dift(std::vector<std::complex<double>> &X){
+
+  std::vector<std::complex<double> > y;
+  size_t N = X.size();
+  for (int ix =0;ix < N;ix++) {
+    std::complex<double> coef = dift_coef(X,ix);
+    y.push_back(coef);
+
+  }
+
+  return y;
+
+}
+
+
 
 std::complex<double> dft(std::vector<std::complex<double>> &input, size_t n) {
 
@@ -72,27 +87,32 @@ int main() {
   std::cout << "X[2] = " << X[2]<< "\n";
   std::cout << "X[3] = " << X[3]<< "\n";
 
-  std::complex<double> Y0 = dft(X,0);
-  std::complex<double> Y1 = dft(X,1);
-  std::complex<double> Y2 = dft(X,2);
-  std::complex<double> Y3 = dft(X,3);
+  std::vector<std::complex<double>> Y = dift(X);
 
-  std::cout << "Y[0] = " << Y0 << "\n";
-  std::cout << "Y[1] = " << Y1 << "\n";
-  std::cout << "Y[2] = " << Y2 << "\n";
-  std::cout << "Y[3] = " << Y3 << "\n";
+  std::cout << "Y[0] = " << Y[0] << "\n";
+  std::cout << "Y[1] = " << Y[1] << "\n";
+  std::cout << "Y[2] = " << Y[2] << "\n";
+  std::cout << "Y[3] = " << Y[3] << "\n";
+  //std::complex<double> Y1 = dft(X,1);
+  //std::complex<double> Y2 = dft(X,2);
+  //std::complex<double> Y3 = dft(X,3);
 
-  std::vector< std::complex<double> > Y ={Y0,Y1,Y2,Y3};
+  //std::cout << "Y[0] = " << Y0 << "\n";
+  //std::cout << "Y[1] = " << Y1 << "\n";
+  //std::cout << "Y[2] = " << Y2 << "\n";
+  //std::cout << "Y[3] = " << Y3 << "\n";
 
-  std::complex<double> Z0 = dift(Y,0);
-  std::complex<double> Z1 = dift(Y,1);
-  std::complex<double> Z2 = dift(Y,2);
-  std::complex<double> Z3 = dift(Y,3);
+  //std::vector< std::complex<double> > Y ={Y0,Y1,Y2,Y3};
 
-  std::cout << "Z[0] = " << Z0 << "\n";
-  std::cout << "Z[1] = " << Z1 << "\n";
-  std::cout << "Z[2] = " << Z2 << "\n";
-  std::cout << "Z[3] = " << Z3 << "\n";
+  //std::complex<double> Z0 = dift(Y,0);
+  //std::complex<double> Z1 = dift(Y,1);
+  //std::complex<double> Z2 = dift(Y,2);
+  //std::complex<double> Z3 = dift(Y,3);
+
+  //std::cout << "Z[0] = " << Z0 << "\n";
+  //std::cout << "Z[1] = " << Z1 << "\n";
+  //std::cout << "Z[2] = " << Z2 << "\n";
+  //std::cout << "Z[3] = " << Z3 << "\n";
 
  return 0;
  
