@@ -51,6 +51,17 @@ std::vector<std::complex<double>> dift(std::vector<std::complex<double>> &X){
 }
 
 
+std::vector<std::complex<double> > n_roots_of_unity(int N){
+
+  std::vector<std::complex<double> > nroots;
+
+  for (int k = 0; k < N; k++) {
+    std::complex<double> root = exponentiate(k,1,N);
+    nroots.push_back(root);
+  }
+  return nroots;
+
+}
 
 std::complex<double> dft_coef(std::vector<std::complex<double>> &input, size_t n) {
 
@@ -95,6 +106,8 @@ BigInt Schonhage_Strassen(BigInt &x, BigInt &y) { return x; }
 
 
 int main() {
+
+  #if 0
   std::vector< std::complex<double> > X ={{1,0},{2,-1 },{0,-1},{-1,2}};
   std::cout << "X[0] = " << X[0]<< "\n";
   std::cout << "X[1] = " << X[1]<< "\n";
@@ -116,7 +129,14 @@ int main() {
   std::cout << "Z[2] = " << Z[2] << "\n";
   std::cout << "Z[3] = " << Z[3] << "\n";
 
+  #endif
+  int N = 100;
+  std::vector<std::complex<double> > nroots = n_roots_of_unity(N);
   
+
+  for (auto & nroot: nroots){
+    std::cout << nroot << "\n"; 
+  }
  return 0;
  
 }
