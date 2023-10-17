@@ -99,7 +99,11 @@ std::vector<std::complex<double> > y;
 }
 
 
+BigInt convolution(BigInt &x, BigInt &y) {
 
+    
+
+}
 
 BigInt Schonhage_Strassen(BigInt &x, BigInt &y) { return x; }
 
@@ -130,13 +134,16 @@ int main() {
   std::cout << "Z[3] = " << Z[3] << "\n";
 
   #endif
-  int N = 100;
+  int N = 1000;
   std::vector<std::complex<double> > nroots = n_roots_of_unity(N);
   
-
+  std::complex sum(0.0,0.0);
   for (auto & nroot: nroots){
     std::cout << nroot << "\n"; 
+    sum += nroot;
   }
+
+  std::cout << "sum = " << sum << "\n";
  return 0;
  
 }
