@@ -99,11 +99,18 @@ std::vector<std::complex<double> > y;
 }
 
 
-BigInt convolution(BigInt &x, BigInt &y) {
+std::vector<std::complex<double> >  fft(BigInt &x, std::complex<double> omega) {
+
+
+   std::vector<std::complex<double>> fft_numerus;
+   std::vector<uint8_t> numerus = x.get_numerus();
+
+   return fft_numerus;
 
     
 
 }
+
 
 BigInt Schonhage_Strassen(BigInt &x, BigInt &y) { return x; }
 

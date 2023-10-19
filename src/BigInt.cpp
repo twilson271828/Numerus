@@ -1,5 +1,13 @@
 #include "../include/BigInt.hpp"
 
+
+std::vector<uint8_t> BigInt::get_numerus() {
+
+  return this->numerus;
+}
+
+
+
 size_t BigInt::bitrev(size_t n) {
 
   size_t rev = 0;
