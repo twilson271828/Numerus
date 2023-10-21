@@ -99,6 +99,16 @@ std::vector<std::complex<double> > y;
 }
 
 
+std::vector<std::complex<double> > filter(std::vector<std::complex<double> > &x,std::vector<uint8_t> &ix) {
+
+    std::vector<std::complex<double> > y;
+    for(auto & i:ix){
+      y.push_back(x[i]);
+    }
+  return y;
+}
+
+
 std::vector<std::complex<double> >  fft(BigInt &x, std::complex<double> omega) {
 
 
