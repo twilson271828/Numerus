@@ -99,9 +99,9 @@ std::vector<std::complex<double> > y;
 }
 
 
-std::vector<std::complex<double> > filter(std::vector<std::complex<double> > &x,std::vector<uint8_t> &ix) {
+template <typename T> std::vector<T>  filter(std::vector<T>  &x,std::vector<uint8_t> &ix) {
 
-    std::vector<std::complex<double> > y;
+    std::vector<T> y;
     for(auto & i:ix){
       y.push_back(x[i]);
     }
@@ -151,16 +151,31 @@ int main() {
   std::cout << "Z[3] = " << Z[3] << "\n";
 
   #endif
-  int N = 1000;
+  int N = 10;
   std::vector<std::complex<double> > nroots = n_roots_of_unity(N);
   
-  std::complex sum(0.0,0.0);
-  for (auto & nroot: nroots){
-    std::cout << nroot << "\n"; 
-    sum += nroot;
+  std::vector<int> evens;
+  std::vector<int> odds;
+  
+
+  for (int i =0;i < N; i++){
+    if ( (i % 2) == 0) {
+    evens.push_back(i);
+    }
+    else {
+      odds.push_back(i);
+    }
+  } 
+
+  for (auto & ix: odds) {
+    std::cout << ix << "\n";
   }
 
-  std::cout << "sum = " << sum << "\n";
+  for (auto & ix: evens) {
+    std::cout << ix << "\n";
+  }
+
+  
  return 0;
  
 }
