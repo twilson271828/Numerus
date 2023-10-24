@@ -99,7 +99,7 @@ std::vector<std::complex<double> > y;
 }
 
 
-template <typename T> std::vector<T>  filter(std::vector<T>  &x,std::vector<uint8_t> &ix) {
+template <typename T> std::vector<T>  filter(std::vector<T>  &x,std::vector<int> &ix) {
 
     std::vector<T> y;
     for(auto & i:ix){
@@ -114,6 +114,21 @@ std::vector<std::complex<double> >  fft(BigInt &x, std::complex<double> omega) {
 
    std::vector<std::complex<double>> fft_numerus;
    std::vector<uint8_t> numerus = x.get_numerus();
+
+   int N = numerus.size();
+   std::vector<int> even;
+   std::vector<int> odd;
+
+   for (int i =0;i < N; i++){
+    if ( (i % 2) == 0) {
+    even.push_back(i);
+    }
+    else {
+      odd.push_back(i);
+    }
+  } 
+
+  std::vector<std::complex<double> > a_even = filter(numerus,even);
 
    return fft_numerus;
 
@@ -167,6 +182,8 @@ int main() {
     }
   } 
 
+ 
+
   for (auto & ix: odds) {
     std::cout << ix << "\n";
   }
@@ -174,6 +191,20 @@ int main() {
   for (auto & ix: evens) {
     std::cout << ix << "\n";
   }
+
+   std::vector<std::complex<double> > even_nroots = filter(nroots,evens);
+
+  int ix = 0;
+  for (auto & root: nroots){
+    std::cout << ix << " : " << root << "\n";
+    ix+=1;
+  }
+std::cout << "********************\n";
+ix = 0;
+   for(auto & root: even_nroots){
+    std::cout << ix << " : " << root << "\n";
+    ix+=1;
+   }
 
   
  return 0;
