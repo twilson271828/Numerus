@@ -108,14 +108,25 @@ template <typename T> std::vector<T>  filter(std::vector<T>  &x,std::vector<int>
   return y;
 }
 
+std::vector<std::complex<double> > initialize_y(int N) {
 
-std::vector<std::complex<double> >  fft(BigInt &x, std::complex<double> omega) {
+  std::vector<std::complex<double> > y;
+  for (int i = 0;i < N; i++){
+    std::complex<double> v(0.0,0.0);
+    y.push_back(v);
+    }
+    return y;
 
+}
+std::vector<std::complex<double> >  fft(std::vector<std::complex<double> > &x, std::complex<double> omega) {
 
    std::vector<std::complex<double>> fft_numerus;
-   std::vector<uint8_t> numerus = x.get_numerus();
-
-   int N = numerus.size();
+   
+   int N = x.size();
+   if (N == 1) {
+    return x;
+   }
+   else {
    std::vector<int> even;
    std::vector<int> odd;
 
@@ -128,11 +139,23 @@ std::vector<std::complex<double> >  fft(BigInt &x, std::complex<double> omega) {
     }
   } 
 
-  std::vector<std::complex<double> > a_even = filter(numerus,even);
+  std::vector<std::complex<double>>  a_even = filter(x,even);
+  std::vector<std::complex<double> >  a_odd = filter(x,odd);
 
-   return fft_numerus;
+  std::vector<std::complex<double> > y_even = fft(a_even,omega*omega);
+  std::vector<std::complex<double> > y_odd = fft(a_odd,omega*omega);
+  std::vector<std::complex<double> > y = initialize_y(N);
 
-    
+  int n2 = std::floor(N/2);
+  std::complex<double> x(1,0);
+  for (int i =0; i < n2;i++ ) {
+    y[i]=y_even[i]+x*y_odd[i];
+    y[i+n2]=y_even[i]- x*y_odd[i];
+    x = x*omega;
+  }
+   
+   return y;
+   }
 
 }
 
