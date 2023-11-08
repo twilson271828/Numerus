@@ -118,9 +118,23 @@ std::vector<std::complex<double> > initialize_y(int N) {
     return y;
 
 }
+
+
+std::vector<std::complex<double> > complexify_numerus(BigInt &x) {
+
+  std::vector<std::complex<double> > complex_numerus;
+  int N = x.size();
+  for (int i = 0;i < N;i++){
+    std::complex<double> val(x[i],0.0);
+    complex_numerus.push_back(val);
+
+  }
+  return complex_numerus;
+}
+
 std::vector<std::complex<double> >  fft(std::vector<std::complex<double> > &x, std::complex<double> omega) {
 
-   std::vector<std::complex<double>> fft_numerus;
+
    
    int N = x.size();
    if (N == 1) {
@@ -159,14 +173,37 @@ std::vector<std::complex<double> >  fft(std::vector<std::complex<double> > &x, s
 
 }
 
+BigInt Cooley_Tukey(BigInt &x, BigInt &y) {
+  return x;
+}
 
 BigInt Schonhage_Strassen(BigInt &x, BigInt &y) { return x; }
 
 
+std::vector<std::complex<double> > mult(std::vector<std::complex<double> >X1,std::vector<std::complex<double> >X2) {
+
+  std::vector<std::complex<double> > c;
+  int n1 = X1.size();
+  int n2 = X2.size();
+  if (n1 != n2){
+    throw std::er
+  }
+  for (int i = 0; i < n; i++) {
+    c.push_back(X1[i]*X2[i]);
+  }
+
+  return c;
+
+}
+
 
 int main() {
 
-  #if 0
+std::vector< std::complex<double> > X1 ={{1,0},{2,-1 },{0,-1},{-1,2}};
+std::vector< std::complex<double> > X2 ={{2,0},{4,-2 },{0,-2},{-2,4}};
+
+
+
   std::vector< std::complex<double> > X ={{1,0},{2,-1 },{0,-1},{-1,2}};
   std::cout << "X[0] = " << X[0]<< "\n";
   std::cout << "X[1] = " << X[1]<< "\n";
@@ -188,13 +225,12 @@ int main() {
   std::cout << "Z[2] = " << Z[2] << "\n";
   std::cout << "Z[3] = " << Z[3] << "\n";
 
-  #endif
+  #if 0
   int N = 10;
   std::vector<std::complex<double> > nroots = n_roots_of_unity(N);
   
   std::vector<int> evens;
   std::vector<int> odds;
-  
 
   for (int i =0;i < N; i++){
     if ( (i % 2) == 0) {
@@ -205,31 +241,7 @@ int main() {
     }
   } 
 
- 
-
-  for (auto & ix: odds) {
-    std::cout << ix << "\n";
-  }
-
-  for (auto & ix: evens) {
-    std::cout << ix << "\n";
-  }
-
-   std::vector<std::complex<double> > even_nroots = filter(nroots,evens);
-
-  int ix = 0;
-  for (auto & root: nroots){
-    std::cout << ix << " : " << root << "\n";
-    ix+=1;
-  }
-std::cout << "********************\n";
-ix = 0;
-   for(auto & root: even_nroots){
-    std::cout << ix << " : " << root << "\n";
-    ix+=1;
-   }
-
-  
+#endif
  return 0;
  
 }

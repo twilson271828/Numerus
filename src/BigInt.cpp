@@ -314,6 +314,7 @@ BigInt::BigInt() {
 
 BigInt::BigInt(const BigInt &num) {
   numerus = num.numerus;
+  
   sign = num.sign;
 }
 

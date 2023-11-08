@@ -15,6 +15,8 @@ class BigInt {
 private:
   std::vector<uint8_t> numerus;
 
+
+
   SIGN sign;
   BigInt vsub(BigInt &x, BigInt &y) const;
   BigInt vadd(BigInt &x, BigInt &y) const;
