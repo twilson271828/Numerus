@@ -179,16 +179,16 @@ BigInt Cooley_Tukey(BigInt &x, BigInt &y) {
 
 BigInt Schonhage_Strassen(BigInt &x, BigInt &y) { return x; }
 
-
 std::vector<std::complex<double> > mult(std::vector<std::complex<double> >X1,std::vector<std::complex<double> >X2) {
 
   std::vector<std::complex<double> > c;
   int n1 = X1.size();
   int n2 = X2.size();
   if (n1 != n2){
-    throw std::er
+    throw std::runtime_error("Attempted to element-wise multiply two vectors with unequal dimensions.");
   }
-  for (int i = 0; i < n; i++) {
+
+  for (int i = 0; i < n1; i++) {
     c.push_back(X1[i]*X2[i]);
   }
 
@@ -196,11 +196,30 @@ std::vector<std::complex<double> > mult(std::vector<std::complex<double> >X1,std
 
 }
 
+std::vector<std::complex<double> > convolution(std::vector<std::complex<double>> X1,std::vector<std::complex<double>> X2) {
+
+    std::vector<std::complex<double>> Z1 = mult(dft(X1),dft(X2));
+    std::vector<std::complex<double>> Z2 = dift(Z1);
+    return Z1;    
+
+
+}
+
+
+
 
 int main() {
 
 std::vector< std::complex<double> > X1 ={{1,0},{2,-1 },{0,-1},{-1,2}};
 std::vector< std::complex<double> > X2 ={{2,0},{4,-2 },{0,-2},{-2,4}};
+
+std::vector<std::complex<double>> Z1 = convolution(X1,X2);
+
+for (auto x : Z1) {
+      std::cout << x;
+    }
+    std::cout << "\n\n";
+
 
 
 
