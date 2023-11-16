@@ -4,6 +4,9 @@
 #include <limits>
 
 
+
+
+
 std::complex<double> exponentiate(size_t k, size_t n, size_t N) {
 
   double x = 0.0;
@@ -120,6 +123,7 @@ std::vector<std::complex<double> > initialize_y(int N) {
 }
 
 
+
 std::vector<std::complex<double> > complexify_numerus(BigInt &x) {
 
   std::vector<std::complex<double> > complex_numerus;
@@ -131,6 +135,13 @@ std::vector<std::complex<double> > complexify_numerus(BigInt &x) {
   }
   return complex_numerus;
 }
+
+
+int find_nearest_power_of_2(uint64_t x){
+
+  int n = std::ceil(std::log(x)/std::log(2));
+  return n;
+} 
 
 std::vector<std::complex<double> >  fft(std::vector<std::complex<double> > &x, std::complex<double> omega) {
 
@@ -243,6 +254,14 @@ for (auto x : Z1) {
   std::cout << "Z[1] = " << Z[1] << "\n";
   std::cout << "Z[2] = " << Z[2] << "\n";
   std::cout << "Z[3] = " << Z[3] << "\n";
+
+  int x = 100000000;
+  int n = find_nearest_power_of_2(x);
+  std::cout << "\n";
+  std::cout << "x = " << x << "\n";
+  std::cout << "n = " << n << "\n";
+  std::cout << "2**n = " << std::pow(2.0,(double)n) << "\n"; 
+  std::cout << "2**(n-1) = " << std::pow(2.0,(double)(n-1)) ; 
 
   #if 0
   int N = 10;

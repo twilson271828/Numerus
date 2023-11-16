@@ -4,6 +4,7 @@
 #include <iostream>
 #include <string>
 #include <vector>
+#include <bitset>
 //#include <armadillo>
 
 enum SIGN { POS, NEG, UNDEFINED };
@@ -47,7 +48,7 @@ public:
   BigInt slice(int i, int j) const;
   size_t operator[](const int i) const;
   size_t size() const;
-    
+      
   int get_sign() const;
   std::vector<uint8_t> get_numerus();
 
