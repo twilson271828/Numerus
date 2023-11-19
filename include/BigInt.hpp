@@ -51,6 +51,7 @@ public:
       
   int get_sign() const;
   std::vector<uint8_t> get_numerus();
+  std::vector<std::bitset<4>> binary_numerus();
 
 
   /// @brief

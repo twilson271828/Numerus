@@ -6,7 +6,15 @@ std::vector<uint8_t> BigInt::get_numerus() {
   return this->numerus;
 }
 
+std::vector<std::bitset<4>> BigInt::binary_numerus(){
 
+std::vector<std::bitset<4>>  binary_numerus;
+
+
+  
+
+
+}
 
 size_t BigInt::bitrev(size_t n) {
 
