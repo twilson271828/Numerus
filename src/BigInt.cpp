@@ -6,12 +6,24 @@ std::vector<uint8_t> BigInt::get_numerus() {
   return this->numerus;
 }
 
+
+std::bitset<4> BigInt::convertToBinary(uint8_t &n) {
+
+  std::bitset<4> bin;
+  while (n > 0) {
+    
+    int b = n %2;
+    
+    
+    
+  }
+
+
+}
+
 std::vector<std::bitset<4>> BigInt::binary_numerus(){
 
 std::vector<std::bitset<4>>  binary_numerus;
-
-
-  
 
 
 }

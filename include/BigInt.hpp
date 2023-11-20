@@ -19,6 +19,7 @@ private:
 
 
   SIGN sign;
+  std::bitset<4> convertToBinary(uint8_t &n);
   BigInt vsub(BigInt &x, BigInt &y) const;
   BigInt vadd(BigInt &x, BigInt &y) const;
   BigInt vmult(BigInt &x, BigInt &y) const;
@@ -48,6 +49,7 @@ public:
   BigInt slice(int i, int j) const;
   size_t operator[](const int i) const;
   size_t size() const;
+  
       
   int get_sign() const;
   std::vector<uint8_t> get_numerus();
