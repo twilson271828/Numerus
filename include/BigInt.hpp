@@ -1,10 +1,10 @@
+#include <bitset>
 #include <cmath>
 #include <complex>
 #include <cstdlib>
 #include <iostream>
 #include <string>
 #include <vector>
-#include <bitset>
 //#include <armadillo>
 
 enum SIGN { POS, NEG, UNDEFINED };
@@ -15,8 +15,6 @@ class BigInt {
 
 private:
   std::vector<uint8_t> numerus;
-
-
 
   SIGN sign;
   std::bitset<4> convertToBinary(uint8_t &n);
@@ -49,12 +47,10 @@ public:
   BigInt slice(int i, int j) const;
   size_t operator[](const int i) const;
   size_t size() const;
-  
-      
+
   int get_sign() const;
   std::vector<uint8_t> get_numerus();
   std::vector<std::bitset<4>> binary_numerus();
-
 
   /// @brief
   void negative();

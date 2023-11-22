@@ -1,31 +1,35 @@
 #include "../include/BigInt.hpp"
 
-
-std::vector<uint8_t> BigInt::get_numerus() {
-
-  return this->numerus;
-}
-
+std::vector<uint8_t> BigInt::get_numerus() { return this->numerus; }
 
 std::bitset<4> BigInt::convertToBinary(uint8_t &n) {
 
-  std::bitset<4> bin;
-  while (n > 0) {
-    
-    int b = n %2;
-    
-    
-    
+  std::bitset<4> b;
+  int i = 0;
+  try {
+    while (n > 0) {
+      int r = n % 2;
+      n /= 2;
+      b.set(i, r);
+      i += 1;
+    }
+  } catch (std::out_of_range &e) {
+    std::cout << "std::out_of_range exception caught: " << e.what() << "\n";
   }
 
-
+  // std::cout << "b = " << b << "\n";
+  return b;
 }
+std::vector<std::bitset<4>> BigInt::binary_numerus() {
 
-std::vector<std::bitset<4>> BigInt::binary_numerus(){
+  std::vector<std::bitset<4>> binary_numerus;
 
-std::vector<std::bitset<4>>  binary_numerus;
+  for (uint8_t n : this->numerus) {
+    std::bitset<4> b = this->convertToBinary(n);
+    binary_numerus.push_back(b);
+  }
 
-
+  return binary_numerus;
 }
 
 size_t BigInt::bitrev(size_t n) {
@@ -198,7 +202,7 @@ split BigInt::split_it(size_t m) const {
 }
 
 BigInt BigInt::karatsuba(BigInt &x, BigInt &y) const {
-  
+
   size_t n = x.size();
   size_t m = y.size();
 
@@ -247,7 +251,7 @@ BigInt BigInt::vmult(BigInt &x, BigInt &y) const {
   int m = y.size();
 
   if (n > 50 && m > 50) {
-    return karatsuba(x,y);
+    return karatsuba(x, y);
   }
 
   int shift = 0;
@@ -334,7 +338,7 @@ BigInt::BigInt() {
 
 BigInt::BigInt(const BigInt &num) {
   numerus = num.numerus;
-  
+
   sign = num.sign;
 }
 
