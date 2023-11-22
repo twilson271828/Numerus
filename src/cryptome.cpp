@@ -234,5 +234,16 @@ int main() {
 
   convertToBinary(m);
 
+  BigInt c(8);
+  std::vector<std::bitset<4>> b = c.binary_numerus();
+
+  std::cout << "c = " << c << "\n";
+  std::cout << "c.size() =" << c.size() << "\n";
+  
+  for(std::bitset<4> bx: b) {
+  std::cout << "bx = " << bx << "\n";
+
+  } 
+
   return 0;
 }
