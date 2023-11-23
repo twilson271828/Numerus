@@ -230,20 +230,21 @@ int main() {
   std::cout << "2**n = " << std::pow(2.0, (double)n) << "\n";
   std::cout << "2**(n-1) = " << std::pow(2.0, (double)(n - 1)) << "\n\n\n";
 
-  uint8_t m = -10;
+  //uint8_t m = -10;
 
-  convertToBinary(m);
+  //convertToBinary(m);
 
-  BigInt c(8);
+  BigInt c("82");
   std::vector<std::bitset<4>> b = c.binary_numerus();
 
   std::cout << "c = " << c << "\n";
-  std::cout << "c.size() =" << c.size() << "\n";
   
+  std::cout << "bx = ";
   for(std::bitset<4> bx: b) {
-  std::cout << "bx = " << bx << "\n";
+    std::cout << bx;;
 
   } 
+  std::cout << "\n";
 
   return 0;
 }
