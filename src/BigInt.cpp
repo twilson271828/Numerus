@@ -339,7 +339,7 @@ BigInt::BigInt() {
 
 BigInt::BigInt(const BigInt &num) {
   numerus = num.numerus;
-  binary_numerus();
+  
 
   sign = num.sign;
 }
@@ -359,7 +359,7 @@ BigInt::BigInt(const long &num) {
   }
 
   *this = z;
-  binary_numerus();
+  
 }
 
 BigInt::BigInt(const std::string c) {
@@ -391,7 +391,7 @@ BigInt::BigInt(const std::string c) {
         uint8_t x = int(ch) - int('0');
         numerus.push_back(x);
       }
-      binary_numerus();
+      
     }
   } catch (std::exception &e) {
     std::cout << "Caught Exception:" << e.what() << "\n";
