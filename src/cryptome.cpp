@@ -3,6 +3,27 @@
 #include <cmath>
 #include <limits>
 
+
+template <size_t N>
+bool bitset_less(const std::bitset<N>& lhs, const std::bitset<N>& rhs) {
+  for (size_t i = N; i-- > 0; ) {
+    if (lhs[i] && !rhs[i]) return false;
+    if (!lhs[i] && rhs[i]) return true;
+  }
+  return false;
+}
+
+template <size_t N>
+bool bitset_greater(const std::bitset<N>& lhs, const std::bitset<N>& rhs) {
+  for (size_t i = N; i-- > 0; ) {
+    if (lhs[i] && !rhs[i]) return  true;
+    if (!lhs[i] && rhs[i]) return false;
+  }
+  return false;
+}
+
+
+
 std::bitset<4> convertToBinary(uint8_t &n) {
 
   std::bitset<4> b;
@@ -234,17 +255,15 @@ int main() {
 
   //convertToBinary(m);
 
-  BigInt c("82");
-  std::vector<std::bitset<4>> b = c.binary_numerus();
+  std::bitset<4> c1("1011");
+  std::bitset<4> c2("1111");
+  //std::vector<std::bitset<4>> b1 = c1.binary_numerus();
+  //std::vector<std::bitset<4>> b2 = c2.binary_numerus();
 
-  std::cout << "c = " << c << "\n";
-  
-  std::cout << "bx = ";
-  for(std::bitset<4> bx: b) {
-    std::cout << bx;;
+  std::cout << "c1 < c2 = " << bitset_less(c1,c2) << "\n";
+  std::cout << "c1 > c2 = "  << bitset_greater(c1,c2) << "\n";
+  std::cout << "c2 > c1 = " << bitset_greater(c2,c1) <<"\n"; 
 
-  } 
-  std::cout << "\n";
 
   return 0;
 }

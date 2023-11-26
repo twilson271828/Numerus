@@ -18,9 +18,10 @@ std::bitset<4> BigInt::convertToBinary(uint8_t &n) {
     std::cout << "std::out_of_range exception caught: " << e.what() << "\n";
   }
 
-  // std::cout << "b = " << b << "\n";
   return b;
 }
+
+
 std::vector<std::bitset<4>> BigInt::binary_numerus() {
 
   std::vector<std::bitset<4>> binary_numerus;
