@@ -15,6 +15,7 @@ class BigInt {
 
 private:
   std::vector<uint8_t> numerus;
+  std::vector<std::bitset<4> > binary_numerus;
 
   SIGN sign;
   std::bitset<4> convertToBinary(uint8_t &n);
