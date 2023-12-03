@@ -173,6 +173,7 @@ BigInt find_nearest_power_of_2(BigInt &x) {
 
   p+="1";
   std::reverse(p.begin(),p.end());
+  std::cout << "p = " << p << "\n";
  
   return BigInt(p);
   
