@@ -22,7 +22,7 @@ std::bitset<4> BigInt::convertToBinary(uint8_t &n) {
 }
 
 
-std::vector<std::bitset<4>> BigInt::binary_numerus() {
+std::vector<std::bitset<4>> BigInt::get_binary_numerus() {
 
   std::vector<std::bitset<4>> binary_numerus;
 

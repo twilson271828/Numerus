@@ -162,6 +162,20 @@ std::vector<std::complex<double>> complexify_numerus(BigInt &x) {
   return complex_numerus;
 }
 
+BigInt find_nearest_power_of_2(BigInt &x) {
+
+  std::vector<std::bitset<4>> binary_numerus = x.get_binary_numerus();
+  size_t n = binary_numerus.size();
+  std::string p;
+  for(size_t i =0;i < n-1;i++){
+    p+="0";
+  }
+  p+="1";
+  std::cout << "p = " << p << "\n";
+  return BigInt(p);
+  
+}
+
 int find_nearest_power_of_2(uint64_t x) {
 
   int n = std::ceil(std::log(x) / std::log(2));
@@ -263,6 +277,11 @@ int main() {
   std::cout << "c1 < c2 = " << bitset_less(c1,c2) << "\n";
   std::cout << "c1 > c2 = "  << bitset_greater(c1,c2) << "\n";
   std::cout << "c2 > c1 = " << bitset_greater(c2,c1) <<"\n"; 
+
+  std::cout << "\n";
+  BigInt c("245");
+  BigInt d = find_nearest_power_of_2(c);
+  std::cout << "d = " << d << "\n";
 
 
   return 0;
