@@ -165,13 +165,15 @@ std::vector<std::complex<double>> complexify_numerus(BigInt &x) {
 BigInt find_nearest_power_of_2(BigInt &x) {
 
   std::vector<std::bitset<4>> binary_numerus = x.get_binary_numerus();
-  size_t n = binary_numerus.size();
+  size_t n = 4*binary_numerus.size();
   std::string p;
-  for(size_t i =0;i < n-1;i++){
+  for(size_t i =0;i < n;i++){
     p+="0";
   }
+
   p+="1";
-  std::cout << "p = " << p << "\n";
+  std::reverse(p.begin(),p.end());
+ 
   return BigInt(p);
   
 }
