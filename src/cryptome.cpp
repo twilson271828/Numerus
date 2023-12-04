@@ -165,17 +165,13 @@ std::vector<std::complex<double>> complexify_numerus(BigInt &x) {
 BigInt find_nearest_power_of_2(BigInt &x) {
 
   std::vector<std::bitset<4>> binary_numerus = x.get_binary_numerus();
-  size_t n = 4*binary_numerus.size();
-  std::string p;
-  for(size_t i =0;i < n;i++){
-    p+="0";
-  }
+  
+  std::vector<std::bitset<4>> y = binary_numerus;
 
-  p+="1";
-  std::reverse(p.begin(),p.end());
-  std::cout << "p = " << p << "\n";
- 
-  return BigInt(p);
+  BigInt y1;
+  return y1;
+
+
   
 }
 
@@ -258,34 +254,15 @@ int main() {
   std::vector<std::complex<double>> X1 = {{1, 0}, {2, -1}, {0, -1}, {-1, 2}};
   std::vector<std::complex<double>> X2 = {{2, 0}, {4, -2}, {0, -2}, {-2, 4}};
 
-  std::vector<std::complex<double>> Z1 = convolution(X1, X2);
-
-  int x = 100000000;
-  int n = find_nearest_power_of_2(x);
-  std::cout << "\n";
+  std::bitset<4> x;
   std::cout << "x = " << x << "\n";
-  std::cout << "n = " << n << "\n";
-  std::cout << "2**n = " << std::pow(2.0, (double)n) << "\n";
-  std::cout << "2**(n-1) = " << std::pow(2.0, (double)(n - 1)) << "\n\n\n";
-
-  //uint8_t m = -10;
-
-  //convertToBinary(m);
-
-  std::bitset<4> c1("1011");
-  std::bitset<4> c2("1111");
-  //std::vector<std::bitset<4>> b1 = c1.binary_numerus();
-  //std::vector<std::bitset<4>> b2 = c2.binary_numerus();
-
-  std::cout << "c1 < c2 = " << bitset_less(c1,c2) << "\n";
-  std::cout << "c1 > c2 = "  << bitset_greater(c1,c2) << "\n";
-  std::cout << "c2 > c1 = " << bitset_greater(c2,c1) <<"\n"; 
-
-  std::cout << "\n";
-  BigInt c("245");
-  BigInt d = find_nearest_power_of_2(c);
-  std::cout << "d = " << d << "\n";
+  x.set(0);
+  std::cout << "x[0] =" << x << "\n";
+  x.reset();
+  x.set(3);
+  std::cout << "x[3] =" << x <<"\n";
 
 
+ 
   return 0;
 }
