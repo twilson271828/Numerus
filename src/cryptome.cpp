@@ -151,6 +151,9 @@ std::vector<std::complex<double>> initialize_y(int N) {
   return y;
 }
 
+
+
+
 std::vector<std::complex<double>> complexify_numerus(BigInt &x) {
 
   std::vector<std::complex<double>> complex_numerus;
@@ -162,18 +165,30 @@ std::vector<std::complex<double>> complexify_numerus(BigInt &x) {
   return complex_numerus;
 }
 
+
+
+uint8_t convertToDec(std::bitset<4> x){
+
+  uint8_t sum =0;
+  int i = 0;
+  while (i < 4) {
+    
+  }
+}
+
 BigInt find_nearest_power_of_2(BigInt &x) {
 
   std::vector<std::bitset<4>> binary_numerus = x.get_binary_numerus();
-  
+  BigInt y1;
   std::vector<std::bitset<4>> y = binary_numerus;
 
-  BigInt y1;
-  return y1;
+  
+  
 
-
+return y1;
   
 }
+
 
 int find_nearest_power_of_2(uint64_t x) {
 
