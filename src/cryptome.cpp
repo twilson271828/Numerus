@@ -172,8 +172,9 @@ uint8_t convertToDec(std::bitset<4> x){
   uint8_t sum =0;
   int i = 0;
   while (i < 4) {
-    
+    sum+=(uint8_t)std::pow(2,i);
   }
+  return sum;
 }
 
 BigInt find_nearest_power_of_2(BigInt &x) {
