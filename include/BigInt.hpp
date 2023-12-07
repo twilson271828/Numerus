@@ -41,6 +41,8 @@ public:
 
   BigInt(const long &num);
 
+  BigInt(const std::vector<std::bitset<4>> &num);
+
   /// @brief
   /// @param m
   /// @param add_to_front

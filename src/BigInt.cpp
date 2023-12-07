@@ -22,6 +22,8 @@ std::bitset<4> BigInt::convertToBinary(uint8_t &n) {
 }
 
 
+
+
 std::vector<std::bitset<4>> BigInt::get_binary_numerus() {
 
   std::vector<std::bitset<4>> binary_numerus;
@@ -334,6 +336,12 @@ BigInt BigInt::vadd(BigInt &x, BigInt &y) const {
 }
 
 BigInt::BigInt() {
+  sign = POS;
+  return;
+}
+
+BigInt::BigInt(const std::vector<std::bitset<4>> &num) {
+
   sign = POS;
   return;
 }

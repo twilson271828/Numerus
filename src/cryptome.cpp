@@ -177,6 +177,14 @@ BigInt find_nearest_power_of_2(BigInt &x) {
   std::vector<std::bitset<4>> binary_numerus = x.get_binary_numerus();
   BigInt y1;
   std::vector<std::bitset<4>> y = binary_numerus;
+  size_t n = binary_numerus.size();
+  for (std::bitset<4> x: y) {
+
+    x.reset();
+
+  }
+  y[n-1].set(3);
+  
 
   
   
