@@ -169,12 +169,7 @@ std::vector<std::complex<double>> complexify_numerus(BigInt &x) {
 
 uint8_t convertToDec(std::bitset<4> x){
 
-  uint8_t sum =0;
-  int i = 0;
-  while (i < 4) {
-    sum+=(uint8_t)std::pow(2,i);
-  }
-  return sum;
+  return static_cast<uint8_t>(x.to_ulong());
 }
 
 BigInt find_nearest_power_of_2(BigInt &x) {
@@ -276,8 +271,12 @@ int main() {
   std::cout << "x[0] =" << x << "\n";
   x.reset();
   x.set(3);
-  std::cout << "x[3] =" << x <<"\n";
+  
+  std::cout << "x =" << x <<"\n";
 
+  uint8_t y = convertToDec(x);
+
+  std::cout << "x in decimal form = " << (unsigned)y << "\n";
 
  
   return 0;
