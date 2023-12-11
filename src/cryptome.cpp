@@ -4,6 +4,24 @@
 #include <limits>
 
 
+
+void extend(BigInt &x, BigInt & y){
+
+  unsigned long long n = x.size();
+  unsigned long long m = y.size();
+
+  unsigned long long p = 1;
+
+  while(p < (n + m - 1)  ){
+    p *= 2;
+  }
+  x.m10(p-n,true);
+  y.m10(p-m,true);
+  
+
+}
+
+
 template <size_t N>
 bool bitset_less(const std::bitset<N>& lhs, const std::bitset<N>& rhs) {
   for (size_t i = N; i-- > 0; ) {
@@ -270,22 +288,14 @@ convolution(std::vector<std::complex<double>> X1,
 
 int main() {
 
-  std::vector<std::complex<double>> X1 = {{1, 0}, {2, -1}, {0, -1}, {-1, 2}};
-  std::vector<std::complex<double>> X2 = {{2, 0}, {4, -2}, {0, -2}, {-2, 4}};
-
-  std::bitset<4> x;
+ 
+  BigInt x("1234567890123456789012345678901234567890");
+  BigInt y("4374239848792");
+  extend(x,y);
   std::cout << "x = " << x << "\n";
-  x.set(0);
-  std::cout << "x[0] =" << x << "\n";
-  x.reset();
-  x.set(3);
+  std::cout << "y = " << y << "\n";
+
   
-  std::cout << "x =" << x <<"\n";
-
-  uint8_t y = convertToDec(x);
-
-  std::cout << "x in decimal form = " << (unsigned)y << "\n";
-
  
   return 0;
 }
