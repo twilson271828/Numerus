@@ -15,10 +15,14 @@ void extend(BigInt &x, BigInt & y){
   while(p < (n + m - 1)  ){
     p *= 2;
   }
+ 
+  std::cout << "p-n = " << p-n << "\n";
+  std::cout << "p-m = " << p-m << "\n";
+  
   x.m10(p-n,true);
   y.m10(p-m,true);
-  
 
+ 
 }
 
 
@@ -289,11 +293,13 @@ convolution(std::vector<std::complex<double>> X1,
 int main() {
 
  
-  BigInt x("1234567890123456789012345678901234567890");
-  BigInt y("4374239848792");
+  BigInt x("1234");
+  BigInt y("43");
   extend(x,y);
   std::cout << "x = " << x << "\n";
   std::cout << "y = " << y << "\n";
+  std::cout << "x.size() = " << x.size() << "\n";
+  std::cout << "y.size() = " << y.size() << "\n";
 
   
  
