@@ -5,7 +5,7 @@
 
 
 
-void extend(BigInt &x, BigInt & y){
+void extend(BigInt &x, BigInt &y){
 
   unsigned long long n = x.size();
   unsigned long long m = y.size();
@@ -19,8 +19,8 @@ void extend(BigInt &x, BigInt & y){
   std::cout << "p-n = " << p-n << "\n";
   std::cout << "p-m = " << p-m << "\n";
   
-  x.m10(p-n,true);
-  y.m10(p-m,true);
+  x=x.m10(p-n,true);
+  y=y.m10(p-m,true);
 
  
 }
@@ -301,7 +301,5 @@ int main() {
   std::cout << "x.size() = " << x.size() << "\n";
   std::cout << "y.size() = " << y.size() << "\n";
 
-  
- 
   return 0;
 }

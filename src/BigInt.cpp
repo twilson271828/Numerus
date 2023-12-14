@@ -412,12 +412,9 @@ BigInt BigInt::m10(int m, bool add_to_front) const {
   BigInt z = *this;
   for (int i = 0; i < m; i++) {
     if (add_to_front) {
-
       z.numerus.insert(z.numerus.begin(), 0);
-      std::cout << "inserting yo...." << "\n";
-
+     
     } else {
-
       z.numerus.push_back(0);
     }
   }
@@ -431,9 +428,14 @@ std::ostream &operator<<(std::ostream &out, const BigInt &num) {
     out << "-";
   }
 
+  for (auto x : num.numerus) {
+      out << (unsigned int)x;
+    }
+
   int i = 0;
+  #if 0 
   if (num[i] == 0) {
-    #if 0
+  
     while (num[i] == 0 && i < n) {
       ++i;
     }
@@ -441,12 +443,12 @@ std::ostream &operator<<(std::ostream &out, const BigInt &num) {
       out << (unsigned int)num[i];
       i++;
     }
-  #endif
+  
   } else {
     for (auto x : num.numerus) {
       out << (unsigned int)x;
     }
-  }
+    #endif
 
   out << "\n";
 
