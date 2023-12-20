@@ -1,16 +1,16 @@
 #include "../include/BigInt.hpp"
 
-std::vector<uint8_t> BigInt::get_numerus() { return this->numerus; }
+//std::vector<uint8_t> BigInt::get_numerus() { return this->numerus; }
 
-std::bitset<4> BigInt::convertToBinary(uint8_t &n) {
 
-  std::bitset<4> b;
-  
+std::bitset<4> convertToBinary(const uint8_t &n) {
+  std::bitset<4> b;  
   int i = 0;
+  size_t n1 = n;
   try {
     while (n > 0) {
       int r = n % 2;
-      n /= 2;
+      n1 /= 2;
       b.set(i, r);
       i += 1;
     }
@@ -22,7 +22,14 @@ std::bitset<4> BigInt::convertToBinary(uint8_t &n) {
 }
 
 
+size_t convertToDecimal(std::bitset<4> const &b) {
 
+  size_t n = (size_t)b.to_ulong();
+  return n;
+}
+
+
+#if 0
 
 std::vector<std::bitset<4>> BigInt::get_binary_numerus() {
 
@@ -334,22 +341,20 @@ BigInt BigInt::vadd(BigInt &x, BigInt &y) const {
 
   return z;
 }
-
+#endif 
 BigInt::BigInt() {
   sign = POS;
   return;
 }
 
 BigInt::BigInt(const std::vector<std::bitset<4>> &num) {
-
+  numerus =num;
   sign = POS;
   return;
 }
 
 BigInt::BigInt(const BigInt &num) {
   numerus = num.numerus;
-  
-
   sign = num.sign;
 }
 
@@ -363,8 +368,8 @@ BigInt::BigInt(const long &num) {
   }
 
   while (x > 0) {
-    z.insert(x % 10, 0);
-    x /= 10;
+    z.insert(x % 2, 0);
+    x /= 2;
   }
 
   *this = z;
@@ -398,7 +403,8 @@ BigInt::BigInt(const std::string c) {
       } else {
 
         uint8_t x = int(ch) - int('0');
-        numerus.push_back(x);
+        
+        numerus.push_back(convertToBinary(x));
       }
       
     }
@@ -407,7 +413,7 @@ BigInt::BigInt(const std::string c) {
     std::exit(0);
   }
 }
-
+#if 0
 BigInt BigInt::m10(int m, bool add_to_front) const {
   BigInt z = *this;
   for (int i = 0; i < m; i++) {
@@ -420,7 +426,7 @@ BigInt BigInt::m10(int m, bool add_to_front) const {
   }
   return z;
 }
-
+#endif
 std::ostream &operator<<(std::ostream &out, const BigInt &num) {
 
   size_t n = num.size();
@@ -429,38 +435,45 @@ std::ostream &operator<<(std::ostream &out, const BigInt &num) {
   }
 
   for (auto x : num.numerus) {
-      out << (unsigned int)x;
+      out << x;
     }
 
   int i = 0;
-  #if 0 
+  
   if (num[i] == 0) {
   
     while (num[i] == 0 && i < n) {
       ++i;
     }
     while (i < n) {
-      out << (unsigned int)num[i];
+      out << convertToDecimal(num[i]);
       i++;
     }
   
   } else {
     for (auto x : num.numerus) {
-      out << (unsigned int)x;
+      out << convertToDecimal(x);
     }
-    #endif
-
+   
   out << "\n";
 
   return out;
 }
 
+
+
+size_t BigInt::operator[](const int i) const { 
+  
+  std::bitset<4> b = numerus[i];
+  return convertToDecimal(b);
+   }
+
+#if 0
+
 void BigInt::insert(const int &val, const int &ix) {
-  numerus.insert(numerus.begin() + ix, val);
+  
+  numerus.insert(numerus.begin() + ix, (uint8_t)val);
 }
-
-size_t BigInt::operator[](const int i) const { return numerus[i]; }
-
 BigInt BigInt::operator/(const BigInt &num) const { return num; }
 
 BigInt BigInt::operator-(const BigInt &num) const {
@@ -619,6 +632,7 @@ BigInt BigInt::operator!() const {
   }
   return z;
 }
+#endif
 
 int BigInt::get_sign() const {
 
@@ -631,7 +645,7 @@ int BigInt::get_sign() const {
 }
 
 size_t BigInt::size() const { return numerus.size(); }
-
+#if 0
 bool BigInt::operator==(const BigInt &y) const {
   BigInt temp = y;
   int xsign = get_sign();
@@ -748,3 +762,5 @@ bool BigInt::operator>(const BigInt &y) const {
 
   return false;
 }
+#endif
+
