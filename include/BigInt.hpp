@@ -43,9 +43,7 @@ public:
 
   BigInt(const std::vector<std::bitset<4>> &num);
 
-  /// @brief
-  /// @param m
-  /// @param add_to_front
+  
   //BigInt m10(const int m, bool add_to_front = false) const;
   //BigInt slice(int i, int j) const;
   size_t operator[](const int i) const;
@@ -61,11 +59,6 @@ public:
   void insert(const int &val, const int &ix);
 
   //BigInt operator*(const BigInt &num);
-
-  /// @brief
-  /// @param num
-  /// @return
-
   //BigInt operator/(const BigInt &num) const;
 
   //BigInt operator+(const BigInt &num) const;

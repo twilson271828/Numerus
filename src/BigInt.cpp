@@ -426,7 +426,32 @@ BigInt BigInt::m10(int m, bool add_to_front) const {
   }
   return z;
 }
-#endif
+
+
+#endif 
+
+size_t BigInt::operator[](const int i) const { 
+  
+  std::bitset<4> b = numerus[i];
+  return convertToDecimal(b);
+   }
+
+ 
+int BigInt::get_sign() const {
+
+  if (sign == NEG)
+    return -1;
+  else if (sign == POS)
+    return 1;
+  else
+    return 0;
+}
+
+
+size_t BigInt::size() const { return numerus.size(); }
+  
+
+
 std::ostream &operator<<(std::ostream &out, const BigInt &num) {
 
   size_t n = num.size();
@@ -454,19 +479,13 @@ std::ostream &operator<<(std::ostream &out, const BigInt &num) {
     for (auto x : num.numerus) {
       out << convertToDecimal(x);
     }
-   
+  }   
   out << "\n";
 
   return out;
+
 }
 
-
-
-size_t BigInt::operator[](const int i) const { 
-  
-  std::bitset<4> b = numerus[i];
-  return convertToDecimal(b);
-   }
 
 #if 0
 
@@ -634,17 +653,9 @@ BigInt BigInt::operator!() const {
 }
 #endif
 
-int BigInt::get_sign() const {
 
-  if (sign == NEG)
-    return -1;
-  else if (sign == POS)
-    return 1;
-  else
-    return 0;
-}
 
-size_t BigInt::size() const { return numerus.size(); }
+
 #if 0
 bool BigInt::operator==(const BigInt &y) const {
   BigInt temp = y;
