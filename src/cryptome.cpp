@@ -3,7 +3,7 @@
 #include <cmath>
 #include <limits>
 
-
+#if 0
 
 void extend(BigInt &x, BigInt &y){
 
@@ -290,16 +290,16 @@ convolution(std::vector<std::complex<double>> X1,
   return Z1;
 }
 
+#endif 
+
 int main() {
 
  
   BigInt x("1234");
-  BigInt y("43");
-  extend(x,y);
+
   std::cout << "x = " << x << "\n";
-  std::cout << "y = " << y << "\n";
-  std::cout << "x.size() = " << x.size() << "\n";
-  std::cout << "y.size() = " << y.size() << "\n";
+  //BigInt y("43");
+  
 
   return 0;
 }

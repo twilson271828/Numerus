@@ -88,7 +88,7 @@ public:
   friend std::ostream &operator<<(std::ostream &out, const BigInt &num);
 };
 
-std::bitset<4> convertToBinary(const uint8_t &n);
+std::bitset<4> convertToBinary(uint8_t &n);
 size_t convertToDecimal( std::bitset<4> const &n);
 
 

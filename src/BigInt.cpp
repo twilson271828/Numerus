@@ -3,30 +3,6 @@
 //std::vector<uint8_t> BigInt::get_numerus() { return this->numerus; }
 
 
-std::bitset<4> convertToBinary(const uint8_t &n) {
-  std::bitset<4> b;  
-  int i = 0;
-  size_t n1 = n;
-  try {
-    while (n > 0) {
-      int r = n % 2;
-      n1 /= 2;
-      b.set(i, r);
-      i += 1;
-    }
-  } catch (std::out_of_range &e) {
-    std::cout << "std::out_of_range exception caught: " << e.what() << "\n";
-  }
-
-  return b;
-}
-
-
-size_t convertToDecimal(std::bitset<4> const &b) {
-
-  size_t n = (size_t)b.to_ulong();
-  return n;
-}
 
 
 #if 0
@@ -459,9 +435,7 @@ std::ostream &operator<<(std::ostream &out, const BigInt &num) {
     out << "-";
   }
 
-  for (auto x : num.numerus) {
-      out << x;
-    }
+  
 
   int i = 0;
   
@@ -486,13 +460,17 @@ std::ostream &operator<<(std::ostream &out, const BigInt &num) {
 
 }
 
+void BigInt::insert(const int &val, const int &ix) {
+  
+  uint8_t x = (uint8_t)val;
+  std::bitset<4> b = convertToBinary(x);
+  numerus.insert(numerus.begin() + ix, b);
+}
+
 
 #if 0
 
-void BigInt::insert(const int &val, const int &ix) {
-  
-  numerus.insert(numerus.begin() + ix, (uint8_t)val);
-}
+
 BigInt BigInt::operator/(const BigInt &num) const { return num; }
 
 BigInt BigInt::operator-(const BigInt &num) const {
@@ -775,3 +753,27 @@ bool BigInt::operator>(const BigInt &y) const {
 }
 #endif
 
+std::bitset<4> convertToBinary(uint8_t &n) {
+  std::bitset<4> b;  
+  int i = 0;
+
+  try {
+    while (n > 0) {
+      int r = n % 2;
+      n /= 2;
+      b.set(i, r);
+      i += 1;
+    }
+  } catch (std::out_of_range &e) {
+    std::cout << "std::out_of_range exception caught: " << e.what() << "\n";
+  }
+
+  return b;
+}
+
+
+size_t convertToDecimal(std::bitset<4> const &b) {
+
+  size_t n = (size_t)b.to_ulong();
+  return n;
+}
