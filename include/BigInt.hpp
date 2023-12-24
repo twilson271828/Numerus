@@ -58,7 +58,7 @@ public:
 
   void insert(const int &val, const int &ix);
 
-  //BigInt operator*(const BigInt &num);
+  BigInt operator*(const BigInt &num);
   //BigInt operator/(const BigInt &num) const;
 
   //BigInt operator+(const BigInt &num) const;
