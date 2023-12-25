@@ -20,7 +20,7 @@ private:
   SIGN sign;
  
   //BigInt vsub(BigInt &x, BigInt &y) const;
-  //BigInt vadd(BigInt &x, BigInt &y) const;
+  BigInt vadd(BigInt &x, BigInt &y) const;
   //BigInt vmult(BigInt &x, BigInt &y) const;
   //BigInt karatsuba(BigInt &x, BigInt &y) const;
   //BigInt Schonhage_Strassen(BigInt &x, BigInt &y) const;
@@ -44,7 +44,7 @@ public:
   BigInt(const std::vector<std::bitset<4>> &num);
 
   
-  //BigInt m10(const int m, bool add_to_front = false) const;
+  BigInt m16(const int m, bool add_to_front = false) const;
   //BigInt slice(int i, int j) const;
   size_t operator[](const int i) const;
   size_t size() const;
