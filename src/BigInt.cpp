@@ -307,6 +307,10 @@ BigInt::BigInt(const std::string c) {
   }
 }
 
+
+
+
+
 BigInt BigInt::m16(int m, bool add_to_front) const {
   BigInt z = *this;
   for (int i = 0; i < m; i++) {
@@ -386,6 +390,8 @@ void BigInt::insert(const int &val, const int &ix) {
   numerus.insert(numerus.begin() + ix, b);
 }
 
+#if 0
+
 BigInt BigInt::vadd(BigInt &x, BigInt &y) const {
   BigInt z;
 
@@ -424,7 +430,7 @@ BigInt BigInt::vadd(BigInt &x, BigInt &y) const {
   return z;
 }
 
-#if 0
+
 BigInt BigInt::vmult(BigInt &x, BigInt &y) const {
 
   int n = x.size();

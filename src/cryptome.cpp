@@ -2,6 +2,8 @@
 #include <bitset>
 #include <cmath>
 #include <limits>
+#include <iostream>
+
 
 #if 0
 
@@ -174,8 +176,6 @@ std::vector<std::complex<double>> initialize_y(int N) {
 }
 
 
-
-
 std::vector<std::complex<double>> complexify_numerus(BigInt &x) {
 
   std::vector<std::complex<double>> complex_numerus;
@@ -186,7 +186,6 @@ std::vector<std::complex<double>> complexify_numerus(BigInt &x) {
   }
   return complex_numerus;
 }
-
 
 
 uint8_t convertToDec(std::bitset<4> x){
@@ -290,15 +289,70 @@ convolution(std::vector<std::complex<double>> X1,
   return Z1;
 }
 
+
+
 #endif 
+
+bool fullAdder(bool a, bool b, bool &c) {
+
+  bool sum = a ^ b ^ c;
+  c = (a && b) || (b && c) || (a && c);
+  return sum;
+}
+
+std::bitset<5> bitsetAdd(std::bitset<4> &x, std::bitset<4> &y) {
+
+  std::bitset<5> z;
+  bool c = false;
+  for (int i = 0; i < 4; i++) {
+    bool sum = fullAdder(x[i], y[i], c);
+    z.set(i, sum);
+  }
+  z.set(4, c);
+  return z;
+}
+
+
+BigInt vadd(BigInt &x, BigInt &y) {
+BigInt z;
+
+  int n = x.size();
+  int m = y.size();
+  int k = std::max(n, m);
+  if (n != m) {
+    if (n > m) {
+      int d = n - m;
+      y = y.m16(d, true);
+    } else {
+      int d = m - n;
+      x = x.m16(d, true);
+    }
+  }
+
+  bool c= false;
+
+  for (int i = 0; i < k; i++) {
+    bool sum = fullAdder(x[i], y[i], c);
+    z.insert(sum, i);
+  }
+
+}
 
 int main() {
 
- 
-  BigInt x("1234");
+  std::bitset<4> b1{0b0101};
 
-  std::cout << "x = " << x << "\n";
-  //BigInt y("43");
+   std::cout << "b1 = " << b1 << " = " << b1.to_ulong() << "\n";
+ 
+  std::bitset<4> b2{0b1101};
+
+   std::cout << "b2 = " << b2 << " = " << b2.to_ulong() << "\n";
+
+   
+
+
+  
+  
   
 
   return 0;

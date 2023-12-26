@@ -20,7 +20,7 @@ private:
   SIGN sign;
  
   //BigInt vsub(BigInt &x, BigInt &y) const;
-  BigInt vadd(BigInt &x, BigInt &y) const;
+  //BigInt vadd(BigInt &x, BigInt &y) const;
   //BigInt vmult(BigInt &x, BigInt &y) const;
   //BigInt karatsuba(BigInt &x, BigInt &y) const;
   //BigInt Schonhage_Strassen(BigInt &x, BigInt &y) const;
@@ -51,7 +51,7 @@ public:
 
   int get_sign() const;
   //std::vector<uint8_t> get_numerus();
-  //std::vector<std::bitset<4>> get_binary_numerus();
+  
 
   /// @brief
   //void negative();
