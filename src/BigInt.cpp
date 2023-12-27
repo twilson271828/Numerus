@@ -329,10 +329,10 @@ BigInt BigInt::m16(int m, bool add_to_front) const {
 
 
 
-size_t BigInt::operator[](const int i) const { 
+std::bitset<4> BigInt::operator[](const int i) const { 
   
   std::bitset<4> b = numerus[i];
-  return convertToDecimal(b);
+  return b;
    }
 
  
@@ -382,6 +382,11 @@ std::ostream &operator<<(std::ostream &out, const BigInt &num) {
   return out;
 
 }
+
+
+ void BigInt::insert(const std::bitset<4> &val,const int &ix) {
+  numerus.insert(numerus.begin() + ix, val);
+ }
 
 void BigInt::insert(const int &val, const int &ix) {
   

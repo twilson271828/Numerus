@@ -300,15 +300,17 @@ bool fullAdder(bool a, bool b, bool &c) {
   return sum;
 }
 
-std::bitset<5> bitsetAdd(std::bitset<4> &x, std::bitset<4> &y) {
+bitset_add bitsetAdd(std::bitset<4> &x, std::bitset<4> &y) {
 
-  std::bitset<5> z;
-  bool c = false;
+  bitset_add z;
+  bool c = false;  
+
   for (int i = 0; i < 4; i++) {
     bool sum = fullAdder(x[i], y[i], c);
-    z.set(i, sum);
+    z.sum.set(i, sum);
   }
-  z.set(4, c);
+  z.carry = c;
+  
   return z;
 }
 
@@ -332,10 +334,19 @@ BigInt z;
   bool c= false;
 
   for (int i = 0; i < k; i++) {
-    bool sum = fullAdder(x[i], y[i], c);
-    z.insert(sum, i);
-  }
+    std::bitset<4> xi = x[i];
+    std::bitset<4> yi = y[i];
+    auto sum = bitsetAdd(xi, yi);
+    
+    if(sum.carry) {
 
+    }
+    else{
+      z.insert(sum.sum,i);
+    }
+    
+  }
+return z;
 }
 
 int main() {

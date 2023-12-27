@@ -46,7 +46,7 @@ public:
   
   BigInt m16(const int m, bool add_to_front = false) const;
   //BigInt slice(int i, int j) const;
-  size_t operator[](const int i) const;
+  std::bitset<4> operator[](const int i) const;
   size_t size() const;
 
   int get_sign() const;
@@ -55,7 +55,7 @@ public:
 
   /// @brief
   //void negative();
-
+  void insert(const std::bitset<4> &val,const int &ix);
   void insert(const int &val, const int &ix);
 
   BigInt operator*(const BigInt &num);
@@ -91,6 +91,10 @@ public:
 std::bitset<4> convertToBinary(uint8_t &n);
 size_t convertToDecimal( std::bitset<4> const &n);
 
+struct bitset_add {
+  std::bitset<4> sum;
+  bool carry;
+};
 
 struct split {
   BigInt xleft;
