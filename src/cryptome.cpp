@@ -339,6 +339,7 @@ BigInt z;
     auto sum = bitsetAdd(xi, yi);
     
     if(sum.carry) {
+      std::bitset<4> c1("0001");
 
     }
     else{
@@ -359,11 +360,9 @@ int main() {
 
    std::cout << "b2 = " << b2 << " = " << b2.to_ulong() << "\n";
 
-   
-
-
+   BigInt c("2345");
   
-  
+   std::cout <<"c[0]=" << convertToDecimal(c[0]) <<"\n";  
   
 
   return 0;
