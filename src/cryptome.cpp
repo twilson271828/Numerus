@@ -293,26 +293,6 @@ convolution(std::vector<std::complex<double>> X1,
 
 #endif 
 
-bool fullAdder(bool a, bool b, bool &c) {
-
-  bool sum = a ^ b ^ c;
-  c = (a && b) || (b && c) || (a && c);
-  return sum;
-}
-
-bitset_add bitsetAdd(std::bitset<4> &x, std::bitset<4> &y) {
-
-  bitset_add z;
-  bool c = false;  
-
-  for (int i = 0; i < 4; i++) {
-    bool sum = fullAdder(x[i], y[i], c);
-    z.sum.set(i, sum);
-  }
-  z.carry = c;
-  
-  return z;
-}
 
 
 BigInt vadd(BigInt &x, BigInt &y) {
@@ -330,40 +310,50 @@ BigInt z;
       x = x.m16(d, true);
     }
   }
+  
+  int c = 0;
+  int tot = 0;
 
-  bool c= false;
+  for(int i = k-1;i>=0;i--) {
+   tot = x[i].to_ulong() + y[i].to_ulong() + c;
 
-  for (int i = 0; i < k; i++) {
-    std::bitset<4> xi = x[i];
-    std::bitset<4> yi = y[i];
-    auto sum = bitsetAdd(xi, yi);
-    
-    if(sum.carry) {
-      std::bitset<4> c1("0001");
-
+    if (tot >= 10) {
+      c = 1;
+      
+      z.insert(tot % 10, 0);
+      if (k == 1) {
+        z.insert(c, 0);
+      }
+      if (i == 0) {
+        z.insert(c, 0);
+      }
+    } else {
+      c = 0;
+      z.insert(tot, 0);
     }
-    else{
-      z.insert(sum.sum,i);
-    }
-    
   }
-return z;
-}
+
+
+  
+  return z;  
+  }
+
+  
+
+  
+
+
 
 int main() {
 
-  std::bitset<4> b1{0b0101};
+BigInt x("246");
+BigInt y("789");
 
-   std::cout << "b1 = " << b1 << " = " << b1.to_ulong() << "\n";
- 
-  std::bitset<4> b2{0b1101};
+BigInt z = vadd(x,y);
 
-   std::cout << "b2 = " << b2 << " = " << b2.to_ulong() << "\n";
+std::cout << "z = " << z << "\n";
 
-   BigInt c("2345");
-  
-   std::cout <<"c[0]=" << convertToDecimal(c[0]) <<"\n";  
-  
+
 
   return 0;
 }
