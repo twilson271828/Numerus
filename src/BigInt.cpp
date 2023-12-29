@@ -97,43 +97,7 @@ std::complex<double> BigInt::dift(std::vector<std::complex<double>> &input,
   return coeff;
 }
 
-BigInt BigInt::vsub(BigInt &x, BigInt &y) const {
 
-  BigInt z;
-
-  int n = x.size();
-  int m = y.size();
-
-  if (n != m) {
-    if (n > m) {
-      int d = n - m;
-      y = y.m10(d, true);
-    } else {
-      int d = m - n;
-      x = x.m10(d, true);
-    }
-  }
-
-  for (int i = n - 1; i >= 0; i--) {
-    int tot = x[i] - y[i];
-    if (tot < 0) {
-      int val = 0;
-      if (i > 0) {
-        val = x[i - 1] - 1;
-        x.insert(val, i - 1);
-      }
-      // x[i-1]=x[i-1]-1;
-      z.insert(10 + tot, 0);
-    } else if (tot > 0) {
-      z.insert(tot, 0);
-    } else {
-      if (i != 0) {
-        z.insert(0, 0);
-      }
-    }
-  }
-  return z;
-}
 
 BigInt BigInt::Schonhage_Strassen(BigInt &x, BigInt &y) const { return x; }
 
@@ -365,6 +329,7 @@ std::ostream &operator<<(std::ostream &out, const BigInt &num) {
   if (num[i] == 0) {
   
     while (num[i] == 0 && i < n) {
+      out << 0;
       ++i;
     }
     while (i < n) {
@@ -395,10 +360,10 @@ void BigInt::insert(const int &val, const int &ix) {
   numerus.insert(numerus.begin() + ix, b);
 }
 
-#if 0
+
 
 BigInt BigInt::vadd(BigInt &x, BigInt &y) const {
-  BigInt z;
+BigInt z;
 
   int n = x.size();
   int m = y.size();
@@ -412,16 +377,19 @@ BigInt BigInt::vadd(BigInt &x, BigInt &y) const {
       x = x.m16(d, true);
     }
   }
-
+  
   int c = 0;
   int tot = 0;
-  for (int i = k - 1; i >= 0; i--) {
-    tot = x[i] + y[i] + c;
+
+  for(int i = k-1;i>=0;i--) {
+   tot = x[i].to_ulong() + y[i].to_ulong() + c;
+
     if (tot >= 10) {
       c = 1;
+      
       z.insert(tot % 10, 0);
       if (k == 1) {
-        z.insert(1, 0);
+        z.insert(c, 0);
       }
       if (i == 0) {
         z.insert(c, 0);
@@ -431,9 +399,50 @@ BigInt BigInt::vadd(BigInt &x, BigInt &y) const {
       z.insert(tot, 0);
     }
   }
+  
+  return z;  
+  }
 
+
+#if 0   
+BigInt BigInt::vsub(BigInt &x, BigInt &y) const {
+
+  BigInt z;
+
+  int n = x.size();
+  int m = y.size();
+
+  if (n != m) {
+    if (n > m) {
+      int d = n - m;
+      y = y.m10(d, true);
+    } else {
+      int d = m - n;
+      x = x.m10(d, true);
+    }
+  }
+
+  for (int i = n - 1; i >= 0; i--) {
+    int tot = x[i] - y[i];
+    if (tot < 0) {
+      int val = 0;
+      if (i > 0) {
+        val = x[i - 1] - 1;
+        x.insert(val, i - 1);
+      }
+      // x[i-1]=x[i-1]-1;
+      z.insert(10 + tot, 0);
+    } else if (tot > 0) {
+      z.insert(tot, 0);
+    } else {
+      if (i != 0) {
+        z.insert(0, 0);
+      }
+    }
+  }
   return z;
 }
+
 
 
 BigInt BigInt::vmult(BigInt &x, BigInt &y) const {

@@ -333,10 +333,50 @@ BigInt z;
     }
   }
 
-
-  
   return z;  
   }
+
+  BigInt vsub(BigInt &x, BigInt &y)  {
+
+  BigInt z;
+
+  int n = x.size();
+  int m = y.size();
+  int k = std::max(n, m);
+
+  if (n != m) {
+    if (n > m) {
+      int d = n - m;
+      y = y.m16(d, true);
+    } else {
+      int d = m - n;
+      x = x.m16(d, true);
+    }
+  }
+
+  std::cout << "x = " << x << "\n";
+  std::cout << "y = " << y << "\n";
+  for (int i = k - 1; i >= 0; i--) {
+    int tot = x[i].to_ulong() - y[i].to_ulong();
+    if (tot < 0) {
+      int val = 0;
+      if (i > 0) {
+        val = x[i - 1].to_ulong() - 1;
+        x.insert(val, i - 1);
+      }
+      // x[i-1]=x[i-1]-1;
+      z.insert(10 + tot, 0);
+    } else if (tot > 0) {
+      z.insert(tot, 0);
+    } else {
+      if (i != 0) {
+        z.insert(0, 0);
+      }
+    }
+  }
+  return z;
+}
+
 
   
 
@@ -346,10 +386,10 @@ BigInt z;
 
 int main() {
 
-BigInt x("246");
-BigInt y("789");
+BigInt x("200");
+BigInt y("12");
 
-BigInt z = vadd(x,y);
+BigInt z = vsub(x,y);
 
 std::cout << "z = " << z << "\n";
 
