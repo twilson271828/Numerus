@@ -43,6 +43,7 @@ public:
 
   BigInt(const std::vector<std::bitset<4>> &num);
 
+  void numerus_ix(const int &ix, const ulong &val);
   
   BigInt m16(const int m, bool add_to_front = false) const;
   //BigInt slice(int i, int j) const;

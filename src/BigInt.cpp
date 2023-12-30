@@ -290,12 +290,15 @@ BigInt BigInt::m16(int m, bool add_to_front) const {
   return z;
 }
 
+void BigInt::numerus_ix(const int &ix, const ulong &val) {  
+  numerus[ix] = std::bitset<4>(val);
+}
 
 
 
-std::bitset<4> BigInt::operator[](const int i) const { 
+std::bitset<4> BigInt::operator[](const int i)  const { 
   
-  std::bitset<4> b = numerus[i];
+  std::bitset<4> b = numerus[i];  
   return b;
    }
 
@@ -403,8 +406,8 @@ BigInt z;
   return z;  
   }
 
+#if 0
 
-#if 0   
 BigInt BigInt::vsub(BigInt &x, BigInt &y) const {
 
   BigInt z;

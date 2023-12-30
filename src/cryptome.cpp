@@ -337,12 +337,13 @@ BigInt z;
   }
 
   BigInt vsub(BigInt &x, BigInt &y)  {
-
-  BigInt z;
-
+  
   int n = x.size();
   int m = y.size();
   int k = std::max(n, m);
+
+  std::vector<std::bitset<4>> result(k);
+  std::fill(result.begin(), result.end(), std::bitset<4>(0));
 
   if (n != m) {
     if (n > m) {
@@ -357,43 +358,45 @@ BigInt z;
   std::cout << "x = " << x << "\n";
   std::cout << "y = " << y << "\n";
   for (int i = k - 1; i >= 0; i--) {
-    int tot = x[i].to_ulong() - y[i].to_ulong();
-    if (tot < 0) {
-      int val = 0;
-      if (i > 0) {
-        val = x[i - 1].to_ulong() - 1;
-        x.insert(val, i - 1);
+    if (x[i].to_ulong() < y[i].to_ulong()) {
+      ulong val = x[i-1].to_ulong() - 1;
+      x.numerus_ix(i-1,val);
+       result[i] = std::bitset<4>(x[i].to_ulong() +10 - y[i].to_ulong());
       }
-      // x[i-1]=x[i-1]-1;
-      z.insert(10 + tot, 0);
-    } else if (tot > 0) {
-      z.insert(tot, 0);
-    } else {
-      if (i != 0) {
-        z.insert(0, 0);
+      else{
+        result[i] = std::bitset<4>(x[i].to_ulong() - y[i].to_ulong());
       }
+        
     }
-  }
+
+    int i =0;
+    //Remove any leading zeros
+    while(result[i].to_ulong() == 0){
+      i++;
+    }
+    if (i > 0) {
+    result.erase(result.begin(),result.begin()+i);
+
+    }
+
+   
+  BigInt z(result);
   return z;
-}
+  }
 
-
-  
-
-  
 
 
 
 int main() {
 
-BigInt x("200");
-BigInt y("12");
+  BigInt x("200");
+  BigInt y("12");
 
-BigInt z = vsub(x,y);
+  BigInt z = vsub(x,y);
 
-std::cout << "z = " << z << "\n";
+  //x.numerus_ix(1,1);
 
-
+  std::cout << "z = " << z << "\n";
 
   return 0;
 }
