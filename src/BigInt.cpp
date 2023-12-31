@@ -9,6 +9,60 @@ std::vector<int> BigInt::get_numerus() {
   return v; }
 
 
+BigInt BigInt::slice(int i, int j) const {
+  BigInt z;
+
+  if ((j - i) + i > this->size() - 1) {
+    std::cout << "The slice range [i,j] = [" << i << "," << j
+              << "] is greater than the length of " << *this << "\n";
+    return BigInt("NAN");
+  }
+
+  if (i > j) {
+    std::cout << "[i,j] = "
+              << "[" << i << " , " << j << "]\n";
+    std::cout << " The starting index for BigInt::slice must be less than the "
+                 "ending index.\n";
+    return BigInt("NAN");
+  }
+
+  if ((i < 0) || (j < 0)) {
+    std::cout << "The starting and ending indices for the BigInt::slice "
+                 "routine must be greater than or equal to 0\n";
+    return BigInt("NAN");
+  }
+
+  // Starting and Ending iterators
+  auto start = this->numerus.begin() + i;
+  auto end = this->numerus.begin() + i + (j - i) + 1;
+
+  // To store the sliced vector
+  // std::vector<uint8_t> result(j - i + 1);
+  std::vector<std::bitset<4>> result(j - i + 1);
+  z.numerus = result;
+
+  std::copy(start, end, z.numerus.begin());
+
+  return z;
+}
+
+
+
+split BigInt::split_it(size_t m) const {
+  size_t n = this->size();
+
+  BigInt r;
+  BigInt c;
+
+  split z;
+
+  z.xright = this->slice(n - m, n - 1);
+  z.xleft = this->slice(0, n - m - 1);
+  z.m = m;
+  return z;
+}
+
+
 
 
 #if 0
@@ -107,56 +161,7 @@ std::complex<double> BigInt::dift(std::vector<std::complex<double>> &input,
 
 BigInt BigInt::Schonhage_Strassen(BigInt &x, BigInt &y) const { return x; }
 
-BigInt BigInt::slice(int i, int j) const {
-  BigInt z;
 
-  if ((j - i) + i > this->size() - 1) {
-    std::cout << "The slice range [i,j] = [" << i << "," << j
-              << "] is greater than the length of " << *this << "\n";
-    return BigInt("NAN");
-  }
-
-  if (i > j) {
-    std::cout << "[i,j] = "
-              << "[" << i << " , " << j << "]\n";
-    std::cout << " The starting index for BigInt::slice must be less than the "
-                 "ending index.\n";
-    return BigInt("NAN");
-  }
-
-  if ((i < 0) || (j < 0)) {
-    std::cout << "The starting and ending indices for the BigInt::slice "
-                 "routine must be greater than or equal to 0\n";
-    return BigInt("NAN");
-  }
-
-  // Starting and Ending iterators
-  auto start = this->numerus.begin() + i;
-  auto end = this->numerus.begin() + i + (j - i) + 1;
-
-  // To store the sliced vector
-  // std::vector<uint8_t> result(j - i + 1);
-  std::vector<uint8_t> result(j - i + 1);
-  z.numerus = result;
-
-  std::copy(start, end, z.numerus.begin());
-
-  return z;
-}
-
-split BigInt::split_it(size_t m) const {
-  size_t n = this->size();
-
-  BigInt r;
-  BigInt c;
-
-  split z;
-
-  z.xright = this->slice(n - m, n - 1);
-  z.xleft = this->slice(0, n - m - 1);
-  z.m = m;
-  return z;
-}
 
 BigInt BigInt::karatsuba(BigInt &x, BigInt &y) const {
 
@@ -165,15 +170,18 @@ BigInt BigInt::karatsuba(BigInt &x, BigInt &y) const {
 
   if (n > m) {
 
-    y = y.m10(n - m, true);
+    y = y.m16(n - m, true);
   }
   if (n < m) {
-    x = x.m10(m - n, true);
+    x = x.m16(m - n, true);
   }
 
   if (n < 2 || m < 2) {
     return x * y;
   }
+
+  
+  
 
   size_t k = std::max(n, m);
   size_t k2 = std::floor(k / 2);
@@ -195,7 +203,7 @@ BigInt BigInt::karatsuba(BigInt &x, BigInt &y) const {
 
   BigInt W = z1 - z2 - z0;
 
-  BigInt P = z2.m10(k2 * 2, false) + W.m10(k2, false) + z0;
+  BigInt P = z2.m16(k2 * 2, false) + W.m16(k2, false) + z0;
 
   return P;
 }
@@ -478,6 +486,10 @@ BigInt BigInt::vmult(BigInt &x, BigInt &y) const {
   int n = x.size();
   int m = y.size();
 
+  std::vector<int> x_numerus = x.get_numerus(); 
+  std::vector<int> y_numerus = y.get_numerus();
+
+
   //if (n > 50 && m > 50) {
   //  return karatsuba(x, y);
   //}
@@ -492,7 +504,7 @@ BigInt BigInt::vmult(BigInt &x, BigInt &y) const {
     BigInt z;
     carry = 0;
     for (int j = n - 1; j >= 0; j--) {
-      t = x[j] * y[i] + carry;
+      t = x_numerus[j] * y_numerus[i] + carry;
       carry = 0;
       if (t >= 10) {
         auto dv = std::div(t, base);
@@ -522,7 +534,7 @@ BigInt BigInt::vmult(BigInt &x, BigInt &y) const {
 }
 
 
-#if 0
+
 
 BigInt BigInt::operator*(const BigInt &num) {
   BigInt x = *this;
@@ -677,7 +689,7 @@ BigInt BigInt::operator+(const BigInt &num) const {
   return z;
 }
 
-
+#if 0
 
 BigInt BigInt::operator!() const {
   BigInt z = *this;

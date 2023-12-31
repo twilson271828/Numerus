@@ -46,7 +46,7 @@ public:
   void numerus_ix(const int &ix, const ulong &val);
   
   BigInt m16(const int m, bool add_to_front = false) const;
-  //BigInt slice(int i, int j) const;
+  BigInt slice(int i, int j) const;
   std::bitset<4> operator[](const int i) const;
   size_t size() const;
 
@@ -62,9 +62,9 @@ public:
   BigInt operator*(const BigInt &num);
   //BigInt operator/(const BigInt &num) const;
 
-  //BigInt operator+(const BigInt &num) const;
+  BigInt operator+(const BigInt &num) const;
 
-  //BigInt operator-(const BigInt &num) const;
+  BigInt operator-(const BigInt &num) const;
 
   //bool operator<(const BigInt &num) const;
 
@@ -84,7 +84,7 @@ public:
 
   //BigInt operator!() const;
 
-  //split split_it(size_t m) const;
+  split split_it(size_t m) const;
 
   friend std::ostream &operator<<(std::ostream &out, const BigInt &num);
 };

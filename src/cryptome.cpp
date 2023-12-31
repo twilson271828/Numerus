@@ -294,6 +294,7 @@ convolution(std::vector<std::complex<double>> X1,
 #endif 
 
 
+
 BigInt vadd(BigInt &x, BigInt &y) {
 BigInt z;
 
@@ -340,9 +341,6 @@ BigInt z;
   return z;  
   }
 
-
-
-
   void printVector(std::vector<int> &x) {
     for (auto &i : x) {
       std::cout << i << " ";
@@ -355,7 +353,6 @@ BigInt z;
   int n = x.size();
   int m = y.size();
   int k = std::max(n, m);
-
 
   std::vector<std::bitset<4>> result(k);
   std::fill(result.begin(), result.end(), std::bitset<4>(0));
@@ -370,11 +367,8 @@ BigInt z;
     }
   }
 
-  
 std::vector<int> x_numerus = x.get_numerus(); 
 std::vector<int> y_numerus = y.get_numerus();
-
-  
 
   for (int i = k - 1; i >= 0; i--) {
     if (x_numerus[i] < y_numerus[i]) {                 
@@ -403,6 +397,109 @@ std::vector<int> y_numerus = y.get_numerus();
   }
 
 
+BigInt vmult(BigInt &x, BigInt &y) {
+
+  int n = x.size();
+  int m = y.size();
+
+  std::vector<int> x_numerus = x.get_numerus(); 
+  std::vector<int> y_numerus = y.get_numerus();
+
+
+  //if (n > 50 && m > 50) {
+  //  return karatsuba(x, y);
+  //}
+
+  int shift = 0;
+  int carry = 0;
+  int base = 10;
+  int t = 0;
+  std::vector<BigInt> vecs;
+
+  for (int i = m - 1; i >= 0; i--) {
+    BigInt z;
+    carry = 0;
+    for (int j = n - 1; j >= 0; j--) {
+      t = x_numerus[j] * y_numerus[i] + carry;
+      carry = 0;
+      if (t >= 10) {
+        auto dv = std::div(t, base);
+        carry = (int)dv.quot;
+        if (j == 0) {
+          z.insert((int)dv.rem, 0);
+          z.insert(carry, 0);
+        } else {
+          z.insert((int)dv.rem, 0);
+        }
+      } else {
+        z.insert(t, 0);
+      }
+    }
+
+    BigInt z1 = z.m16(shift);
+    shift += 1;
+    std::vector<BigInt>::iterator ix = vecs.begin();
+    vecs.insert(ix, z1);
+  }
+
+  BigInt a;
+  for (int i = 0; i < vecs.size(); i++) {
+    a = vadd(a, vecs[i]);
+  }
+  return a;
+}
+
+
+BigInt karatsuba(BigInt &x, BigInt &y)  {
+
+  size_t n = x.size();
+  size_t m = y.size();
+
+  if (n > m) {
+
+    y = y.m16(n - m, true);
+  }
+  if (n < m) {
+    x = x.m16(m - n, true);
+  }
+
+  if (n < 2 || m < 2) {
+    return x * y;
+  }
+
+  
+  
+
+  size_t k = std::max(n, m);
+  size_t k2 = std::floor(k / 2);
+
+  split split_x = x.split_it(k2);
+  split split_y = y.split_it(k2);
+
+  BigInt low_x = split_x.xright;
+  BigInt low_y = split_y.xright;
+  BigInt high_x = split_x.xleft;
+  BigInt high_y = split_y.xleft;
+
+  BigInt z2 = karatsuba(high_x, high_y);
+  BigInt z0 = karatsuba(low_x, low_y);
+  BigInt w1 = high_x + low_x;
+  BigInt w2 = high_y + low_y;
+
+  BigInt z1 = karatsuba(w1, w2);
+
+  BigInt W = z1 - z2 - z0;
+
+  BigInt P = z2.m16(k2 * 2, false) + W.m16(k2, false) + z0;
+
+  return P;
+}
+
+
+
+
+
+
 
 
 int main() {
@@ -410,6 +507,9 @@ int main() {
   BigInt x("200");
   BigInt y("2");
 
+  BigInt z = vmult(x,y);
+
+  std::cout << "z = " << z << "\n";
   
 
   
