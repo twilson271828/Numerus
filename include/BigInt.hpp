@@ -19,9 +19,9 @@ private:
 
   SIGN sign;
  
-  //BigInt vsub(BigInt &x, BigInt &y) const;
+  BigInt vsub(BigInt &x, BigInt &y) const;
   BigInt vadd(BigInt &x, BigInt &y) const;
-  //BigInt vmult(BigInt &x, BigInt &y) const;
+  BigInt vmult(BigInt &x, BigInt &y) const;
   //BigInt karatsuba(BigInt &x, BigInt &y) const;
   //BigInt Schonhage_Strassen(BigInt &x, BigInt &y) const;
   //BigInt Toom3(BigInt &x, BigInt &y) const;
@@ -51,7 +51,7 @@ public:
   size_t size() const;
 
   int get_sign() const;
-  //std::vector<uint8_t> get_numerus();
+  std::vector<int> get_numerus();
   
 
   /// @brief

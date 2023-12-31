@@ -294,7 +294,6 @@ convolution(std::vector<std::complex<double>> X1,
 #endif 
 
 
-
 BigInt vadd(BigInt &x, BigInt &y) {
 BigInt z;
 
@@ -311,11 +310,16 @@ BigInt z;
     }
   }
   
+
+  std::vector<int> x_numerus = x.get_numerus(); 
+  std::vector<int> y_numerus = y.get_numerus();
+
+  
   int c = 0;
   int tot = 0;
 
   for(int i = k-1;i>=0;i--) {
-   tot = x[i].to_ulong() + y[i].to_ulong() + c;
+   tot = x_numerus[i] + y_numerus[i] + c;
 
     if (tot >= 10) {
       c = 1;
@@ -336,11 +340,22 @@ BigInt z;
   return z;  
   }
 
+
+
+
+  void printVector(std::vector<int> &x) {
+    for (auto &i : x) {
+      std::cout << i << " ";
+    }
+    std::cout << "\n";
+  }
+
   BigInt vsub(BigInt &x, BigInt &y)  {
   
   int n = x.size();
   int m = y.size();
   int k = std::max(n, m);
+
 
   std::vector<std::bitset<4>> result(k);
   std::fill(result.begin(), result.end(), std::bitset<4>(0));
@@ -355,18 +370,21 @@ BigInt z;
     }
   }
 
-  std::cout << "x = " << x << "\n";
-  std::cout << "y = " << y << "\n";
+  
+std::vector<int> x_numerus = x.get_numerus(); 
+std::vector<int> y_numerus = y.get_numerus();
+
+  
+
   for (int i = k - 1; i >= 0; i--) {
-    if (x[i].to_ulong() < y[i].to_ulong()) {
-      ulong val = x[i-1].to_ulong() - 1;
-      x.numerus_ix(i-1,val);
-       result[i] = std::bitset<4>(x[i].to_ulong() +10 - y[i].to_ulong());
+    if (x_numerus[i] < y_numerus[i]) {                 
+      int val = x_numerus[i-1] -1;           
+      x_numerus[i-1] = val;      
+       result[i] = std::bitset<4>(x_numerus[i] +10 - y_numerus[i]);      
       }
       else{
-        result[i] = std::bitset<4>(x[i].to_ulong() - y[i].to_ulong());
-      }
-        
+        result[i] = std::bitset<4>(x_numerus[i] - y_numerus[i]);        
+      }        
     }
 
     int i =0;
@@ -390,13 +408,10 @@ BigInt z;
 int main() {
 
   BigInt x("200");
-  BigInt y("12");
+  BigInt y("2");
 
-  BigInt z = vsub(x,y);
+  
 
-  //x.numerus_ix(1,1);
-
-  std::cout << "z = " << z << "\n";
-
+  
   return 0;
 }

@@ -1,6 +1,12 @@
 #include "../include/BigInt.hpp"
 
-//std::vector<uint8_t> BigInt::get_numerus() { return this->numerus; }
+std::vector<int> BigInt::get_numerus() { 
+  
+  std::vector<int> v;
+  for (auto x : numerus) {
+    v.push_back(convertToDecimal(x));
+  }
+  return v; }
 
 
 
@@ -381,11 +387,16 @@ BigInt z;
     }
   }
   
+
+  std::vector<int> x_numerus = x.get_numerus(); 
+  std::vector<int> y_numerus = y.get_numerus();
+
+  
   int c = 0;
   int tot = 0;
 
   for(int i = k-1;i>=0;i--) {
-   tot = x[i].to_ulong() + y[i].to_ulong() + c;
+   tot = x_numerus[i] + y_numerus[i] + c;
 
     if (tot >= 10) {
       c = 1;
@@ -402,47 +413,61 @@ BigInt z;
       z.insert(tot, 0);
     }
   }
-  
+
   return z;  
   }
 
-#if 0
+
 
 BigInt BigInt::vsub(BigInt &x, BigInt &y) const {
 
-  BigInt z;
-
-  int n = x.size();
+   int n = x.size();
   int m = y.size();
+  int k = std::max(n, m);
+
+
+  std::vector<std::bitset<4>> result(k);
+  std::fill(result.begin(), result.end(), std::bitset<4>(0));
 
   if (n != m) {
     if (n > m) {
       int d = n - m;
-      y = y.m10(d, true);
+      y = y.m16(d, true);
     } else {
       int d = m - n;
-      x = x.m10(d, true);
+      x = x.m16(d, true);
     }
   }
 
-  for (int i = n - 1; i >= 0; i--) {
-    int tot = x[i] - y[i];
-    if (tot < 0) {
-      int val = 0;
-      if (i > 0) {
-        val = x[i - 1] - 1;
-        x.insert(val, i - 1);
+  
+std::vector<int> x_numerus = x.get_numerus(); 
+std::vector<int> y_numerus = y.get_numerus();
+
+  
+
+  for (int i = k - 1; i >= 0; i--) {
+    if (x_numerus[i] < y_numerus[i]) {                 
+      int val = x_numerus[i-1] -1;           
+      x_numerus[i-1] = val;      
+       result[i] = std::bitset<4>(x_numerus[i] +10 - y_numerus[i]);      
       }
-      // x[i-1]=x[i-1]-1;
-      z.insert(10 + tot, 0);
-    } else if (tot > 0) {
-      z.insert(tot, 0);
-    } else {
-      if (i != 0) {
-        z.insert(0, 0);
-      }
+      else{
+        result[i] = std::bitset<4>(x_numerus[i] - y_numerus[i]);        
+      }        
     }
-  }
+
+    int i =0;
+    //Remove any leading zeros
+    while(result[i].to_ulong() == 0){
+      i++;
+    }
+    if (i > 0) {
+    result.erase(result.begin(),result.begin()+i);
+
+    }
+
+   
+  BigInt z(result);
   return z;
 }
 
@@ -453,9 +478,9 @@ BigInt BigInt::vmult(BigInt &x, BigInt &y) const {
   int n = x.size();
   int m = y.size();
 
-  if (n > 50 && m > 50) {
-    return karatsuba(x, y);
-  }
+  //if (n > 50 && m > 50) {
+  //  return karatsuba(x, y);
+  //}
 
   int shift = 0;
   int carry = 0;
@@ -483,7 +508,7 @@ BigInt BigInt::vmult(BigInt &x, BigInt &y) const {
       }
     }
 
-    BigInt z1 = z.m10(shift);
+    BigInt z1 = z.m16(shift);
     shift += 1;
     std::vector<BigInt>::iterator ix = vecs.begin();
     vecs.insert(ix, z1);
@@ -497,7 +522,7 @@ BigInt BigInt::vmult(BigInt &x, BigInt &y) const {
 }
 
 
-
+#if 0
 
 BigInt BigInt::operator*(const BigInt &num) {
   BigInt x = *this;
