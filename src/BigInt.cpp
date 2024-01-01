@@ -570,10 +570,10 @@ BigInt BigInt::operator-(const BigInt &num) const {
   int m = std::min(nx, ny);
 
   if (nx < ny) {
-    BigInt zx = x.m10(n - m, true);
+    BigInt zx = x.m16(n - m, true);
     x = zx;
   } else if (nx > ny) {
-    BigInt zy = y.m10(n - m, true);
+    BigInt zy = y.m16(n - m, true);
     y = zy;
   }
 
@@ -646,10 +646,10 @@ BigInt BigInt::operator+(const BigInt &num) const {
   int n = std::max(nx, ny);
   int m = std::min(nx, ny);
   if (nx < ny) {
-    BigInt zx = x.m10(n - m, true);
+    BigInt zx = x.m16(n - m, true);
     x = zx;
   } else if (nx > ny) {
-    BigInt zy = y.m10(n - m, true);
+    BigInt zy = y.m16(n - m, true);
     y = zy;
   }
 
@@ -674,7 +674,9 @@ BigInt BigInt::operator+(const BigInt &num) const {
   int c = 0;
   int tot = 0;
   for (int i = n - 1; i >= 0; i--) {
-    tot = x[i] + y[i] + c;
+    size_t xi = convertToDecimal(x[i]);
+    size_t yi = convertToDecimal(y[i]);
+    tot = xi + yi + c;
     if (tot >= 10) {
       c = 1;
       z.insert(tot % 10, 0);
@@ -703,9 +705,6 @@ BigInt BigInt::operator!() const {
 #endif
 
 
-
-
-#if 0
 bool BigInt::operator==(const BigInt &y) const {
   BigInt temp = y;
   int xsign = get_sign();
@@ -760,14 +759,16 @@ bool BigInt::operator<(const BigInt &y) const {
 
   if (n == m) {
     for (int i = 0; i < n; i++) {
-      if ((numerus[i] > temp[i]) && (xsign == -1)) {
+      size_t numerus_i = convertToDecimal(numerus[i]);
+      size_t temp_i = convertToDecimal(temp[i]);
+      if ((numerus_i > temp_i) && (xsign == -1)) {
 
         return true;
-      } else if ((numerus[i] > temp[i]) && (xsign == 1))
+      } else if ((numerus_i > temp_i) && (xsign == 1))
         return false;
-      else if ((temp[i] > numerus[i]) && (xsign == -1))
+      else if ((temp_i > numerus_i) && (xsign == -1))
         return false;
-      else if ((temp[i] > numerus[i]) && (xsign == 1)) {
+      else if ((temp_i > numerus_i) && (xsign == 1)) {
 
         return true;
       }
@@ -809,20 +810,23 @@ bool BigInt::operator>(const BigInt &y) const {
 
   if (n == m) {
     for (int i = 0; i < n; i++) {
-      if ((numerus[i] > temp[i]) && (xsign == -1))
+      size_t numerus_i = convertToDecimal(numerus[i]);
+      size_t temp_i = convertToDecimal(temp[i]);
+      if ((numerus_i > temp_i) && (xsign == -1))
         return false;
-      else if ((numerus[i] > temp[i]) && (xsign == 1))
+      else if ((numerus_i > temp_i) && (xsign == 1))
         return true;
-      else if ((temp[i] > numerus[i]) && (xsign == -1))
+      else if ((temp_i > numerus_i) && (xsign == -1))
         return true;
-      else if ((temp[i] > numerus[i]) && (xsign == 1))
+      else if ((temp_i > numerus_i) && (xsign == 1))
         return false;
     }
   }
 
   return false;
 }
-#endif
+
+
 
 std::bitset<4> convertToBinary(uint8_t &n) {
   std::bitset<4> b;  
