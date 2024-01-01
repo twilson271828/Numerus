@@ -51,6 +51,7 @@ public:
   size_t size() const;
 
   int get_sign() const;
+  void set_numerus(const std::vector<std::bitset<4>> &num);
   std::vector<int> get_numerus();
   
 

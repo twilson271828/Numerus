@@ -308,6 +308,10 @@ void BigInt::numerus_ix(const int &ix, const ulong &val) {
   numerus[ix] = std::bitset<4>(val);
 }
 
+void BigInt::set_numerus(const std::vector<std::bitset<4>> &num) {
+  numerus = num;
+}
+
 
 
 std::bitset<4> BigInt::operator[](const int i)  const { 
