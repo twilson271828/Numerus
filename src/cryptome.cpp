@@ -510,12 +510,16 @@ BigInt karatsuba(BigInt &x, BigInt &y)  {
 
 int main() {
 
-  BigInt x("200");
-  BigInt y("2");
+  BigInt x("2");
+  BigInt y("1");
 
-  BigInt z = karatsuba(x,y);
+  split split_x = x.split_it(1);
 
-  std::cout << "z = " << z << "\n";
+  std::cout << "x[0] = " << convertToDecimal(x[0]) << "\n";
+  std::cout << "x[2] = " << convertToDecimal(x[2]) << "\n";
+  std::cout << "split_x.left " << split_x.xleft << "\n";
+  std::cout << "split_x.right " << split_x.xright << "\n";
+  
   
 
   
