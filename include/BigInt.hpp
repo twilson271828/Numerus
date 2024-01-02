@@ -69,9 +69,9 @@ public:
 
   bool operator<(const BigInt &num) const;
 
-  //bool operator<=(const BigInt &num) const;
+  bool operator<=(const BigInt &num) const;
 
-  //bool operator>=(const BigInt &num) const;
+  bool operator>=(const BigInt &num) const;
 
   bool operator>(const BigInt &num) const;
 

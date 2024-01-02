@@ -46,8 +46,6 @@ BigInt BigInt::slice(int i, int j) const {
   return z;
 }
 
-
-
 split BigInt::split_it(size_t m) const {
   size_t n = this->size();
 
@@ -106,40 +104,9 @@ BigInt BigInt::karatsuba(BigInt &x, BigInt &y) const {
 
 #if 0
 
-std::vector<std::bitset<4>> BigInt::get_binary_numerus() {
 
-  std::vector<std::bitset<4>> binary_numerus;
 
-  for (uint8_t n : this->numerus) {
-    std::bitset<4> b = this->convertToBinary(n);
-    binary_numerus.push_back(b);
-  }
 
-  return binary_numerus;
-}
-
-size_t BigInt::bitrev(size_t n) {
-
-  size_t rev = 0;
-
-  // traversing bits of 'n' from the right
-  while (n > 0) {
-    // bitwise left shift
-    // 'rev' by 1
-    rev <<= 1;
-
-    // if current bit is '1'
-    if (n & 1 == 1)
-      rev ^= 1;
-
-    // bitwise right shift
-    // 'n' by 1
-    n >>= 1;
-  }
-
-  // required number
-  return rev;
-}
 
 std::complex<double> BigInt::exponentiate(size_t k, size_t n, size_t N) {
 
@@ -784,9 +751,118 @@ bool BigInt::operator<(const BigInt &y) const {
   return false;
 }
 
+bool BigInt::operator<=(const BigInt &y) const {
+// -1 == True
+  // 1 == False
+  if(*this == y) {
+    return true;
+  }
+  BigInt temp = y;
+  int xsign = get_sign();
+  int ysign = temp.get_sign();
+
+  int n = size();
+  int m = temp.size();
+
+  if (xsign < 0 and ysign > 0)
+    return true;
+  else if (xsign > 0 and ysign < 0)
+    return false;
+
+  if (n > m) {
+    if (xsign == -1 and ysign == -1)
+      return true;
+    else if (xsign == 1 and ysign == 1)
+      return false;
+  }
+
+  if (n < m) {
+    if (xsign == -1 and ysign == -1)
+      return false;
+    else if (xsign == 1 and ysign == 1) {
+
+      return false;
+    }
+  }
+
+  if (n == m) {
+    for (int i = 0; i < n; i++) {
+      size_t numerus_i = convertToDecimal(numerus[i]);
+      size_t temp_i = convertToDecimal(temp[i]);
+      if ((numerus_i > temp_i) && (xsign == -1)) {
+
+        return true;
+      } else if ((numerus_i > temp_i) && (xsign == 1))
+        return false;
+      else if ((temp_i > numerus_i) && (xsign == -1))
+        return false;
+      else if ((temp_i > numerus_i) && (xsign == 1)) {
+
+        return true;
+      }
+    } // end for
+  }
+
+  return false;
+
+
+
+}
+
 bool BigInt::operator>(const BigInt &y) const {
   // 1 == True
   // -1 == False
+  BigInt temp = y;
+
+  int xsign = get_sign();
+  int ysign = temp.get_sign();
+
+  int n = size();
+  int m = temp.size();
+
+  if (xsign < 0 and ysign > 0)
+    return false;
+  else if (xsign > 0 and ysign < 0)
+    return true;
+
+  if (n > m) {
+    if (xsign == -1 and ysign == -1)
+      return false;
+    else if (xsign == 1 and ysign == 1)
+      return true;
+  }
+
+  if (n < m) {
+    if (xsign == -1 and ysign == -1)
+      return true;
+    else if (xsign == 1 and ysign == 1)
+      return false;
+  }
+
+  if (n == m) {
+    for (int i = 0; i < n; i++) {
+      size_t numerus_i = convertToDecimal(numerus[i]);
+      size_t temp_i = convertToDecimal(temp[i]);
+      if ((numerus_i > temp_i) && (xsign == -1))
+        return false;
+      else if ((numerus_i > temp_i) && (xsign == 1))
+        return true;
+      else if ((temp_i > numerus_i) && (xsign == -1))
+        return true;
+      else if ((temp_i > numerus_i) && (xsign == 1))
+        return false;
+    }
+  }
+
+  return false;
+}
+
+bool BigInt::operator>=(const BigInt &y) const {
+  // 1 == True
+  // -1 == False
+  if(*this == y) {
+    return true;
+  }
   BigInt temp = y;
 
   int xsign = get_sign();
