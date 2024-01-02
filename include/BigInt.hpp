@@ -5,6 +5,7 @@
 #include <iostream>
 #include <string>
 #include <vector>
+#include <memory>
 //#include <armadillo>
 
 enum SIGN { POS, NEG, UNDEFINED };
@@ -51,7 +52,7 @@ public:
   size_t size() const;
 
   int get_sign() const;
-  void set_numerus(const std::vector<std::bitset<4>> &num);
+  std::unique_ptr<std::vector<std::bitset<4>>> numerus_ptr();
   std::vector<int> get_numerus();
   
 

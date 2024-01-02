@@ -62,9 +62,6 @@ split BigInt::split_it(size_t m) const {
   return z;
 }
 
-
-
-
 #if 0
 
 std::vector<std::bitset<4>> BigInt::get_binary_numerus() {
@@ -308,10 +305,9 @@ void BigInt::numerus_ix(const int &ix, const ulong &val) {
   numerus[ix] = std::bitset<4>(val);
 }
 
-void BigInt::set_numerus(const std::vector<std::bitset<4>> &num) {
-  numerus = num;
+std::unique_ptr<std::vector<std::bitset<4>>> BigInt::numerus_ptr() {
+  return std::make_unique<std::vector<std::bitset<4>>>(numerus);
 }
-
 
 
 std::bitset<4> BigInt::operator[](const int i)  const { 

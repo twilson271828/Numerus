@@ -463,11 +463,9 @@ BigInt karatsuba(BigInt &x, BigInt &y)  {
     x = x.m16(m - n, true);
   }
 
-  if (n < 2 || m < 2) {
-    return x * y;
-  }
-
-
+//  if (n < 2 || m < 2) {
+//    return x * y;
+//  }
 
   size_t k = std::max(n, m);
   size_t k2 = std::floor(k / 2);
@@ -496,21 +494,17 @@ BigInt karatsuba(BigInt &x, BigInt &y)  {
     while(P[i].to_ulong() == 0){
       i++;
     }
+    std::cout << "i = " << i << "\n";
     if (i > 0) {
     
-     ;
-    //P.numerus.erase(P.numerus.begin(),P.numerus.begin()+i);
+     std::unique_ptr<std::vector<std::bitset<4>>> ptr = P.numerus_ptr();
+     ptr->erase(ptr->begin(),ptr->begin()+i);
 
     }
 
 
   return P;
 }
-
-
-
-
-
 
 
 
