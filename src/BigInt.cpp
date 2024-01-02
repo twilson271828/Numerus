@@ -62,6 +62,48 @@ split BigInt::split_it(size_t m) const {
   return z;
 }
 
+BigInt BigInt::karatsuba(BigInt &x, BigInt &y) const {
+
+  size_t n = x.size();
+  size_t m = y.size();
+
+  if (n > m) {
+
+    y = y.m16(n - m, true);
+  }
+  if (n < m) {
+    x = x.m16(m - n, true);
+  }
+
+  if (n < 2 || m < 2) {
+    return x * y;
+  }
+
+  size_t k = std::max(n, m);
+  size_t k2 = std::floor(k / 2);
+
+  split split_x = x.split_it(k2);
+  split split_y = y.split_it(k2);
+
+  BigInt low_x = split_x.xright;
+  BigInt low_y = split_y.xright;
+  BigInt high_x = split_x.xleft;
+  BigInt high_y = split_y.xleft;
+
+  BigInt z2 = karatsuba(high_x, high_y);
+  BigInt z0 = karatsuba(low_x, low_y);
+  BigInt w1 = high_x + low_x;
+  BigInt w2 = high_y + low_y;
+
+  BigInt z1 = karatsuba(w1, w2);
+
+  BigInt W = z1 - z2 - z0;
+
+  BigInt P = z2.m16(k2 * 2, false) + W.m16(k2, false) + z0;
+
+  return P;
+}
+
 #if 0
 
 std::vector<std::bitset<4>> BigInt::get_binary_numerus() {
@@ -158,55 +200,7 @@ std::complex<double> BigInt::dift(std::vector<std::complex<double>> &input,
 
 BigInt BigInt::Schonhage_Strassen(BigInt &x, BigInt &y) const { return x; }
 
-
-
-BigInt BigInt::karatsuba(BigInt &x, BigInt &y) const {
-
-  size_t n = x.size();
-  size_t m = y.size();
-
-  if (n > m) {
-
-    y = y.m16(n - m, true);
-  }
-  if (n < m) {
-    x = x.m16(m - n, true);
-  }
-
-  if (n < 2 || m < 2) {
-    return x * y;
-  }
-
-  
-  
-
-  size_t k = std::max(n, m);
-  size_t k2 = std::floor(k / 2);
-
-  split split_x = x.split_it(k2);
-  split split_y = y.split_it(k2);
-
-  BigInt low_x = split_x.xright;
-  BigInt low_y = split_y.xright;
-  BigInt high_x = split_x.xleft;
-  BigInt high_y = split_y.xleft;
-
-  BigInt z2 = karatsuba(high_x, high_y);
-  BigInt z0 = karatsuba(low_x, low_y);
-  BigInt w1 = high_x + low_x;
-  BigInt w2 = high_y + low_y;
-
-  BigInt z1 = karatsuba(w1, w2);
-
-  BigInt W = z1 - z2 - z0;
-
-  BigInt P = z2.m16(k2 * 2, false) + W.m16(k2, false) + z0;
-
-  return P;
-}
-
 BigInt BigInt::Toom3(BigInt &x, BigInt &y) const { return x; }
-
 
 
 #endif 
@@ -421,6 +415,18 @@ BigInt z;
       z.insert(tot, 0);
     }
   }
+
+  int i = 0;
+    while(z[i].to_ulong() == 0){
+      i++;
+    }
+    
+    if (i > 0) {
+    
+     std::unique_ptr<std::vector<std::bitset<4>>> ptr = z.numerus_ptr();
+     ptr->erase(ptr->begin(),ptr->begin()+i);
+
+    }
 
   return z;  
   }

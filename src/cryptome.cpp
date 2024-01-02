@@ -406,9 +406,9 @@ BigInt vmult(BigInt &x, BigInt &y) {
   std::vector<int> y_numerus = y.get_numerus();
 
 
-  //if (n > 50 && m > 50) {
-  //  return karatsuba(x, y);
-  //}
+//  if (n > 50 && m > 50) {
+//    return karatsuba(x, y);
+//  }
 
   int shift = 0;
   int carry = 0;
@@ -463,9 +463,9 @@ BigInt karatsuba(BigInt &x, BigInt &y)  {
     x = x.m16(m - n, true);
   }
 
-//  if (n < 2 || m < 2) {
-//    return x * y;
-//  }
+  if (n < 2 || m < 2) {
+    return x * y;
+  }
 
   size_t k = std::max(n, m);
   size_t k2 = std::floor(k / 2);
@@ -490,11 +490,12 @@ BigInt karatsuba(BigInt &x, BigInt &y)  {
   BigInt P = z2.m16(k2 * 2, false) + W.m16(k2, false) + z0;
 
   //Remove any leading zeros
+  #if 0
   int i = 0;
     while(P[i].to_ulong() == 0){
       i++;
     }
-    std::cout << "i = " << i << "\n";
+    
     if (i > 0) {
     
      std::unique_ptr<std::vector<std::bitset<4>>> ptr = P.numerus_ptr();
@@ -502,7 +503,7 @@ BigInt karatsuba(BigInt &x, BigInt &y)  {
 
     }
 
-
+#endif
   return P;
 }
 
@@ -510,18 +511,19 @@ BigInt karatsuba(BigInt &x, BigInt &y)  {
 
 int main() {
 
-  BigInt x("2");
-  BigInt y("1");
+  BigInt x("200");
+  BigInt y("123");
 
-  split split_x = x.split_it(1);
+  //BigInt z = z.karatsuba(x, y);
 
-  std::cout << "x[0] = " << convertToDecimal(x[0]) << "\n";
-  std::cout << "x[2] = " << convertToDecimal(x[2]) << "\n";
-  std::cout << "split_x.left " << split_x.xleft << "\n";
-  std::cout << "split_x.right " << split_x.xright << "\n";
+  //std::cout << "z = " << z << "\n";
+  //split split_x = x.split_it(1);
+
+  //std::cout << "x[0] = " << convertToDecimal(x[0]) << "\n";
+  //std::cout << "x[2] = " << convertToDecimal(x[2]) << "\n";
+  //std::cout << "split_x.left " << split_x.xleft << "\n";
+  //std::cout << "split_x.right " << split_x.xright << "\n";
   
-  
-
   
   return 0;
 }
