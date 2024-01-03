@@ -1,28 +1,23 @@
-#include <gtest/gtest.h>
 #include "../include/BigInt.hpp"
+#include <gtest/gtest.h>
 
-class BigIntTest: public::testing::Test{
-  public:
-     void SetUp() override {
+class BigIntTest : public ::testing::Test {
+public:
+  void SetUp() override {
 
-      c0 = BigInt("0");
-      e = BigInt("271828");
-      pi = BigInt("314159");
-      me = BigInt("-271828");
-      mpi = BigInt("-314159");
-
-
+    c0 = BigInt("0");
+    e = BigInt("271828");
+    pi = BigInt("314159");
+    me = BigInt("-271828");
+    mpi = BigInt("-314159");
   }
-    void TearDown() override {
-
-    }
+  void TearDown() override {}
 
   BigInt c0;
   BigInt e;
   BigInt pi;
   BigInt me;
   BigInt mpi;
-  
 };
 
 #if 0
@@ -187,10 +182,8 @@ TEST_F(BigIntTest, SubtractionTests) {
 }
 
 #endif
-int main(int argc, char ** argv) {
+int main(int argc, char **argv) {
 
-  ::testing::InitGoogleTest(&argc,argv);
+  ::testing::InitGoogleTest(&argc, argv);
   return RUN_ALL_TESTS();
-
 }
-

@@ -1,9 +1,8 @@
 #include "../include/BigInt.hpp"
 #include <bitset>
 #include <cmath>
-#include <limits>
 #include <iostream>
-
+#include <limits>
 
 #if 0
 
@@ -289,14 +288,10 @@ convolution(std::vector<std::complex<double>> X1,
   return Z1;
 }
 
-
-
-#endif 
-
-
+#endif
 
 BigInt vadd(BigInt &x, BigInt &y) {
-BigInt z;
+  BigInt z;
 
   int n = x.size();
   int m = y.size();
@@ -310,21 +305,19 @@ BigInt z;
       x = x.m16(d, true);
     }
   }
-  
 
-  std::vector<int> x_numerus = x.get_numerus(); 
+  std::vector<int> x_numerus = x.get_numerus();
   std::vector<int> y_numerus = y.get_numerus();
 
-  
   int c = 0;
   int tot = 0;
 
-  for(int i = k-1;i>=0;i--) {
-   tot = x_numerus[i] + y_numerus[i] + c;
+  for (int i = k - 1; i >= 0; i--) {
+    tot = x_numerus[i] + y_numerus[i] + c;
 
     if (tot >= 10) {
       c = 1;
-      
+
       z.insert(tot % 10, 0);
       if (k == 1) {
         z.insert(c, 0);
@@ -338,18 +331,18 @@ BigInt z;
     }
   }
 
-  return z;  
-  }
+  return z;
+}
 
-  void printVector(std::vector<int> &x) {
-    for (auto &i : x) {
-      std::cout << i << " ";
-    }
-    std::cout << "\n";
+void printVector(std::vector<int> &x) {
+  for (auto &i : x) {
+    std::cout << i << " ";
   }
+  std::cout << "\n";
+}
 
-  BigInt vsub(BigInt &x, BigInt &y)  {
-  
+BigInt vsub(BigInt &x, BigInt &y) {
+
   int n = x.size();
   int m = y.size();
   int k = std::max(n, m);
@@ -367,48 +360,43 @@ BigInt z;
     }
   }
 
-std::vector<int> x_numerus = x.get_numerus(); 
-std::vector<int> y_numerus = y.get_numerus();
+  std::vector<int> x_numerus = x.get_numerus();
+  std::vector<int> y_numerus = y.get_numerus();
 
   for (int i = k - 1; i >= 0; i--) {
-    if (x_numerus[i] < y_numerus[i]) {                 
-      int val = x_numerus[i-1] -1;           
-      x_numerus[i-1] = val;      
-       result[i] = std::bitset<4>(x_numerus[i] +10 - y_numerus[i]);      
-      }
-      else{
-        result[i] = std::bitset<4>(x_numerus[i] - y_numerus[i]);        
-      }        
+    if (x_numerus[i] < y_numerus[i]) {
+      int val = x_numerus[i - 1] - 1;
+      x_numerus[i - 1] = val;
+      result[i] = std::bitset<4>(x_numerus[i] + 10 - y_numerus[i]);
+    } else {
+      result[i] = std::bitset<4>(x_numerus[i] - y_numerus[i]);
     }
-
-    int i =0;
-    //Remove any leading zeros
-    while(result[i].to_ulong() == 0){
-      i++;
-    }
-    if (i > 0) {
-    result.erase(result.begin(),result.begin()+i);
-
-    }
-
-   
-  BigInt z(result);
-  return z;
   }
 
+  int i = 0;
+  // Remove any leading zeros
+  while (result[i].to_ulong() == 0) {
+    i++;
+  }
+  if (i > 0) {
+    result.erase(result.begin(), result.begin() + i);
+  }
+
+  BigInt z(result);
+  return z;
+}
 
 BigInt vmult(BigInt &x, BigInt &y) {
 
   int n = x.size();
   int m = y.size();
 
-  std::vector<int> x_numerus = x.get_numerus(); 
+  std::vector<int> x_numerus = x.get_numerus();
   std::vector<int> y_numerus = y.get_numerus();
 
-
-//  if (n > 50 && m > 50) {
-//    return karatsuba(x, y);
-//  }
+  //  if (n > 50 && m > 50) {
+  //    return karatsuba(x, y);
+  //  }
 
   int shift = 0;
   int carry = 0;
@@ -449,8 +437,7 @@ BigInt vmult(BigInt &x, BigInt &y) {
   return a;
 }
 
-
-BigInt karatsuba(BigInt &x, BigInt &y)  {
+BigInt karatsuba(BigInt &x, BigInt &y) {
 
   size_t n = x.size();
   size_t m = y.size();
@@ -489,8 +476,8 @@ BigInt karatsuba(BigInt &x, BigInt &y)  {
 
   BigInt P = z2.m16(k2 * 2, false) + W.m16(k2, false) + z0;
 
-  //Remove any leading zeros
-  #if 0
+// Remove any leading zeros
+#if 0
   int i = 0;
     while(P[i].to_ulong() == 0){
       i++;
@@ -507,23 +494,20 @@ BigInt karatsuba(BigInt &x, BigInt &y)  {
   return P;
 }
 
-
-
 int main() {
 
   BigInt x("200");
   BigInt y("123");
 
-  //BigInt z = z.karatsuba(x, y);
+  // BigInt z = z.karatsuba(x, y);
 
-  //std::cout << "z = " << z << "\n";
-  //split split_x = x.split_it(1);
+  // std::cout << "z = " << z << "\n";
+  // split split_x = x.split_it(1);
 
-  //std::cout << "x[0] = " << convertToDecimal(x[0]) << "\n";
-  //std::cout << "x[2] = " << convertToDecimal(x[2]) << "\n";
-  //std::cout << "split_x.left " << split_x.xleft << "\n";
-  //std::cout << "split_x.right " << split_x.xright << "\n";
-  
-  
+  // std::cout << "x[0] = " << convertToDecimal(x[0]) << "\n";
+  // std::cout << "x[2] = " << convertToDecimal(x[2]) << "\n";
+  // std::cout << "split_x.left " << split_x.xleft << "\n";
+  // std::cout << "split_x.right " << split_x.xright << "\n";
+
   return 0;
 }
