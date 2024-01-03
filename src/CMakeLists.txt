@@ -10,7 +10,7 @@ target_link_libraries(BigInt armadillo)
 add_executable(driver driver.cpp)
 add_executable(cryptome cryptome.cpp)
 
-target_link_libraries(driver BigInt)
+#target_link_libraries(driver BigInt)
 
 target_link_libraries(cryptome BigInt)
 
