@@ -51,6 +51,7 @@ public:
   size_t size() const;
 
   int get_sign() const;
+  void set_sign(SIGN x);
   std::unique_ptr<std::vector<std::bitset<4>>> numerus_ptr();
   std::vector<int> get_numerus();
   
@@ -75,15 +76,15 @@ public:
 
   bool operator>(const BigInt &num) const;
 
-  //bool operator!=(const BigInt &num) const;
+  bool operator!=(const BigInt &num) const;
 
   bool operator==(const BigInt &num) const;
 
-  //BigInt operator++();
+  void operator++();
 
-  //BigInt operator--();
+  void operator--();
 
-  //BigInt operator!() const;
+  void operator!();
 
   split split_it(size_t m) const;
 

@@ -277,7 +277,17 @@ std::bitset<4> BigInt::operator[](const int i)  const {
   return b;
    }
 
- 
+void BigInt::set_sign(SIGN x) {
+  sign = x;
+
+}
+void BigInt::operator!(){
+  if (sign==NEG)
+    sign=POS;
+  if (sign==POS)
+    sign= NEG;
+
+}
 int BigInt::get_sign() const {
 
   if (sign == NEG)
@@ -424,8 +434,6 @@ BigInt BigInt::vsub(BigInt &x, BigInt &y) const {
 std::vector<int> x_numerus = x.get_numerus(); 
 std::vector<int> y_numerus = y.get_numerus();
 
-  
-
   for (int i = k - 1; i >= 0; i--) {
     if (x_numerus[i] < y_numerus[i]) {                 
       int val = x_numerus[i-1] -1;           
@@ -506,9 +514,6 @@ BigInt BigInt::vmult(BigInt &x, BigInt &y) const {
   return a;
 }
 
-
-
-
 BigInt BigInt::operator*(const BigInt &num) {
   BigInt x = *this;
   BigInt y = num;
@@ -523,8 +528,30 @@ BigInt BigInt::operator*(const BigInt &num) {
   return z;
 }
 
+bool BigInt::operator!=(const BigInt &num) const { 
+  if(*this == num)
+      return false; 
+      
+  return true;}
 
 
+  void BigInt::operator++() {
+  BigInt z = *this;
+  BigInt one("1");
+  z = z + one;
+  *this = z;
+}
+
+void BigInt::operator--() {
+  BigInt z = *this;
+  BigInt one("1");
+  z = z - one;
+  *this = z;
+}
+//void BigInt::operator!(){
+//  BigInt z = *this;
+//  z = -z;
+//}
 
 
 BigInt BigInt::operator/(const BigInt &num) const { return num; }
