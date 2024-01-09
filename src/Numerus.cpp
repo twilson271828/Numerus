@@ -79,3 +79,36 @@ std::complex<double> dft(std::vector<std::complex<double>> &input,
 
   return coeff;
 }
+std::complex<double> dft_coef(std::vector<std::complex<double>> &input,
+                              size_t n) {
+
+  size_t N = input.size();
+  std::complex<double> coeff(0.0, 0.0);
+
+  for (int k = 0; k < N; k++) {
+    coeff += input[k] / exponentiate(k, n, N);
+  }
+
+  if (abs(coeff.real()) < 1e-6) {
+    coeff.real(0.0);
+  }
+
+  if (abs(coeff.imag()) < 1e-6) {
+    coeff.imag(0.0);
+  }
+
+  return coeff;
+}
+
+
+
+std::vector<std::complex<double>> n_roots_of_unity(int N) {
+
+  std::vector<std::complex<double>> nroots;
+
+  for (int k = 0; k < N; k++) {
+    std::complex<double> root = exponentiate(k, 1, N);
+    nroots.push_back(root);
+  }
+  return nroots;
+}
