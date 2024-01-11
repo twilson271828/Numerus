@@ -2,9 +2,9 @@
 #include <complex>
 #include <vector>   
 #include <iostream>
-#include "BigInt.hpp"
 
 
+namespace Numerus {
 std::bitset<4> convertToBinary(uint8_t &n); 
 
 size_t convertToDecimal(std::bitset<4> const &b);
@@ -19,4 +19,4 @@ std::complex<double> dift(std::vector<std::complex<double>> &input,size_t n);
 
 std::complex<double> dft(std::vector<std::complex<double>> &input,size_t n);
 
-  
+} // namespace Numerus

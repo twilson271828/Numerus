@@ -6,6 +6,7 @@
 #include <memory>
 #include <string>
 #include <vector>
+#include "Numerus.hpp"
 //#include <armadillo>
 
 enum SIGN { POS, NEG, UNDEFINED };

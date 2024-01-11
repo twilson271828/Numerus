@@ -4,7 +4,7 @@ std::vector<int> BigInt::get_numerus() {
 
   std::vector<int> v;
   for (auto x : numerus) {
-    v.push_back(convertToDecimal(x));
+    v.push_back(Numerus::convertToDecimal(x));
   }
   return v;
 }
@@ -170,7 +170,7 @@ BigInt::BigInt(const std::string c) {
 
         uint8_t x = int(ch) - int('0');
 
-        numerus.push_back(convertToBinary(x));
+        numerus.push_back(Numerus::convertToBinary(x));
       }
     }
   } catch (std::exception &e) {
@@ -243,13 +243,13 @@ std::ostream &operator<<(std::ostream &out, const BigInt &num) {
       ++i;
     }
     while (i < n) {
-      out << convertToDecimal(num[i]);
+      out << Numerus::convertToDecimal(num[i]);
       i++;
     }
 
   } else {
     for (auto x : num.numerus) {
-      out << convertToDecimal(x);
+      out << Numerus::convertToDecimal(x);
     }
   }
   out << "\n";
@@ -264,7 +264,7 @@ void BigInt::insert(const std::bitset<4> &val, const int &ix) {
 void BigInt::insert(const int &val, const int &ix) {
 
   uint8_t x = (uint8_t)val;
-  std::bitset<4> b = convertToBinary(x);
+  std::bitset<4> b = Numerus::convertToBinary(x);
   numerus.insert(numerus.begin() + ix, b);
 }
 
@@ -578,8 +578,8 @@ BigInt BigInt::operator+(const BigInt &num) const {
   int c = 0;
   int tot = 0;
   for (int i = n - 1; i >= 0; i--) {
-    size_t xi = convertToDecimal(x[i]);
-    size_t yi = convertToDecimal(y[i]);
+    size_t xi = Numerus::convertToDecimal(x[i]);
+    size_t yi = Numerus::convertToDecimal(y[i]);
     tot = xi + yi + c;
     if (tot >= 10) {
       c = 1;
@@ -662,8 +662,8 @@ bool BigInt::operator<(const BigInt &y) const {
 
   if (n == m) {
     for (int i = 0; i < n; i++) {
-      size_t numerus_i = convertToDecimal(numerus[i]);
-      size_t temp_i = convertToDecimal(temp[i]);
+      size_t numerus_i = Numerus::convertToDecimal(numerus[i]);
+      size_t temp_i = Numerus::convertToDecimal(temp[i]);
       if ((numerus_i > temp_i) && (xsign == -1)) {
 
         return true;
@@ -717,8 +717,8 @@ bool BigInt::operator<=(const BigInt &y) const {
 
   if (n == m) {
     for (int i = 0; i < n; i++) {
-      size_t numerus_i = convertToDecimal(numerus[i]);
-      size_t temp_i = convertToDecimal(temp[i]);
+      size_t numerus_i = Numerus::convertToDecimal(numerus[i]);
+      size_t temp_i = Numerus::convertToDecimal(temp[i]);
       if ((numerus_i > temp_i) && (xsign == -1)) {
 
         return true;
@@ -768,8 +768,8 @@ bool BigInt::operator>(const BigInt &y) const {
 
   if (n == m) {
     for (int i = 0; i < n; i++) {
-      size_t numerus_i = convertToDecimal(numerus[i]);
-      size_t temp_i = convertToDecimal(temp[i]);
+      size_t numerus_i = Numerus::convertToDecimal(numerus[i]);
+      size_t temp_i = Numerus::convertToDecimal(temp[i]);
       if ((numerus_i > temp_i) && (xsign == -1))
         return false;
       else if ((numerus_i > temp_i) && (xsign == 1))
@@ -819,8 +819,8 @@ bool BigInt::operator>=(const BigInt &y) const {
 
   if (n == m) {
     for (int i = 0; i < n; i++) {
-      size_t numerus_i = convertToDecimal(numerus[i]);
-      size_t temp_i = convertToDecimal(temp[i]);
+      size_t numerus_i = Numerus::convertToDecimal(numerus[i]);
+      size_t temp_i = Numerus::convertToDecimal(temp[i]);
       if ((numerus_i > temp_i) && (xsign == -1))
         return false;
       else if ((numerus_i > temp_i) && (xsign == 1))

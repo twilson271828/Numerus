@@ -1,6 +1,6 @@
 #include "../include/Numerus.hpp"
 
-std::bitset<4> convertToBinary(uint8_t &n) {
+std::bitset<4> Numerus::convertToBinary(uint8_t &n) {
   std::bitset<4> b;
   int i = 0;
 
@@ -18,14 +18,14 @@ std::bitset<4> convertToBinary(uint8_t &n) {
   return b;
 }
 
-size_t convertToDecimal(std::bitset<4> const &b) {
+size_t Numerus::convertToDecimal(std::bitset<4> const &b) {
 
   size_t n = (size_t)b.to_ulong();
   return n;
 }
 
 
-std::complex<double> exponentiate(size_t k, size_t n, size_t N) {
+std::complex<double> Numerus::exponentiate(size_t k, size_t n, size_t N) {
 
   double x = 0.0;
   double y = 0.0;
@@ -37,7 +37,7 @@ std::complex<double> exponentiate(size_t k, size_t n, size_t N) {
   return omega;
 }
 
-std::complex<double> dift(std::vector<std::complex<double>> &input,
+std::complex<double> Numerus::dift(std::vector<std::complex<double>> &input,
                                   size_t n) {
 
   size_t N = input.size();
@@ -59,7 +59,7 @@ std::complex<double> dift(std::vector<std::complex<double>> &input,
   return coeff;
 }
 
-std::complex<double> dft(std::vector<std::complex<double>> &input,
+std::complex<double> Numerus::dft(std::vector<std::complex<double>> &input,
                                  size_t n) {
 
   size_t N = input.size();
@@ -79,7 +79,7 @@ std::complex<double> dft(std::vector<std::complex<double>> &input,
 
   return coeff;
 }
-std::complex<double> dft_coef(std::vector<std::complex<double>> &input,
+std::complex<double> Numerus::dft_coef(std::vector<std::complex<double>> &input,
                               size_t n) {
 
   size_t N = input.size();
@@ -102,7 +102,7 @@ std::complex<double> dft_coef(std::vector<std::complex<double>> &input,
 
 
 
-std::vector<std::complex<double>> n_roots_of_unity(int N) {
+std::vector<std::complex<double>> Numerus::n_roots_of_unity(int N) {
 
   std::vector<std::complex<double>> nroots;
 
