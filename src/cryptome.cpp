@@ -1,5 +1,6 @@
 #include "../include/BigInt.hpp"
 #include <bitset>
+#include <complex>
 #include <cmath>
 #include <iostream>
 #include <limits>
@@ -143,6 +144,35 @@ convolution(std::vector<std::complex<double>> X1,
 }
 
 #endif
+
+const double PI = std::acos(-1);
+
+
+void fft(std::vector<std::complex<double>>& a, bool invert) {
+    int n = a.size();
+    if (n == 1)
+        return;
+
+    std::vector<std::complex<double>> a0(n / 2), a1(n / 2);
+    for (int i = 0; 2 * i < n; i++) {
+        a0[i] = a[2*i];
+        a1[i] = a[2*i+1];
+    }
+    fft(a0, invert);
+    fft(a1, invert);
+
+    double ang = 2 * PI / n * (invert ? -1 : 1);
+    std::complex<double> w(1), wn(std::cos(ang), std::sin(ang));
+    for (int i = 0; 2 * i < n; i++) {
+        a[i] = a0[i] + w * a1[i];
+        a[i + n/2] = a0[i] - w * a1[i];
+        if (invert) {
+            a[i] /= 2;
+            a[i + n/2] /= 2;
+        }
+        w *= wn;
+    }
+}
 
 BigInt vadd(BigInt &x, BigInt &y) {
   BigInt z;
@@ -345,18 +375,15 @@ BigInt karatsuba(BigInt &x, BigInt &y) {
 
 int main() {
 
-  BigInt x("200");
-  BigInt y("123");
+   std::vector<std::complex<double>> data = {0, 1, 2, 3, 4, 5, 6, 7};
+    fft(data, false);
+    for (auto& c : data) {
+        std::cout << c << ' ';
+    }
+    std::cout << '\n';
+    return 0;
 
-  // BigInt z = z.karatsuba(x, y);
-
-  // std::cout << "z = " << z << "\n";
-  // split split_x = x.split_it(1);
-
-  // std::cout << "x[0] = " << convertToDecimal(x[0]) << "\n";
-  // std::cout << "x[2] = " << convertToDecimal(x[2]) << "\n";
-  // std::cout << "split_x.left " << split_x.xleft << "\n";
-  // std::cout << "split_x.right " << split_x.xright << "\n";
+  
 
   return 0;
 }
