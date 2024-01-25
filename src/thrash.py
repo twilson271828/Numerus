@@ -1,29 +1,54 @@
-def knuth_division(n, d):
-    # Step D1: Initialize
-    q, r = 0, n  # quotient and remainder
-    t = len(str(d))  # number of digits in d
-    n_digits = [int(x) for x in str(n)]
-    d_digits = [int(x) for x in str(d)]
+import numpy as np
 
-    # Step D2: Divide
-    for i in range(len(n_digits) - t + 1):
-        # Estimate quotient
-        if r >= 10**t:
-            q_hat = r // (10**(t-1)) // d_digits[0]
-        else:
-            q_hat = r // d
-        # Multiply and subtract
-        r = 10 * (r - q_hat * d)
-        if i < len(n_digits) - t:
-            r += n_digits[i+t]
-        # Test remainder
-        if r < 0:
-            r += d
-            q_hat -= 1
-        # Concatenate quotient
-        q = 10 * q + q_hat
+def multiply_poly_fft(p1, p2):
+    size = len(p1) + len(p2) - 1
+    p1_fft = np.fft.fft(p1, size)
+    p2_fft = np.fft.fft(p2, size)
+    result_fft = p1_fft * p2_fft
+    result = np.fft.ifft(result_fft)
+    return np.round(result).astype(int)
 
-    return q, r
+def newton_raphson_division(numerator, denominator, precision=1e-10):
+    # Initial guess
+    x = numerator
+    while True:
+        x_next = x - (x * denominator - numerator) / (denominator)
+        if abs(x - x_next) < precision:
+            break
+        x = x_next
+    return x
+
+
+def synthetic_division(dividend, divisor):
+    # Coefficients of the divisor should be in descending order
+    divisor = list(map(float, divisor))
+    dividend = list(map(float, dividend))
+
+    # The degree of the divisor should be 1 and the leading coefficient should be 1
+    assert len(divisor) == 2 and divisor[0] == 1, "The divisor should be a linear polynomial with a leading coefficient of 1"
+
+    # Initialize the quotient and the remainder
+    quotient = [0] * (len(dividend) - len(divisor) + 1)
+    remainder = dividend.copy()
+
+    # Perform the synthetic division
+    for i in range(len(quotient)):
+        quotient[i] = remainder[i]
+        for j in range(1, len(divisor)):
+            remainder[i+j] -= quotient[i] * divisor[j]
+
+    # The remainder is the last len(divisor) - 1 elements of the remainder
+    remainder = remainder[len(quotient):]
+
+    return quotient, remainder
+
+
+
 
 # Test the function
-print(knuth_division(123456789, 12345))  # Output: (10005, 4369)
+
+if __name__=="__main__":
+
+    # Test the function
+    print(synthetic_division([1, 3, 2], [1, 2]))  # Output: ([1.0, -2.0], [0.0])
+
