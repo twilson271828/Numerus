@@ -43,9 +43,30 @@ def synthetic_division(dividend, divisor):
     return quotient, remainder
 
 
+def poly_div(dividend, divisor):
+    # Make a copy of the dividend and divisor lists so we don't modify the original lists
+    dividend = list(dividend)
+    divisor = list(divisor)
 
+    # The degree of the divisor
+    divisor_degree = len(divisor) - 1
+
+    # Initialize the quotient
+    quotient = [0] * (len(dividend) - divisor_degree)
+
+    # Perform the division
+    for i in range(len(dividend) - divisor_degree, -1, -1):
+        quotient[i - 1] = dividend[i + divisor_degree] / divisor[-1]
+        for j in range(divisor_degree + 1):
+            dividend[i + j] -= quotient[i - 1] * divisor[j]
+
+    # The remainder is the first len(dividend) - len(quotient) + 1 elements of the dividend
+    remainder = dividend[:len(dividend) - len(quotient) + 1]
+
+    return quotient, remainder
 
 # Test the function
+print(poly_div([1, -3, 2], [1, -1]))  # Output: ([1.0, -2.0], [0.0])
 
 if __name__=="__main__":
 
