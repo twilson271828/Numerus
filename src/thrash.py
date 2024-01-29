@@ -1,12 +1,8 @@
 import numpy as np
 
-def multiply_poly_fft(p1, p2):
-    size = len(p1) + len(p2) - 1
-    p1_fft = np.fft.fft(p1, size)
-    p2_fft = np.fft.fft(p2, size)
-    result_fft = p1_fft * p2_fft
-    result = np.fft.ifft(result_fft)
-    return np.round(result).astype(int)
+from math import *
+
+
 
 def deg(a):
     return len(a)-1
@@ -17,25 +13,113 @@ def sum_poly(a,b):
     else:
         return [a[i]+b[i] for i in range(len(a))]+b[len(a):]
 
-def karatsuba_poly_mult(p1, p2):
-    n = max(len(p1), len(p2))
-    p1 = p1 + [0] * (n - len(p1))  # Pad with zeros to make the lengths equal
-    p2 = p2 + [0] * (n - len(p2))  # Pad with zeros to make the lengths equal
 
-    if n == 1:
-        return [p1[0] * p2[0]]
 
-    m = n // 2
-    p1_low = p1[:m]
-    p1_high = p1[m:]
-    p2_low = p2[:m]
-    p2_high = p2[m:]
 
-    z0 = karatsuba_poly_mult(p1_low, p2_low)
-    z1 = karatsuba_poly_mult([x + y for x, y in zip(p1_low, p1_high)], [x + y for x, y in zip(p2_low, p2_high)])
-    z2 = karatsuba_poly_mult(p1_high, p2_high)
+def m10(x,m,add_to_front=True):
+    y=[]
+    for c in x:
+        y.append(c)
+    for i in range(m):
+        if (add_to_front):
+            y.insert(0,0)
+        else:
+            y.append(0)
+    return y
+#x and y have to be same length
+def add(x, y):
+    s = len(x)
+    t = len(y)
+    if (s > t):
+        d = s - t
+        y = m10(y,d)
+    else:
+        d = t - s
+        x = m10(x,d)
+    
+    z=[]
+    carry = 0
+    tot=0
+    n = max(s,t)
+    for i in range(n-1,-1,-1):
+        tot=x[i]+y[i]+carry
+        if (tot >=10):
+            carry = 1
+            z.insert(0,tot % 10 )
+            if (n == 1):
+                z.insert(0,1)
+            if i == 0:
+                z.insert(0,carry)    
+        else:
+            carry = 0
+            z.insert(0,tot)
+    return z
+def swap(x,y):
+    temp = x
+    x = y
+    y = temp
+    return [x,y]
 
-    return z0 + [z1[i] - z0[i] - z2[i] for i in range(len(z1))] + z2
+def smul(x,y):
+    n = len(x)
+    m = len(y)
+    carry = 0
+    shift = 0
+    vecs =[]
+    for i in range(m-1,-1,-1):
+        z=[]
+        carry = 0
+        for j in range(n-1,-1,-1):
+  
+            t = x[j]*y[i]+carry
+            carry = 0
+            if i == 1:
+                print("i = ",i,"j = ",j,"t = ",t,"carry=",carry)
+                                       
+            if (t>=10):
+                carry,s=divmod(t,10)
+                if (j == 0):
+                    z.insert(0,s)
+                    z.insert(0,carry)
+                    
+                else:    
+                    z.insert(0,s)
+            else:
+                z.insert(0,t)        
+        z = m10(z,shift,False)
+        shift = shift+1
+        vecs.append(z)
+    a=[]
+    for i in range(len(vecs)):    
+        print(vecs[i])
+        a = add(a,vecs[i])
+        #print(a)
+    
+    return a
+
+
+
+def karatsuba(x,y):
+
+    n = len(x)
+    if n <= 3:
+        return smul(x, y)
+    else:
+        m = n // 2
+        A = np.zeros(2*n + 1).tolist()
+        x0, x1 = x[0 : m], x[m : n]
+        y0, y1 = y[0 : m], y[m : n]
+        u = add(x1, x0)
+        v = add(y1, y0)
+        p0 = karatsuba(x0, y0)
+        p1 = karatsuba(x1, y1)
+        p2 = karatsuba(u, v)
+        A[0 : 2*m] = p0
+        A[2*m : 2*n] = p1
+        A[m : 2*n+1] = add(A[m : 2*n], p2)
+        A[m : 2*n+1] = sub(A[m : 2*n+1], p0)
+        A[m : 2*n+1] = sub(A[m : 2*n+1], p1)
+        return A[0 : 2*n]
 
 
 
@@ -57,7 +141,7 @@ if __name__=="__main__":
 
     # Test the function
     #print(euclidean_division([1, 3, 2], [5, 3])) 
-    print(karatsuba_poly_mult([1, 2, 3], [4, 5, 6]))  # Output: [4, 13, 28, 27, 18] 
+    print(karatsuba([1, 2, 3], [4, 5, 6]))  
 
 
    
