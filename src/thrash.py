@@ -122,6 +122,26 @@ def karatsuba(x,y):
         return A[0 : 2*n]
 
 
+def barrett_reduction(a, n):
+    """
+    Perform Barrett Reduction on 'a' modulo 'n'.
+    
+    :param a: The integer to reduce.
+    :param n: The modulus.
+    :return: The result of a mod n using Barrett Reduction.
+    """
+    # k is the number of bits in n
+    k = n.bit_length()
+    
+    # Precompute the Barrett constant mu = floor(2^(2k) / n)
+    mu = (1 << (2 * k)) // n
+    
+    # Barrett Reduction
+    q = ((a * mu) >> (2 * k)) * n
+    r = a - q
+    if r >= n:
+        r -= n
+    return r
 
 
 def euclidean_division(a,b):
@@ -163,6 +183,13 @@ if __name__=="__main__":
 
     quotient = newton_raphson_division(dividend, divisor, precision)
     print(f"Quotient: {quotient}")
+
+    # Example usage
+    a = 123456789012345678901234567890  # Large number to reduce
+    n = 987654321  # Modulus
+
+    reduced = barrett_reduction(a, n)
+    print(f"{a} mod {n} = {reduced}")
   
 
 
