@@ -135,13 +135,35 @@ def euclidean_division(a,b):
         r=r - s*b
 
 
+def newton_raphson_division(dividend, divisor, precision):
+    # Initial guess for the reciprocal of the divisor
+    #reciprocal_estimate = 1.0 / divisor
+
+    reciprocal_estimate = 1e-10
+
+    # Refine the estimate using Newton-Raphson iteration
+    for _ in range(precision):
+        reciprocal_estimate = reciprocal_estimate * (2 - divisor * reciprocal_estimate)
+    
+    # Calculate the quotient using the reciprocal of the divisor
+    quotient = dividend * reciprocal_estimate
+    
+    return quotient
 
 
 if __name__=="__main__":
+    
+    print(karatsuba([1, 2, 3], [4, 5, 6]))
 
-    # Test the function
-    #print(euclidean_division([1, 3, 2], [5, 3])) 
-    print(karatsuba([1, 2, 3], [4, 5, 6]))  
+    
+    # Example usage
+    dividend = 12345678901234567890
+    divisor = 987654321
+    precision = 100  # Increase for higher precision
+
+    quotient = newton_raphson_division(dividend, divisor, precision)
+    print(f"Quotient: {quotient}")
+  
 
 
    
