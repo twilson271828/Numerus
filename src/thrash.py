@@ -143,16 +143,21 @@ def barrett_reduction(a, n):
         r -= n
     return r
 
+def deg(a):
+    return len(a)-1
+
 
 def euclidean_division(a,b):
-    q=0
-    r=a
-    d=len(b)-1
-    c=b[0]
-    while deg(r)>=d:
-        s=(r[0]/c)*(x**(deg(r)-d))
-        q=sum_poly(q,s)
-        r=r - s*b
+   q = 0
+   r = a
+   d = len(b)-1
+   c=b[0]
+   while deg(r) >= d:
+       s=r[0]/c
+       q = q+s
+       r = r - s*b
+   return (q,r)
+
 
 
 def newton_raphson_division(dividend, divisor, precision):
@@ -170,26 +175,14 @@ def newton_raphson_division(dividend, divisor, precision):
     
     return quotient
 
-
 if __name__=="__main__":
+    a=[1,2,3,4,5,6,7,8,9,10]
+    b=[1,2,3]
+    (q,r)=euclidean_division(a,b)
+    print("q=",q)
+    print("r=",r)
     
-    print(karatsuba([1, 2, 3], [4, 5, 6]))
-
     
-    # Example usage
-    dividend = 12345678901234567890
-    divisor = 987654321
-    precision = 100  # Increase for higher precision
-
-    quotient = newton_raphson_division(dividend, divisor, precision)
-    print(f"Quotient: {quotient}")
-
-    # Example usage
-    a = 123456789012345678901234567890  # Large number to reduce
-    n = 987654321  # Modulus
-
-    reduced = barrett_reduction(a, n)
-    print(f"{a} mod {n} = {reduced}")
   
 
 
