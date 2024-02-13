@@ -7,6 +7,26 @@ from math import *
 def deg(a):
     return len(a)-1
 
+def poly_divide(u,v):
+    m = deg(u)
+    n = deg(v)
+
+    if (m > n):
+        p = m -n
+    else:
+        p = n - m
+    q = np.zeros(p).tolist()
+    for k in range(p,0,-1):
+        q[k]=u[n+k]/v[n]
+        for j in range(n+k-1,k,-1):
+            u[j]=u[j]-q[k]*v[j-k]
+    r = u[0:n]    
+
+    return (q,r)
+
+
+
+
 def sum_poly(a,b):
     if deg(a)>deg(b):
         return [a[i]+b[i] for i in range(len(b))]+a[len(b):]
@@ -148,14 +168,16 @@ def deg(a):
 
 
 def euclidean_division(a,b):
+   anp = np.array(a)
+   bnp = np.array(b)
    q = 0
-   r = a
+   r = anp
    d = len(b)-1
    c=b[0]
    while deg(r) >= d:
        s=r[0]/c
        q = q+s
-       r = r - s*b
+       r = r -np.multiply(s,b)
    return (q,r)
 
 
@@ -176,11 +198,9 @@ def newton_raphson_division(dividend, divisor, precision):
     return quotient
 
 if __name__=="__main__":
-    a=[1,2,3,4,5,6,7,8,9,10]
-    b=[1,2,3]
-    (q,r)=euclidean_division(a,b)
-    print("q=",q)
-    print("r=",r)
+    u = [1,-5,10,8]
+    v = [1,2,-3]
+    print(poly_divide(u,v))
     
     
   
