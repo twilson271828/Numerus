@@ -4,18 +4,39 @@ from math import *
 
 
 
+def karatsuba_division(dividend, divisor):
+    quotient = []
+    while len(dividend) >= len(divisor):
+        leading_term_multiplier = dividend[0] / divisor[0]
+        quotient_term_degree = len(dividend) - len(divisor)
+        quotient_term = [0] * quotient_term_degree + [leading_term_multiplier]
+
+        quotient.append(leading_term_multiplier)
+        product = karatsuba(divisor, quotient_term)
+        dividend = [dividend[i] - (product[i] if i < len(product) else 0) for i in range(len(dividend))]
+
+        # Remove leading zeros
+        while len(dividend) > 0 and dividend[0] == 0:
+            dividend.pop(0)
+
+    remainder = dividend
+    return quotient, remainder
+
+
+
 def deg(a):
-    return len(a)-1
+    return len(a)
 
 def poly_divide(u,v):
     m = deg(u)
     n = deg(v)
-
+    print("m = ",m,"n = ",n)
     if (m > n):
         p = m -n
     else:
         p = n - m
     q = np.zeros(p).tolist()
+    print("q = ",q)
     for k in range(p,0,-1):
         q[k]=u[n+k]/v[n]
         for j in range(n+k-1,k,-1):
@@ -198,10 +219,12 @@ def newton_raphson_division(dividend, divisor, precision):
     return quotient
 
 if __name__=="__main__":
-    u = [1,-5,10,8]
-    v = [1,2,-3]
-    print(poly_divide(u,v))
-    
+    dividend = [1, 0, -12, 0]  # x^3 - 12
+    divisor = [1, -3]  # x - 3
+    quotient, remainder = karatsuba_division(dividend, divisor)
+
+    print("Quotient:", quotient)
+    print("Remainder:", remainder)
     
   
 
