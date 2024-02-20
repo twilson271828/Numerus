@@ -6,20 +6,14 @@ from math import *
 
 def karatsuba_division(dividend, divisor):
     quotient = []
-    while len(dividend) >= len(divisor):
-        leading_term_multiplier = dividend[0] / divisor[0]
-        quotient_term_degree = len(dividend) - len(divisor)
-        quotient_term = [0] * quotient_term_degree + [leading_term_multiplier]
-
-        quotient.append(leading_term_multiplier)
-        product = karatsuba(divisor, quotient_term)
-        dividend = [dividend[i] - (product[i] if i < len(product) else 0) for i in range(len(dividend))]
-
-        # Remove leading zeros
-        while len(dividend) > 0 and dividend[0] == 0:
-            dividend.pop(0)
-
     remainder = dividend
+    while len(remainder) >= len(divisor):
+        leading_term_multiplier = remainder[0] / divisor[0]
+        quotient.append(leading_term_multiplier)
+        term_poly = [0] * (len(remainder) - len(divisor)) + [leading_term_multiplier]
+        subrtraction_poly = karatsuba(term_poly, divisor)
+        remainder = sub(remainder, subrtraction_poly)
+
     return quotient, remainder
 
 
@@ -53,8 +47,6 @@ def sum_poly(a,b):
         return [a[i]+b[i] for i in range(len(b))]+a[len(b):]
     else:
         return [a[i]+b[i] for i in range(len(a))]+b[len(a):]
-
-
 
 
 def m10(x,m,add_to_front=True):
@@ -163,26 +155,26 @@ def karatsuba(x,y):
         return A[0 : 2*n]
 
 
-def barrett_reduction(a, n):
-    """
-    Perform Barrett Reduction on 'a' modulo 'n'.
-    
-    :param a: The integer to reduce.
-    :param n: The modulus.
-    :return: The result of a mod n using Barrett Reduction.
-    """
-    # k is the number of bits in n
-    k = n.bit_length()
-    
-    # Precompute the Barrett constant mu = floor(2^(2k) / n)
-    mu = (1 << (2 * k)) // n
-    
-    # Barrett Reduction
-    q = ((a * mu) >> (2 * k)) * n
-    r = a - q
-    if r >= n:
-        r -= n
-    return r
+def sub(x, y):
+    s = len(x)
+    t = len(y)
+    if (s > t):
+        d = s - t
+        y = m10(y,d)
+    else:
+        d = t - s
+        x = m10(x,d)
+    z=[]
+    carry = 0
+    tot=0
+    n = max(s,t)
+    for i in range(n-1,-1,-1):
+        if (x[i] < y[i]):
+            x[i] = x[i]+10
+            x[i-1] = x[i-1]-1
+        z.insert(0,x[i]-y[i])
+    return z
+
 
 def deg(a):
     return len(a)-1
@@ -219,12 +211,15 @@ def newton_raphson_division(dividend, divisor, precision):
     return quotient
 
 if __name__=="__main__":
-    dividend = [1, 0, -12, 0]  # x^3 - 12
-    divisor = [1, -3]  # x - 3
-    quotient, remainder = karatsuba_division(dividend, divisor)
+    x=[1,2,3,4,5,6]
+    y=[1,2,4]
+    z= karatsuba(x,y)
+    print("z=",z)
+    
 
-    print("Quotient:", quotient)
-    print("Remainder:", remainder)
+
+
+
     
   
 
