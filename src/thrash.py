@@ -1,5 +1,5 @@
 import numpy as np
-
+import math
 from math import *
 
 
@@ -106,8 +106,8 @@ def smul(x,y):
   
             t = x[j]*y[i]+carry
             carry = 0
-            if i == 1:
-                print("i = ",i,"j = ",j,"t = ",t,"carry=",carry)
+            #if i == 1:
+            #    print("i = ",i,"j = ",j,"t = ",t,"carry=",carry)
                                        
             if (t>=10):
                 carry,s=divmod(t,10)
@@ -124,7 +124,7 @@ def smul(x,y):
         vecs.append(z)
     a=[]
     for i in range(len(vecs)):    
-        print(vecs[i])
+        #print(vecs[i])
         a = add(a,vecs[i])
         #print(a)
     
@@ -138,7 +138,7 @@ def karatsuba(x,y):
     if n <= 3:
         return smul(x, y)
     else:
-        m = n // 2
+        m = math.floor(n / 2)  
         A = np.zeros(2*n + 1).tolist()
         x0, x1 = x[0 : m], x[m : n]
         y0, y1 = y[0 : m], y[m : n]
@@ -194,7 +194,6 @@ def euclidean_division(a,b):
    return (q,r)
 
 
-
 def newton_raphson_division(dividend, divisor, precision):
     # Initial guess for the reciprocal of the divisor
     #reciprocal_estimate = 1.0 / divisor
@@ -211,10 +210,15 @@ def newton_raphson_division(dividend, divisor, precision):
     return quotient
 
 if __name__=="__main__":
-    x=[1,2,3,4,5,6]
-    y=[1,2,4]
-    z= karatsuba(x,y)
-    print("z=",z)
+    
+    x=[2,3,2,4,2,3,4,5,5,4,5,3,0]
+    y=[2,3,6,7,8,2,4]
+    z=karatsuba(x,y)
+    print("z = ",z)    
+
+    
+     
+    
     
 
 
