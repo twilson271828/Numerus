@@ -496,18 +496,14 @@ BigInt karatsuba(BigInt &x, BigInt &y) {
 
 int main() {
 
-  BigInt x("200");
-  BigInt y("123");
+  BigInt x("1234");
+  BigInt y("5678");
 
-  // BigInt z = z.karatsuba(x, y);
+  BigInt z = x * y;
 
-  // std::cout << "z = " << z << "\n";
-  // split split_x = x.split_it(1);
+  std::cout << "z = " << z << "\n";
+  
 
-  // std::cout << "x[0] = " << convertToDecimal(x[0]) << "\n";
-  // std::cout << "x[2] = " << convertToDecimal(x[2]) << "\n";
-  // std::cout << "split_x.left " << split_x.xleft << "\n";
-  // std::cout << "split_x.right " << split_x.xright << "\n";
-
+  
   return 0;
 }

@@ -31,6 +31,7 @@ private:
   // size_t n); size_t bitrev(size_t n);
 
 public:
+ 
   BigInt();
 
   /// @brief

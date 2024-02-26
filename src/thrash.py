@@ -39,9 +39,6 @@ def poly_divide(u,v):
 
     return (q,r)
 
-
-
-
 def sum_poly(a,b):
     if deg(a)>deg(b):
         return [a[i]+b[i] for i in range(len(b))]+a[len(b):]
@@ -211,8 +208,8 @@ def newton_raphson_division(dividend, divisor, precision):
 
 if __name__=="__main__":
     
-    x=[2,3,2,4,2,3,4,5,5,4,5,3,0]
-    y=[2,3,6,7,8,2,4]
+    x=[1,2,3,4]
+    y=[5,6,7,8]
     z=karatsuba(x,y)
     print("z = ",z)    
 

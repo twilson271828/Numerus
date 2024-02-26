@@ -61,7 +61,7 @@ split BigInt::split_it(size_t m) const {
 }
 
 BigInt BigInt::karatsuba(BigInt &x, BigInt &y) const {
-
+  std::cout <<"Karatsuba"<<std::endl;
   size_t n = x.size();
   size_t m = y.size();
 
@@ -74,7 +74,8 @@ BigInt BigInt::karatsuba(BigInt &x, BigInt &y) const {
   }
 
   if (n < 2 || m < 2) {
-    return x * y;
+    
+    return x*y;
   }
 
   size_t k = std::max(n, m);
@@ -103,8 +104,6 @@ BigInt BigInt::karatsuba(BigInt &x, BigInt &y) const {
 }
 
 #if 0
-
-
 
 
 
@@ -374,13 +373,14 @@ BigInt BigInt::vadd(BigInt &x, BigInt &y) const {
   while (z[i].to_ulong() == 0) {
     i++;
   }
-
+ 
+ /*
   if (i > 0) {
 
     std::unique_ptr<std::vector<std::bitset<4>>> ptr = z.numerus_ptr();
     ptr->erase(ptr->begin(), ptr->begin() + i);
   }
-
+*/
   return z;
 }
 
@@ -437,9 +437,9 @@ BigInt BigInt::vmult(BigInt &x, BigInt &y) const {
   std::vector<int> x_numerus = x.get_numerus();
   std::vector<int> y_numerus = y.get_numerus();
 
-  // if (n > 50 && m > 50) {
-  //   return karatsuba(x, y);
-  // }
+   if (n > 3 && m > 3) {
+     return karatsuba(x, y);
+   }
 
   int shift = 0;
   int carry = 0;
