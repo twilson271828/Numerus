@@ -128,6 +128,15 @@ def smul(x,y):
     return a
 
 
+def slice(x,i,j):
+    n=len(x)
+    return x[i:j+1]
+
+
+def slice_it(x,m):
+    n = len(x)
+    return x[m:n]
+
 
 def karatsuba(x,y):
 
@@ -208,9 +217,9 @@ def newton_raphson_division(dividend, divisor, precision):
 
 if __name__=="__main__":
     
-    x=[1,2,3,4]
-    y=[5,6,7,8]
-    z=karatsuba(x,y)
+    x=[1,2,3,4,5,6,7,8]
+    
+    z = slice(x,3,5)
     print("z = ",z)    
 
     
