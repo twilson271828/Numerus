@@ -137,13 +137,17 @@ def slice_it(x,m):
     n = len(x)
     return x[m:n]
 
-
+'''
 def karatsuba(x,y):
 
     n = len(x)
-    if n <= 3:
+    m= len(y)
+    if n < 10 or m < 10:
         return smul(x, y)
     else:
+        k = max(n,m)
+        q = k // 2  #quotient of k/2
+
         m = math.floor(n / 2)  
         A = np.zeros(2*n + 1).tolist()
         x0, x1 = x[0 : m], x[m : n]
@@ -159,7 +163,7 @@ def karatsuba(x,y):
         A[m : 2*n+1] = sub(A[m : 2*n+1], p0)
         A[m : 2*n+1] = sub(A[m : 2*n+1], p1)
         return A[0 : 2*n]
-
+'''
 
 def sub(x, y):
     s = len(x)
@@ -215,12 +219,36 @@ def newton_raphson_division(dividend, divisor, precision):
     
     return quotient
 
+def karatsuba(x, y):
+    # Base case for the recursion
+    if x < 10 or y < 10:
+        return x * y
+
+    # Calculate the size of the numbers
+    n = max(len(str(x)), len(str(y)))
+    m = n // 2
+
+    # Split the input numbers
+    a, b = divmod(x, 10**m)
+    c, d = divmod(y, 10**m)
+
+    # Recursive steps
+    ac = karatsuba(a, c)
+    bd = karatsuba(b, d)
+    abcd = karatsuba(a+b, c+d)
+
+    # Combine the results
+    return ac * 10**(2*m) + (abcd - ac - bd) * 10**m + bd
+
+
 if __name__=="__main__":
+    # Test the function
+    print(karatsuba(1234, 5678))  # Output: 7006652
+    print(karatsuba(12345678, 98765432))  # Output: 1219326311126356
+    print(karatsuba(123,5432)) 
+
     
-    x=[1,2,3,4,5,6,7,8]
-    
-    z = slice(x,3,5)
-    print("z = ",z)    
+   
 
     
      
