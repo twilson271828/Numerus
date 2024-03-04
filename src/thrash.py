@@ -243,9 +243,11 @@ def karatsuba(x, y):
 
 if __name__=="__main__":
     # Test the function
-    print(karatsuba(1234, 5678))  # Output: 7006652
-    print(karatsuba(12345678, 98765432))  # Output: 1219326311126356
-    print(karatsuba(123,5432)) 
+    print(karatsuba(1234, 5678))  #7006652
+    print(karatsuba(12345678, 98765432))  #1219326221002896
+    print(karatsuba(123,5432)) #668136
+
+    
 
     
    

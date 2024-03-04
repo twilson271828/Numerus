@@ -61,7 +61,7 @@ split BigInt::split_it(size_t m) const {
 }
 
 BigInt BigInt::karatsuba(BigInt &x, BigInt &y) const {
-  std::cout <<"Karatsuba"<<std::endl;
+  
   size_t n = x.size();
   size_t m = y.size();
 
