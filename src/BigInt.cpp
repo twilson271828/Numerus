@@ -69,11 +69,13 @@ BigInt BigInt::karatsuba(BigInt &x, BigInt &y) const {
 
     y = y.m16(n - m, true);
   }
+
+  
   if (n < m) {
     x = x.m16(m - n, true);
   }
 
-  if (n < 2 || m < 2) {
+  if (n == 1  || m == 1) {
     return x * y;
   }
 
@@ -100,6 +102,8 @@ BigInt BigInt::karatsuba(BigInt &x, BigInt &y) const {
   BigInt P = z2.m16(k2 * 2, false) + W.m16(k2, false) + z0;
 
   return P;
+  */
+  return x;
 }
 
 #if 0

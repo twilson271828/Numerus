@@ -499,9 +499,9 @@ int main() {
   BigInt x("200");
   BigInt y("123");
 
-  // BigInt z = z.karatsuba(x, y);
+  BigInt z = z.karatsuba(x, y);
 
-  // std::cout << "z = " << z << "\n";
+  std::cout << "z = " << z << "\n";
   // split split_x = x.split_it(1);
 
   // std::cout << "x[0] = " << convertToDecimal(x[0]) << "\n";
