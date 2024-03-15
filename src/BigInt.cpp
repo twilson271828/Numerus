@@ -62,18 +62,11 @@ split BigInt::split_it(size_t m) const {
 
 BigInt BigInt::karatsuba(BigInt &x, BigInt &y) const {
 
-  size_t n = x.size();
-  size_t m = y.size();
 
-  if (n > m) {
-
-    y = y.m16(n - m, true);
-  }
+  size_t n = std::max(x.size(),y.size());
+  size_t m = n /2;
 
   
-  if (n < m) {
-    x = x.m16(m - n, true);
-  }
 
   if (n == 1  || m == 1) {
     return x * y;
@@ -102,8 +95,7 @@ BigInt BigInt::karatsuba(BigInt &x, BigInt &y) const {
   BigInt P = z2.m16(k2 * 2, false) + W.m16(k2, false) + z0;
 
   return P;
-  */
-  return x;
+  
 }
 
 #if 0

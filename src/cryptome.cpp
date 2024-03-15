@@ -494,20 +494,42 @@ BigInt karatsuba(BigInt &x, BigInt &y) {
   return P;
 }
 
+std::bitset<4> convertToBinary1(uint8_t &n) {
+  std::bitset<4> b;
+  int i = 0;
+
+  try {
+    while (n > 0) {
+      int r = n % 2;
+      n /= 2;
+      b.set(i, r);
+      i += 1;
+    }
+  } catch (std::out_of_range &e) {
+    std::cout << "std::out_of_range exception caught: " << e.what() << "\n";
+  }
+
+  return b;
+}
+
+BigInt pow2(long long n) {
+  BigInt x;
+  x.insert(1, 0);
+  x = x.m16(n, false);
+  return x;
+}
+
+//std::vector<std::bitset<4>> div(std::vector<std::bitset<4>> &x,
+//                                std::vector<std::bitset<4>> &y) {
+//return x;
+//                                }
+
+  
 int main() {
 
-  BigInt x("200");
-  BigInt y("123");
+  BigInt x = pow2(12);
+  std::cout << "x = " << x << "\n";
 
-  BigInt z = z.karatsuba(x, y);
-
-  std::cout << "z = " << z << "\n";
-  // split split_x = x.split_it(1);
-
-  // std::cout << "x[0] = " << convertToDecimal(x[0]) << "\n";
-  // std::cout << "x[2] = " << convertToDecimal(x[2]) << "\n";
-  // std::cout << "split_x.left " << split_x.xleft << "\n";
-  // std::cout << "split_x.right " << split_x.xright << "\n";
 
   return 0;
 }
