@@ -187,10 +187,6 @@ std::vector<std::complex<double>> complexify_numerus(BigInt &x) {
 }
 
 
-uint8_t convertToDec(std::bitset<4> x){
-
-  return static_cast<uint8_t>(x.to_ulong());
-}
 
 BigInt find_nearest_power_of_2(BigInt &x) {
 
@@ -290,49 +286,7 @@ convolution(std::vector<std::complex<double>> X1,
 
 #endif
 
-BigInt vadd(BigInt &x, BigInt &y) {
-  BigInt z;
 
-  int n = x.size();
-  int m = y.size();
-  int k = std::max(n, m);
-  if (n != m) {
-    if (n > m) {
-      int d = n - m;
-      y = y.m16(d, true);
-    } else {
-      int d = m - n;
-      x = x.m16(d, true);
-    }
-  }
-
-  std::vector<int> x_numerus = x.get_numerus();
-  std::vector<int> y_numerus = y.get_numerus();
-
-  int c = 0;
-  int tot = 0;
-
-  for (int i = k - 1; i >= 0; i--) {
-    tot = x_numerus[i] + y_numerus[i] + c;
-
-    if (tot >= 10) {
-      c = 1;
-
-      z.insert(tot % 10, 0);
-      if (k == 1) {
-        z.insert(c, 0);
-      }
-      if (i == 0) {
-        z.insert(c, 0);
-      }
-    } else {
-      c = 0;
-      z.insert(tot, 0);
-    }
-  }
-
-  return z;
-}
 
 void printVector(std::vector<int> &x) {
   for (auto &i : x) {
@@ -341,101 +295,8 @@ void printVector(std::vector<int> &x) {
   std::cout << "\n";
 }
 
-BigInt vsub(BigInt &x, BigInt &y) {
 
-  int n = x.size();
-  int m = y.size();
-  int k = std::max(n, m);
 
-  std::vector<std::bitset<4>> result(k);
-  std::fill(result.begin(), result.end(), std::bitset<4>(0));
-
-  if (n != m) {
-    if (n > m) {
-      int d = n - m;
-      y = y.m16(d, true);
-    } else {
-      int d = m - n;
-      x = x.m16(d, true);
-    }
-  }
-
-  std::vector<int> x_numerus = x.get_numerus();
-  std::vector<int> y_numerus = y.get_numerus();
-
-  for (int i = k - 1; i >= 0; i--) {
-    if (x_numerus[i] < y_numerus[i]) {
-      int val = x_numerus[i - 1] - 1;
-      x_numerus[i - 1] = val;
-      result[i] = std::bitset<4>(x_numerus[i] + 10 - y_numerus[i]);
-    } else {
-      result[i] = std::bitset<4>(x_numerus[i] - y_numerus[i]);
-    }
-  }
-
-  int i = 0;
-  // Remove any leading zeros
-  while (result[i].to_ulong() == 0) {
-    i++;
-  }
-  if (i > 0) {
-    result.erase(result.begin(), result.begin() + i);
-  }
-
-  BigInt z(result);
-  return z;
-}
-
-BigInt vmult(BigInt &x, BigInt &y) {
-
-  int n = x.size();
-  int m = y.size();
-
-  std::vector<int> x_numerus = x.get_numerus();
-  std::vector<int> y_numerus = y.get_numerus();
-
-  //  if (n > 50 && m > 50) {
-  //    return karatsuba(x, y);
-  //  }
-
-  int shift = 0;
-  int carry = 0;
-  int base = 10;
-  int t = 0;
-  std::vector<BigInt> vecs;
-
-  for (int i = m - 1; i >= 0; i--) {
-    BigInt z;
-    carry = 0;
-    for (int j = n - 1; j >= 0; j--) {
-      t = x_numerus[j] * y_numerus[i] + carry;
-      carry = 0;
-      if (t >= 10) {
-        auto dv = std::div(t, base);
-        carry = (int)dv.quot;
-        if (j == 0) {
-          z.insert((int)dv.rem, 0);
-          z.insert(carry, 0);
-        } else {
-          z.insert((int)dv.rem, 0);
-        }
-      } else {
-        z.insert(t, 0);
-      }
-    }
-
-    BigInt z1 = z.m16(shift);
-    shift += 1;
-    std::vector<BigInt>::iterator ix = vecs.begin();
-    vecs.insert(ix, z1);
-  }
-
-  BigInt a;
-  for (int i = 0; i < vecs.size(); i++) {
-    a = vadd(a, vecs[i]);
-  }
-  return a;
-}
 
 BigInt karatsuba(BigInt &x, BigInt &y) {
 
@@ -494,6 +355,12 @@ BigInt karatsuba(BigInt &x, BigInt &y) {
   return P;
 }
 
+
+uint8_t convertToDec(std::bitset<4> x){
+
+  return static_cast<uint8_t>(x.to_ulong());
+}
+
 std::bitset<4> convertToBinary1(uint8_t &n) {
   std::bitset<4> b;
   int i = 0;
@@ -527,9 +394,10 @@ BigInt pow2(long long n) {
   
 int main() {
 
-  BigInt x = pow2(12);
-  std::cout << "x = " << x << "\n";
+std::bitset<4> x{"0111"};
 
+uint8_t xdec = convertToDec(x);
+std::cout << "xdec = " << (int)xdec << "\n";
 
   return 0;
 }
