@@ -379,6 +379,11 @@ std::bitset<4> convertToBinary1(uint8_t &n) {
   return b;
 }
 
+
+BigInt lshift(BigInt &x, size_t n) {
+  std::unique_ptr<std::vector<std::bitset<4>>> xptr = x.numerus_ptr();
+}
+
 BigInt pow2(long long n) {
   BigInt x;
   x.insert(1, 0);
