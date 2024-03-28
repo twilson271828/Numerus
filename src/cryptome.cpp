@@ -382,6 +382,11 @@ std::bitset<4> convertToBinary1(uint8_t &n) {
 
 BigInt lshift(BigInt &x, size_t n) {
   std::unique_ptr<std::vector<std::bitset<4>>> xptr = x.numerus_ptr();
+  for (auto item: *xptr){
+    std::cout << item << " ";
+  }
+  std::cout << "\n";
+  return x;
 }
 
 BigInt pow2(long long n) {
@@ -399,10 +404,20 @@ BigInt pow2(long long n) {
   
 int main() {
 
-std::bitset<4> x{"0111"};
+  int n =2;
+  BigInt a("8");
+  BigInt b("16");
+  BigInt c("32");
+  BigInt d("64");
+  BigInt e("128");
+  
+  BigInt a1 = lshift(a,n);
+  BigInt b1 = lshift(b,n);
+  BigInt c1 = lshift(c,n);
+  BigInt d1 = lshift(d,n);
+  BigInt e1 = lshift(e,n);
 
-uint8_t xdec = convertToDec(x);
-std::cout << "xdec = " << (int)xdec << "\n";
+
 
   return 0;
 }

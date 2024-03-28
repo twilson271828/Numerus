@@ -98,6 +98,17 @@ BigInt BigInt::karatsuba(BigInt &x, BigInt &y) const {
   
 }
 
+BigInt_div BigInt::div(const BigInt &x, const BigInt &y){
+
+  BigInt_div c;
+  c.quot = BigInt(0);
+  c.rem = BigInt(0);
+
+  return c;
+
+
+}
+
 #if 0
 
 

@@ -11,6 +11,7 @@
 enum SIGN { POS, NEG, UNDEFINED };
 
 struct split;
+struct BigInt_div;
 
 class BigInt {
 
@@ -43,6 +44,7 @@ public:
 
   BigInt(const std::vector<std::bitset<4>> &num);
 
+  BigInt_div div(const BigInt &x, const BigInt &y);
   void numerus_ix(const int &ix, const ulong &val);
   BigInt m16(const int m, bool add_to_front = false) const;
   BigInt slice(int i, int j) const;
@@ -102,6 +104,11 @@ struct split {
   BigInt xleft;
   BigInt xright;
   size_t m;
+};
+
+struct BigInt_div {
+  BigInt quot;
+  BigInt rem;
 };
 #if 0
 inline void printSplit(const split &p) {
