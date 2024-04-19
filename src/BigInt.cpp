@@ -1,11 +1,8 @@
 #include "../include/BigInt.hpp"
 
-std::vector<int> BigInt::get_numerus() {
+std::vector<uint8_t> BigInt::get_numerus() {
 
-  std::vector<int> v;
-  for (auto x : numerus) {
-    v.push_back(convertToDecimal(x));
-  }
+  std::vector<uint8_t> v = numerus;
   return v;
 }
 
@@ -38,7 +35,7 @@ BigInt BigInt::slice(int i, int j) const {
 
   // To store the sliced vector
   // std::vector<uint8_t> result(j - i + 1);
-  std::vector<std::bitset<4>> result(j - i + 1);
+  std::vector<uint8_t> result(j - i + 1);
   z.numerus = result;
 
   std::copy(start, end, z.numerus.begin());
@@ -175,7 +172,7 @@ BigInt::BigInt() {
   return;
 }
 
-BigInt::BigInt(const std::vector<std::bitset<4>> &num) {
+BigInt::BigInt(const std::vector<uint8_t> &num) {
   numerus = num;
   sign = POS;
   return;
@@ -255,15 +252,15 @@ BigInt BigInt::m16(int m, bool add_to_front) const {
   return z;
 }
 
-void BigInt::numerus_ix(const int &ix, const ulong &val) {
-  numerus[ix] = std::bitset<4>(val);
+void BigInt::numerus_ix(const int &ix, const uint8_t &val) {
+  numerus[ix] = val;
 }
 
-std::unique_ptr<std::vector<std::bitset<4>>> BigInt::numerus_ptr() {
-  return std::make_unique<std::vector<std::bitset<4>>>(numerus);
+std::unique_ptr<std::vector<uint8_t>> BigInt::numerus_ptr() {
+  return std::make_unique<std::vector<uint8_t>>(numerus);
 }
 
-std::bitset<4> BigInt::operator[](const int i) const {
+uint8_t BigInt::operator[](const int i) const {
 
   std::bitset<4> b = numerus[i];
   return b;
@@ -318,15 +315,14 @@ std::ostream &operator<<(std::ostream &out, const BigInt &num) {
   return out;
 }
 
-void BigInt::insert(const std::bitset<4> &val, const int &ix) {
+void BigInt::insert(const uint8_t &val, const int &ix) {
   numerus.insert(numerus.begin() + ix, val);
 }
 
 void BigInt::insert(const int &val, const int &ix) {
 
   uint8_t x = (uint8_t)val;
-  std::bitset<4> b = convertToBinary(x);
-  numerus.insert(numerus.begin() + ix, b);
+  numerus.insert(numerus.begin() + ix, x);
 }
 
 BigInt BigInt::vadd(BigInt &x, BigInt &y) const {
@@ -345,8 +341,8 @@ BigInt BigInt::vadd(BigInt &x, BigInt &y) const {
     }
   }
 
-  std::vector<int> x_numerus = x.get_numerus();
-  std::vector<int> y_numerus = y.get_numerus();
+  std::vector<uint8_t> x_numerus = x.get_numerus();
+  std::vector<uint8_t> y_numerus = y.get_numerus();
 
   int c = 0;
   int tot = 0;
@@ -371,7 +367,7 @@ BigInt BigInt::vadd(BigInt &x, BigInt &y) const {
   }
 
   int i = 0;
-  while (z[i].to_ulong() == 0) {
+  while (z[i] == 0) {
     i++;
   }
 
@@ -403,8 +399,8 @@ BigInt BigInt::vsub(BigInt &x, BigInt &y) const {
     }
   }
 
-  std::vector<int> x_numerus = x.get_numerus();
-  std::vector<int> y_numerus = y.get_numerus();
+  std::vector<uint8_t> x_numerus = x.get_numerus();
+  std::vector<uint8_t> y_numerus = y.get_numerus();
 
   for (int i = k - 1; i >= 0; i--) {
     if (x_numerus[i] < y_numerus[i]) {

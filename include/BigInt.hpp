@@ -15,7 +15,7 @@ struct split;
 class BigInt {
 
 private:
-  std::vector<std::bitset<4>> numerus;
+  std::vector<uint8_t> numerus;
 
   SIGN sign;
 
@@ -41,22 +41,22 @@ public:
 
   BigInt(const long &num);
 
-  BigInt(const std::vector<std::bitset<4>> &num);
+  BigInt(const std::vector<uint8_t> &num);
 
-  void numerus_ix(const int &ix, const ulong &val);
+  void numerus_ix(const int &ix, const uint8_t &val);
   BigInt m16(const int m, bool add_to_front = false) const;
   BigInt slice(int i, int j) const;
-  std::bitset<4> operator[](const int i) const;
+  uint8_t operator[](const int i) const;
   size_t size() const;
 
   int get_sign() const;
   void set_sign(SIGN x);
-  std::unique_ptr<std::vector<std::bitset<4>>> numerus_ptr();
-  std::vector<int> get_numerus();
+  std::unique_ptr<std::vector<uint8_t>> numerus_ptr();
+  std::vector<uint8_t> get_numerus();
 
   /// @brief
   // void negative();
-  void insert(const std::bitset<4> &val, const int &ix);
+  void insert(const uint8_t &val, const int &ix);
   void insert(const int &val, const int &ix);
 
   BigInt operator*(const BigInt &num);
@@ -102,10 +102,3 @@ struct split {
   BigInt xright;
   size_t m;
 };
-#if 0
-inline void printSplit(const split &p) {
-  std::cout << "high_p = " << p.xleft;
-  std::cout << "low_p = " << p.xright;
-  std::cout << "m = " << p.m << "\n";
-}
-#endif
