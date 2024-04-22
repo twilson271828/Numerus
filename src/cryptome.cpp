@@ -306,8 +306,8 @@ BigInt vadd(BigInt &x, BigInt &y) {
     }
   }
 
-  std::vector<int> x_numerus = x.get_numerus();
-  std::vector<int> y_numerus = y.get_numerus();
+  std::vector<uint8_t> x_numerus = x.get_numerus();
+  std::vector<uint8_t> y_numerus = y.get_numerus();
 
   int c = 0;
   int tot = 0;
@@ -347,7 +347,7 @@ BigInt vsub(BigInt &x, BigInt &y) {
   int m = y.size();
   int k = std::max(n, m);
 
-  std::vector<std::bitset<4>> result(k);
+  std::vector<uint8_t> result(k);
   std::fill(result.begin(), result.end(), std::bitset<4>(0));
 
   if (n != m) {
@@ -360,22 +360,22 @@ BigInt vsub(BigInt &x, BigInt &y) {
     }
   }
 
-  std::vector<int> x_numerus = x.get_numerus();
-  std::vector<int> y_numerus = y.get_numerus();
+  std::vector<uint8_t> x_numerus = x.get_numerus();
+  std::vector<uint8_t> y_numerus = y.get_numerus();
 
   for (int i = k - 1; i >= 0; i--) {
     if (x_numerus[i] < y_numerus[i]) {
       int val = x_numerus[i - 1] - 1;
       x_numerus[i - 1] = val;
-      result[i] = std::bitset<4>(x_numerus[i] + 10 - y_numerus[i]);
+      result[i] = x_numerus[i] + 10 - y_numerus[i];
     } else {
-      result[i] = std::bitset<4>(x_numerus[i] - y_numerus[i]);
+      result[i] = x_numerus[i] - y_numerus[i];
     }
   }
 
   int i = 0;
   // Remove any leading zeros
-  while (result[i].to_ulong() == 0) {
+  while (result[i]  == 0) {
     i++;
   }
   if (i > 0) {
@@ -391,8 +391,8 @@ BigInt vmult(BigInt &x, BigInt &y) {
   int n = x.size();
   int m = y.size();
 
-  std::vector<int> x_numerus = x.get_numerus();
-  std::vector<int> y_numerus = y.get_numerus();
+  std::vector<uint8_t> x_numerus = x.get_numerus();
+  std::vector<uint8_t> y_numerus = y.get_numerus();
 
   //  if (n > 50 && m > 50) {
   //    return karatsuba(x, y);

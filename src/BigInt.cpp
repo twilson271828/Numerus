@@ -319,11 +319,13 @@ void BigInt::insert(const uint8_t &val, const int &ix) {
   numerus.insert(numerus.begin() + ix, val);
 }
 
+#if 0
 void BigInt::insert(const int &val, const int &ix) {
 
   uint8_t x = (uint8_t)val;
   numerus.insert(numerus.begin() + ix, x);
 }
+#endif
 
 BigInt BigInt::vadd(BigInt &x, BigInt &y) const {
   BigInt z;
