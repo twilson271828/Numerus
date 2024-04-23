@@ -348,7 +348,7 @@ BigInt vsub(BigInt &x, BigInt &y) {
   int k = std::max(n, m);
 
   std::vector<uint8_t> result(k);
-  std::fill(result.begin(), result.end(), std::bitset<4>(0));
+  std::fill(result.begin(), result.end(), 0);
 
   if (n != m) {
     if (n > m) {

@@ -228,7 +228,7 @@ BigInt::BigInt(const std::string c) {
 
         uint8_t x = int(ch) - int('0');
 
-        numerus.push_back(convertToBinary(x));
+        numerus.push_back(x);
       }
     }
   } catch (std::exception &e) {
@@ -239,8 +239,8 @@ BigInt::BigInt(const std::string c) {
 
 BigInt BigInt::m16(int m, bool add_to_front) const {
   BigInt z = *this;
-  for (int i = 0; i < m; i++) {
-    std::bitset<4> b;
+  for (int i = 0; i < m; i++) {    
+    uint8_t b = 0;
     if (add_to_front) {
 
       z.numerus.insert(z.numerus.begin(), b);
@@ -262,8 +262,8 @@ std::unique_ptr<std::vector<uint8_t>> BigInt::numerus_ptr() {
 
 uint8_t BigInt::operator[](const int i) const {
 
-  std::bitset<4> b = numerus[i];
-  return b;
+    return numerus[i];
+  
 }
 
 void BigInt::set_sign(SIGN x) { sign = x; }
@@ -375,7 +375,7 @@ BigInt BigInt::vadd(BigInt &x, BigInt &y) const {
 
   if (i > 0) {
 
-    std::unique_ptr<std::vector<std::bitset<4>>> ptr = z.numerus_ptr();
+    std::unique_ptr<std::vector<uint8_t>> ptr = z.numerus_ptr();
     ptr->erase(ptr->begin(), ptr->begin() + i);
   }
 
@@ -388,8 +388,8 @@ BigInt BigInt::vsub(BigInt &x, BigInt &y) const {
   int m = y.size();
   int k = std::max(n, m);
 
-  std::vector<std::bitset<4>> result(k);
-  std::fill(result.begin(), result.end(), std::bitset<4>(0));
+  std::vector<uint8_t> result(k);
+  std::fill(result.begin(), result.end(),uint8_t(0));
 
   if (n != m) {
     if (n > m) {
@@ -408,15 +408,15 @@ BigInt BigInt::vsub(BigInt &x, BigInt &y) const {
     if (x_numerus[i] < y_numerus[i]) {
       int val = x_numerus[i - 1] - 1;
       x_numerus[i - 1] = val;
-      result[i] = std::bitset<4>(x_numerus[i] + 10 - y_numerus[i]);
+      result[i] = uint8_t(x_numerus[i] + 10 - y_numerus[i]);
     } else {
-      result[i] = std::bitset<4>(x_numerus[i] - y_numerus[i]);
+      result[i] = uint8_t(x_numerus[i] - y_numerus[i]);
     }
   }
 
   int i = 0;
   // Remove any leading zeros
-  while (result[i].to_ulong() == 0) {
+  while (result[i] == 0) {
     i++;
   }
   if (i > 0) {
@@ -432,8 +432,8 @@ BigInt BigInt::vmult(BigInt &x, BigInt &y) const {
   int n = x.size();
   int m = y.size();
 
-  std::vector<int> x_numerus = x.get_numerus();
-  std::vector<int> y_numerus = y.get_numerus();
+  std::vector<uint8_t> x_numerus = x.get_numerus();
+  std::vector<uint8_t> y_numerus = y.get_numerus();
 
   // if (n > 50 && m > 50) {
   //   return karatsuba(x, y);
