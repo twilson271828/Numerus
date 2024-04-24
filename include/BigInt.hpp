@@ -44,7 +44,7 @@ public:
   BigInt(const std::vector<uint8_t> &num);
 
   void numerus_ix(const int &ix, const uint8_t &val);
-  BigInt m16(const int m, bool add_to_front = false) const;
+  BigInt shift_n(const int n, bool add_to_front = false) const;
   BigInt slice(int i, int j) const;
   uint8_t operator[](const int i) const;
   size_t size() const;

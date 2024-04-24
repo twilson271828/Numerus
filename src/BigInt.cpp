@@ -64,10 +64,10 @@ BigInt BigInt::karatsuba(BigInt &x, BigInt &y) const {
 
   if (n > m) {
 
-    y = y.m16(n - m, true);
+    y = y.shift_n(n - m, true);
   }
   if (n < m) {
-    x = x.m16(m - n, true);
+    x = x.shift_n(m - n, true);
   }
 
   if (n < 2 || m < 2) {
@@ -94,7 +94,7 @@ BigInt BigInt::karatsuba(BigInt &x, BigInt &y) const {
 
   BigInt W = z1 - z2 - z0;
 
-  BigInt P = z2.m16(k2 * 2, false) + W.m16(k2, false) + z0;
+  BigInt P = z2.shift_n(k2 * 2, false) + W.shift_n(k2, false) + z0;
 
   return P;
 }
@@ -237,7 +237,7 @@ BigInt::BigInt(const std::string c) {
   }
 }
 
-BigInt BigInt::m16(int m, bool add_to_front) const {
+BigInt BigInt::shift_n(int m, bool add_to_front) const {
   BigInt z = *this;
   for (int i = 0; i < m; i++) {    
     uint8_t b = 0;
@@ -336,10 +336,10 @@ BigInt BigInt::vadd(BigInt &x, BigInt &y) const {
   if (n != m) {
     if (n > m) {
       int d = n - m;
-      y = y.m16(d, true);
+      y = y.shift_n(d, true);
     } else {
       int d = m - n;
-      x = x.m16(d, true);
+      x = x.shift_n(d, true);
     }
   }
 
@@ -394,10 +394,10 @@ BigInt BigInt::vsub(BigInt &x, BigInt &y) const {
   if (n != m) {
     if (n > m) {
       int d = n - m;
-      y = y.m16(d, true);
+      y = y.shift_n(d, true);
     } else {
       int d = m - n;
-      x = x.m16(d, true);
+      x = x.shift_n(d, true);
     }
   }
 
@@ -465,7 +465,7 @@ BigInt BigInt::vmult(BigInt &x, BigInt &y) const {
       }
     }
 
-    BigInt z1 = z.m16(shift);
+    BigInt z1 = z.shift_n(shift);
     shift += 1;
     std::vector<BigInt>::iterator ix = vecs.begin();
     vecs.insert(ix, z1);
@@ -533,10 +533,10 @@ BigInt BigInt::operator-(const BigInt &num) const {
   int m = std::min(nx, ny);
 
   if (nx < ny) {
-    BigInt zx = x.m16(n - m, true);
+    BigInt zx = x.shift_n(n - m, true);
     x = zx;
   } else if (nx > ny) {
-    BigInt zy = y.m16(n - m, true);
+    BigInt zy = y.shift_n(n - m, true);
     y = zy;
   }
 
@@ -609,10 +609,10 @@ BigInt BigInt::operator+(const BigInt &num) const {
   int n = std::max(nx, ny);
   int m = std::min(nx, ny);
   if (nx < ny) {
-    BigInt zx = x.m16(n - m, true);
+    BigInt zx = x.shift_n(n - m, true);
     x = zx;
   } else if (nx > ny) {
-    BigInt zy = y.m16(n - m, true);
+    BigInt zy = y.shift_n(n - m, true);
     y = zy;
   }
 

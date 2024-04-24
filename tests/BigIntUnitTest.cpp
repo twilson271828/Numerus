@@ -20,7 +20,7 @@ public:
   BigInt mpi;
 };
 
-#if 0
+
 TEST_F(BigIntTest,InequalityTests) {
 
    
@@ -39,9 +39,6 @@ EXPECT_EQ(z4,1) ;
 bool z5 = e > mpi;
 EXPECT_EQ(z5,1);
 
-
-
-
 bool z6 = pi < e;
 EXPECT_EQ(z6,0);
 
@@ -59,7 +56,6 @@ EXPECT_EQ(z10,1);
 
 bool z11 = e < mpi;
 EXPECT_EQ(z11, 0);
-
 
 }
 
@@ -100,13 +96,13 @@ TEST_F(BigIntTest, AdditionTests) {
   
 }
 
-TEST_F(BigIntTest,m10Test) {
+TEST_F(BigIntTest,shift_n_Test) {
 
   BigInt z("271828");
   BigInt z3a("000271828");
   BigInt z3b("271828000");
-  BigInt z_add_3_to_front = z.m10(3,true);
-  BigInt z_add_3_to_rear = z.m10(3);
+  BigInt z_add_3_to_front = z.shift_n(3,true);
+  BigInt z_add_3_to_rear = z.shift_n(3);
   EXPECT_EQ(z3a,z_add_3_to_front);
   EXPECT_EQ(z3b,z_add_3_to_rear);
 
@@ -174,14 +170,13 @@ TEST_F(BigIntTest, SubtractionTests) {
    BigInt truth5("-4324432400187");
    EXPECT_EQ(z2-z1,truth5);
 
-
   BigInt truth6("0");
   EXPECT_EQ(z2-z2,truth6);
   //EXPECT_EQ(truth4,mz1-mz2);
 
 }
 
-#endif
+
 int main(int argc, char **argv) {
 
   ::testing::InitGoogleTest(&argc, argv);

@@ -299,10 +299,10 @@ BigInt vadd(BigInt &x, BigInt &y) {
   if (n != m) {
     if (n > m) {
       int d = n - m;
-      y = y.m16(d, true);
+      y = y.shift_n(d, true);
     } else {
       int d = m - n;
-      x = x.m16(d, true);
+      x = x.shift_n(d, true);
     }
   }
 
@@ -353,10 +353,10 @@ BigInt vsub(BigInt &x, BigInt &y) {
   if (n != m) {
     if (n > m) {
       int d = n - m;
-      y = y.m16(d, true);
+      y = y.shift_n(d, true);
     } else {
       int d = m - n;
-      x = x.m16(d, true);
+      x = x.shift_n(d, true);
     }
   }
 
@@ -424,7 +424,7 @@ BigInt vmult(BigInt &x, BigInt &y) {
       }
     }
 
-    BigInt z1 = z.m16(shift);
+    BigInt z1 = z.shift_n(shift);
     shift += 1;
     std::vector<BigInt>::iterator ix = vecs.begin();
     vecs.insert(ix, z1);
@@ -444,10 +444,10 @@ BigInt karatsuba(BigInt &x, BigInt &y) {
 
   if (n > m) {
 
-    y = y.m16(n - m, true);
+    y = y.shift_n(n - m, true);
   }
   if (n < m) {
-    x = x.m16(m - n, true);
+    x = x.shift_n(m - n, true);
   }
 
   if (n < 2 || m < 2) {
@@ -474,7 +474,7 @@ BigInt karatsuba(BigInt &x, BigInt &y) {
 
   BigInt W = z1 - z2 - z0;
 
-  BigInt P = z2.m16(k2 * 2, false) + W.m16(k2, false) + z0;
+  BigInt P = z2.shift_n(k2 * 2, false) + W.shift_n(k2, false) + z0;
 
 // Remove any leading zeros
 #if 0
