@@ -375,7 +375,7 @@ BigInt vsub(BigInt &x, BigInt &y) {
 
   int i = 0;
   // Remove any leading zeros
-  while (result[i]  == 0) {
+  while (result[i] == 0) {
     i++;
   }
   if (i > 0) {

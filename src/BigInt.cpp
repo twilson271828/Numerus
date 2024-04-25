@@ -239,7 +239,7 @@ BigInt::BigInt(const std::string c) {
 
 BigInt BigInt::shift_n(int m, bool add_to_front) const {
   BigInt z = *this;
-  for (int i = 0; i < m; i++) {    
+  for (int i = 0; i < m; i++) {
     uint8_t b = 0;
     if (add_to_front) {
 
@@ -260,11 +260,7 @@ std::unique_ptr<std::vector<uint8_t>> BigInt::numerus_ptr() {
   return std::make_unique<std::vector<uint8_t>>(numerus);
 }
 
-uint8_t BigInt::operator[](const int i) const {
-
-    return numerus[i];
-  
-}
+uint8_t BigInt::operator[](const int i) const { return numerus[i]; }
 
 void BigInt::set_sign(SIGN x) { sign = x; }
 void BigInt::operator!() {
@@ -389,7 +385,7 @@ BigInt BigInt::vsub(BigInt &x, BigInt &y) const {
   int k = std::max(n, m);
 
   std::vector<uint8_t> result(k);
-  std::fill(result.begin(), result.end(),uint8_t(0));
+  std::fill(result.begin(), result.end(), uint8_t(0));
 
   if (n != m) {
     if (n > m) {

@@ -57,7 +57,7 @@ public:
   /// @brief
   // void negative();
   void insert(const uint8_t &val, const int &ix);
-  //void insert(const int &val, const int &ix);
+  // void insert(const int &val, const int &ix);
 
   BigInt operator*(const BigInt &num);
   BigInt operator/(const BigInt &num) const;
