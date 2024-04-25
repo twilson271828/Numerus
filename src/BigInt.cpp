@@ -1,11 +1,8 @@
 #include "../include/BigInt.hpp"
 
-std::vector<int> BigInt::get_numerus() {
+std::vector<uint8_t> BigInt::get_numerus() {
 
-  std::vector<int> v;
-  for (auto x : numerus) {
-    v.push_back(convertToDecimal(x));
-  }
+  std::vector<uint8_t> v = numerus;
   return v;
 }
 
@@ -38,7 +35,7 @@ BigInt BigInt::slice(int i, int j) const {
 
   // To store the sliced vector
   // std::vector<uint8_t> result(j - i + 1);
-  std::vector<std::bitset<4>> result(j - i + 1);
+  std::vector<uint8_t> result(j - i + 1);
   z.numerus = result;
 
   std::copy(start, end, z.numerus.begin());
@@ -67,10 +64,10 @@ BigInt BigInt::karatsuba(BigInt &x, BigInt &y) const {
 
   if (n > m) {
 
-    y = y.m16(n - m, true);
+    y = y.shift_n(n - m, true);
   }
   if (n < m) {
-    x = x.m16(m - n, true);
+    x = x.shift_n(m - n, true);
   }
 
   if (n < 2 || m < 2) {
@@ -97,7 +94,7 @@ BigInt BigInt::karatsuba(BigInt &x, BigInt &y) const {
 
   BigInt W = z1 - z2 - z0;
 
-  BigInt P = z2.m16(k2 * 2, false) + W.m16(k2, false) + z0;
+  BigInt P = z2.shift_n(k2 * 2, false) + W.shift_n(k2, false) + z0;
 
   return P;
 }
@@ -175,7 +172,7 @@ BigInt::BigInt() {
   return;
 }
 
-BigInt::BigInt(const std::vector<std::bitset<4>> &num) {
+BigInt::BigInt(const std::vector<uint8_t> &num) {
   numerus = num;
   sign = POS;
   return;
@@ -231,7 +228,7 @@ BigInt::BigInt(const std::string c) {
 
         uint8_t x = int(ch) - int('0');
 
-        numerus.push_back(convertToBinary(x));
+        numerus.push_back(x);
       }
     }
   } catch (std::exception &e) {
@@ -240,10 +237,10 @@ BigInt::BigInt(const std::string c) {
   }
 }
 
-BigInt BigInt::m16(int m, bool add_to_front) const {
+BigInt BigInt::shift_n(int m, bool add_to_front) const {
   BigInt z = *this;
   for (int i = 0; i < m; i++) {
-    std::bitset<4> b;
+    uint8_t b = 0;
     if (add_to_front) {
 
       z.numerus.insert(z.numerus.begin(), b);
@@ -255,19 +252,15 @@ BigInt BigInt::m16(int m, bool add_to_front) const {
   return z;
 }
 
-void BigInt::numerus_ix(const int &ix, const ulong &val) {
-  numerus[ix] = std::bitset<4>(val);
+void BigInt::numerus_ix(const int &ix, const uint8_t &val) {
+  numerus[ix] = val;
 }
 
-std::unique_ptr<std::vector<std::bitset<4>>> BigInt::numerus_ptr() {
-  return std::make_unique<std::vector<std::bitset<4>>>(numerus);
+std::unique_ptr<std::vector<uint8_t>> BigInt::numerus_ptr() {
+  return std::make_unique<std::vector<uint8_t>>(numerus);
 }
 
-std::bitset<4> BigInt::operator[](const int i) const {
-
-  std::bitset<4> b = numerus[i];
-  return b;
-}
+uint8_t BigInt::operator[](const int i) const { return numerus[i]; }
 
 void BigInt::set_sign(SIGN x) { sign = x; }
 void BigInt::operator!() {
@@ -318,16 +311,17 @@ std::ostream &operator<<(std::ostream &out, const BigInt &num) {
   return out;
 }
 
-void BigInt::insert(const std::bitset<4> &val, const int &ix) {
+void BigInt::insert(const uint8_t &val, const int &ix) {
   numerus.insert(numerus.begin() + ix, val);
 }
 
+#if 0
 void BigInt::insert(const int &val, const int &ix) {
 
   uint8_t x = (uint8_t)val;
-  std::bitset<4> b = convertToBinary(x);
-  numerus.insert(numerus.begin() + ix, b);
+  numerus.insert(numerus.begin() + ix, x);
 }
+#endif
 
 BigInt BigInt::vadd(BigInt &x, BigInt &y) const {
   BigInt z;
@@ -338,15 +332,15 @@ BigInt BigInt::vadd(BigInt &x, BigInt &y) const {
   if (n != m) {
     if (n > m) {
       int d = n - m;
-      y = y.m16(d, true);
+      y = y.shift_n(d, true);
     } else {
       int d = m - n;
-      x = x.m16(d, true);
+      x = x.shift_n(d, true);
     }
   }
 
-  std::vector<int> x_numerus = x.get_numerus();
-  std::vector<int> y_numerus = y.get_numerus();
+  std::vector<uint8_t> x_numerus = x.get_numerus();
+  std::vector<uint8_t> y_numerus = y.get_numerus();
 
   int c = 0;
   int tot = 0;
@@ -371,13 +365,13 @@ BigInt BigInt::vadd(BigInt &x, BigInt &y) const {
   }
 
   int i = 0;
-  while (z[i].to_ulong() == 0) {
+  while (z[i] == 0) {
     i++;
   }
 
   if (i > 0) {
 
-    std::unique_ptr<std::vector<std::bitset<4>>> ptr = z.numerus_ptr();
+    std::unique_ptr<std::vector<uint8_t>> ptr = z.numerus_ptr();
     ptr->erase(ptr->begin(), ptr->begin() + i);
   }
 
@@ -390,35 +384,35 @@ BigInt BigInt::vsub(BigInt &x, BigInt &y) const {
   int m = y.size();
   int k = std::max(n, m);
 
-  std::vector<std::bitset<4>> result(k);
-  std::fill(result.begin(), result.end(), std::bitset<4>(0));
+  std::vector<uint8_t> result(k);
+  std::fill(result.begin(), result.end(), uint8_t(0));
 
   if (n != m) {
     if (n > m) {
       int d = n - m;
-      y = y.m16(d, true);
+      y = y.shift_n(d, true);
     } else {
       int d = m - n;
-      x = x.m16(d, true);
+      x = x.shift_n(d, true);
     }
   }
 
-  std::vector<int> x_numerus = x.get_numerus();
-  std::vector<int> y_numerus = y.get_numerus();
+  std::vector<uint8_t> x_numerus = x.get_numerus();
+  std::vector<uint8_t> y_numerus = y.get_numerus();
 
   for (int i = k - 1; i >= 0; i--) {
     if (x_numerus[i] < y_numerus[i]) {
       int val = x_numerus[i - 1] - 1;
       x_numerus[i - 1] = val;
-      result[i] = std::bitset<4>(x_numerus[i] + 10 - y_numerus[i]);
+      result[i] = uint8_t(x_numerus[i] + 10 - y_numerus[i]);
     } else {
-      result[i] = std::bitset<4>(x_numerus[i] - y_numerus[i]);
+      result[i] = uint8_t(x_numerus[i] - y_numerus[i]);
     }
   }
 
   int i = 0;
   // Remove any leading zeros
-  while (result[i].to_ulong() == 0) {
+  while (result[i] == 0) {
     i++;
   }
   if (i > 0) {
@@ -434,8 +428,8 @@ BigInt BigInt::vmult(BigInt &x, BigInt &y) const {
   int n = x.size();
   int m = y.size();
 
-  std::vector<int> x_numerus = x.get_numerus();
-  std::vector<int> y_numerus = y.get_numerus();
+  std::vector<uint8_t> x_numerus = x.get_numerus();
+  std::vector<uint8_t> y_numerus = y.get_numerus();
 
   // if (n > 50 && m > 50) {
   //   return karatsuba(x, y);
@@ -467,7 +461,7 @@ BigInt BigInt::vmult(BigInt &x, BigInt &y) const {
       }
     }
 
-    BigInt z1 = z.m16(shift);
+    BigInt z1 = z.shift_n(shift);
     shift += 1;
     std::vector<BigInt>::iterator ix = vecs.begin();
     vecs.insert(ix, z1);
@@ -535,10 +529,10 @@ BigInt BigInt::operator-(const BigInt &num) const {
   int m = std::min(nx, ny);
 
   if (nx < ny) {
-    BigInt zx = x.m16(n - m, true);
+    BigInt zx = x.shift_n(n - m, true);
     x = zx;
   } else if (nx > ny) {
-    BigInt zy = y.m16(n - m, true);
+    BigInt zy = y.shift_n(n - m, true);
     y = zy;
   }
 
@@ -611,10 +605,10 @@ BigInt BigInt::operator+(const BigInt &num) const {
   int n = std::max(nx, ny);
   int m = std::min(nx, ny);
   if (nx < ny) {
-    BigInt zx = x.m16(n - m, true);
+    BigInt zx = x.shift_n(n - m, true);
     x = zx;
   } else if (nx > ny) {
-    BigInt zy = y.m16(n - m, true);
+    BigInt zy = y.shift_n(n - m, true);
     y = zy;
   }
 

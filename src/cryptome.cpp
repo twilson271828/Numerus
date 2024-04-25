@@ -299,15 +299,15 @@ BigInt vadd(BigInt &x, BigInt &y) {
   if (n != m) {
     if (n > m) {
       int d = n - m;
-      y = y.m16(d, true);
+      y = y.shift_n(d, true);
     } else {
       int d = m - n;
-      x = x.m16(d, true);
+      x = x.shift_n(d, true);
     }
   }
 
-  std::vector<int> x_numerus = x.get_numerus();
-  std::vector<int> y_numerus = y.get_numerus();
+  std::vector<uint8_t> x_numerus = x.get_numerus();
+  std::vector<uint8_t> y_numerus = y.get_numerus();
 
   int c = 0;
   int tot = 0;
@@ -347,35 +347,35 @@ BigInt vsub(BigInt &x, BigInt &y) {
   int m = y.size();
   int k = std::max(n, m);
 
-  std::vector<std::bitset<4>> result(k);
-  std::fill(result.begin(), result.end(), std::bitset<4>(0));
+  std::vector<uint8_t> result(k);
+  std::fill(result.begin(), result.end(), 0);
 
   if (n != m) {
     if (n > m) {
       int d = n - m;
-      y = y.m16(d, true);
+      y = y.shift_n(d, true);
     } else {
       int d = m - n;
-      x = x.m16(d, true);
+      x = x.shift_n(d, true);
     }
   }
 
-  std::vector<int> x_numerus = x.get_numerus();
-  std::vector<int> y_numerus = y.get_numerus();
+  std::vector<uint8_t> x_numerus = x.get_numerus();
+  std::vector<uint8_t> y_numerus = y.get_numerus();
 
   for (int i = k - 1; i >= 0; i--) {
     if (x_numerus[i] < y_numerus[i]) {
       int val = x_numerus[i - 1] - 1;
       x_numerus[i - 1] = val;
-      result[i] = std::bitset<4>(x_numerus[i] + 10 - y_numerus[i]);
+      result[i] = x_numerus[i] + 10 - y_numerus[i];
     } else {
-      result[i] = std::bitset<4>(x_numerus[i] - y_numerus[i]);
+      result[i] = x_numerus[i] - y_numerus[i];
     }
   }
 
   int i = 0;
   // Remove any leading zeros
-  while (result[i].to_ulong() == 0) {
+  while (result[i] == 0) {
     i++;
   }
   if (i > 0) {
@@ -391,8 +391,8 @@ BigInt vmult(BigInt &x, BigInt &y) {
   int n = x.size();
   int m = y.size();
 
-  std::vector<int> x_numerus = x.get_numerus();
-  std::vector<int> y_numerus = y.get_numerus();
+  std::vector<uint8_t> x_numerus = x.get_numerus();
+  std::vector<uint8_t> y_numerus = y.get_numerus();
 
   //  if (n > 50 && m > 50) {
   //    return karatsuba(x, y);
@@ -424,7 +424,7 @@ BigInt vmult(BigInt &x, BigInt &y) {
       }
     }
 
-    BigInt z1 = z.m16(shift);
+    BigInt z1 = z.shift_n(shift);
     shift += 1;
     std::vector<BigInt>::iterator ix = vecs.begin();
     vecs.insert(ix, z1);
@@ -444,10 +444,10 @@ BigInt karatsuba(BigInt &x, BigInt &y) {
 
   if (n > m) {
 
-    y = y.m16(n - m, true);
+    y = y.shift_n(n - m, true);
   }
   if (n < m) {
-    x = x.m16(m - n, true);
+    x = x.shift_n(m - n, true);
   }
 
   if (n < 2 || m < 2) {
@@ -474,7 +474,7 @@ BigInt karatsuba(BigInt &x, BigInt &y) {
 
   BigInt W = z1 - z2 - z0;
 
-  BigInt P = z2.m16(k2 * 2, false) + W.m16(k2, false) + z0;
+  BigInt P = z2.shift_n(k2 * 2, false) + W.shift_n(k2, false) + z0;
 
 // Remove any leading zeros
 #if 0
