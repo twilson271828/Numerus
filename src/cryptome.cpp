@@ -496,8 +496,12 @@ BigInt karatsuba(BigInt &x, BigInt &y) {
 
 int main() {
 
-  BigInt x("200");
-  BigInt y("123");
+  BigInt z("6789353555355553535353553535");
+  int n = 10;
+  BigInt z1 = z.slice(0, n);
+  std::cout << "z = " << z << "\n";
+  std::cout << "z1 = " << z1 << "\n";
+
 
   // BigInt z = z.karatsuba(x, y);
 
