@@ -496,22 +496,20 @@ BigInt karatsuba(BigInt &x, BigInt &y) {
 
 int main() {
 
-  BigInt z("6789353555355553535353553535");
-  int n = 10;
-  BigInt z1 = z.slice(0, n);
-  std::cout << "z = " << z << "\n";
-  std::cout << "z1 = " << z1 << "\n";
+  BigInt x("6789353555355553535353553535");
+  BigInt y("2359353555355553535353553535");
+
+  BigInt z = karatsuba(x,y);
+  std::cout << "x = " << x << "\n";
+  std::cout << "y = " << y << "\n";
+  std::cout << "z_true = 16018485449393993182001109905922544493486992552110996225\n";
+  std::cout << "z_poop = " << z << "\n";
 
 
-  // BigInt z = z.karatsuba(x, y);
 
-  // std::cout << "z = " << z << "\n";
-  // split split_x = x.split_it(1);
 
-  // std::cout << "x[0] = " << convertToDecimal(x[0]) << "\n";
-  // std::cout << "x[2] = " << convertToDecimal(x[2]) << "\n";
-  // std::cout << "split_x.left " << split_x.xleft << "\n";
-  // std::cout << "split_x.right " << split_x.xright << "\n";
+  
 
+  
   return 0;
 }
