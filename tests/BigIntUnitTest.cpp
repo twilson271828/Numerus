@@ -109,15 +109,13 @@ TEST_F(BigIntTest, SliceTests) {
   BigInt zslice1("67893535553");
   BigInt z1 = z.slice(0, 10);
   EXPECT_EQ(zslice1, z1);
- 
+
   BigInt z2 = z.slice(-1, -1);
   EXPECT_EQ(z2.get_sign(), 0);
-  #if 0
-  
-  
+
   BigInt z3 = z.slice(5, 5);
   EXPECT_EQ(z3, BigInt("5"));
-  
+
   BigInt z4 = z.slice(0, 1000);
   EXPECT_EQ(z4.get_sign(), 0);
 
@@ -126,10 +124,9 @@ TEST_F(BigIntTest, SliceTests) {
 
   BigInt z6 = z.slice(27, 28);
   EXPECT_EQ(z6.get_sign(), 0);
- 
+
   BigInt z7 = z.slice(z.size() - 1, z.size() - 1);
   EXPECT_EQ(z7, BigInt("5"));
-  #endif
 }
 
 TEST_F(BigIntTest, SubtractionTests) {

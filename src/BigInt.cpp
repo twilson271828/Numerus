@@ -9,23 +9,26 @@ std::vector<uint8_t> BigInt::get_numerus() {
 BigInt BigInt::slice(int i, int j) const {
   BigInt z;
 
-  if ((j - i) + i > this->size() - 1) {
-    std::cout << "The slice range [i,j] = [" << i << "," << j
-              << "] is greater than the length of " << *this << "\n";
+  int d = (j - 1) + 1;
+  int ds = this->size() - 1;
+  if (d > ds) {
+    // std::cout << "The slice range [i,j] = [" << i << "," << j
+    //           << "] is greater than the length of the integer\n";
     return BigInt("NAN");
   }
 
   if (i > j) {
-    std::cout << "[i,j] = "
-              << "[" << i << " , " << j << "]\n";
-    std::cout << " The starting index for BigInt::slice must be less than the "
-                 "ending index.\n";
+    // std::cout << "[i,j] = "
+    //           << "[" << i << " , " << j << "]\n";
+    // std::cout << " The starting index for BigInt::slice must be less than the
+    // "
+    //              "ending index.\n";
     return BigInt("NAN");
   }
 
   if ((i < 0) || (j < 0)) {
-    std::cout << "The starting and ending indices for the BigInt::slice "
-                 "routine must be greater than or equal to 0\n";
+    // std::cout << "The starting and ending indices for the BigInt::slice "
+    //              "routine must be greater than or equal to 0\n";
     return BigInt("NAN");
   }
 
