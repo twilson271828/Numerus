@@ -444,13 +444,13 @@ BigInt karatsuba(BigInt &x, BigInt &y) {
 
   if (n > m) {
 
-    y = y.shift_n(n - m, true);
+    //y = y.shift_n(n - m, true);
   }
   if (n < m) {
-    x = x.shift_n(m - n, true);
+    //x = x.shift_n(m - n, true);
   }
 
-  if (n < 2 || m < 2) {
+  if (n < 10 || m < 10) {
     return x * y;
   }
 
