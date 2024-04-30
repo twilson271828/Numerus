@@ -477,20 +477,20 @@ BigInt karatsuba(BigInt &x, BigInt &y) {
   BigInt P = z2.shift_n(k2 * 2, false) + W.shift_n(k2, false) + z0;
 
 // Remove any leading zeros
-#if 0
+
   int i = 0;
-    while(P[i].to_ulong() == 0){
+    while(P[i] == 0){
       i++;
     }
     
     if (i > 0) {
     
-     std::unique_ptr<std::vector<std::bitset<4>>> ptr = P.numerus_ptr();
+     std::unique_ptr<std::vector<uint8_t>> ptr = P.numerus_ptr();
      ptr->erase(ptr->begin(),ptr->begin()+i);
 
     }
 
-#endif
+
   return P;
 }
 
@@ -499,11 +499,17 @@ int main() {
   BigInt x("6789353555355553535353553535");
   BigInt y("2359353555355553535353553535");
 
-  BigInt z = karatsuba(x,y);
-  std::cout << "x = " << x << "\n";
-  std::cout << "y = " << y << "\n";
-  std::cout << "z_true = 16018485449393993182001109905922544493486992552110996225\n";
-  std::cout << "z_poop = " << z << "\n";
+  split split_x = x.split_it(10);
+  std::cout << "split_x.xleft = " << split_x.xleft << "\n";
+  std::cout << "split_x.xright = " << split_x.xright << "\n";
+
+
+    BigInt z = karatsuba(x,y);
+    std::cout << "x = " << x << "\n";
+    std::cout << "y = " << y << "\n";
+    std::cout << "z_true = 16018485449393993182001109905922544493486992552110996225\n";
+    std::cout << "z_poop = " << z << "\n";
+  
 
 
 
