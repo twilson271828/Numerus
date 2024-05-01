@@ -499,17 +499,9 @@ int main() {
   BigInt x("6789353555355553535353553535");
   BigInt y("2359353555355553535353553535");
 
-  split split_x = x.split_it(10);
-  std::cout << "split_x.xleft = " << split_x.xleft << "\n";
-  std::cout << "split_x.xright = " << split_x.xright << "\n";
+  BigInt z = x.mod_n(243);
 
-
-    BigInt z = karatsuba(x,y);
-    std::cout << "x = " << x << "\n";
-    std::cout << "y = " << y << "\n";
-    std::cout << "z_true = 16018485449393993182001109905922544493486992552110996225\n";
-    std::cout << "z_poop = " << z << "\n";
-  
+  std::cout << "z = " << z << "\n";
 
 
 
