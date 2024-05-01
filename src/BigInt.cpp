@@ -231,10 +231,10 @@ BigInt::BigInt(const std::string c) {
 }
 
 
-BigInt BigInt::mod_n(const int n) const {
+BigInt BigInt::mod_n(const BigInt &n) const {
   BigInt z = *this;
   int m = z.size();
-  if (m < n) {
+  if (m < n.size()) {
     return z;
   }
 
