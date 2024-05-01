@@ -230,6 +230,23 @@ BigInt::BigInt(const std::string c) {
   }
 }
 
+
+BigInt BigInt::mod_n(const int n) const {
+  BigInt z = *this;
+  int m = z.size();
+  if (m < n) {
+    return z;
+  }
+
+  std::vector<uint8_t> result(n);
+  for (int i = 0; i < n; i++) {
+    result[i] = z[i];
+  }
+
+  BigInt r(result);
+  return r;
+}
+
 BigInt BigInt::shift_n(int m, bool add_to_front) const {
   BigInt z = *this;
   for (int i = 0; i < m; i++) {
