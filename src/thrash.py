@@ -7,10 +7,10 @@ def karatsubaMultiply(x,y):
 		n_by_2 = n // 2
 
 		# Step1: Rewriting x and y in terms of a,b,c,d
-		a = x // 10**(n_by_2)
-		b = x % 10**(n_by_2)
-		c = y // 10**(n_by_2)
-		d = y % 10**(n_by_2)
+		a = x // 10**(n_by_2)  #right shift by n_by_2
+		b = x % 10**(n_by_2) #remainder after right shift by n_by_2
+		c = y // 10**(n_by_2) #right shift by n_by_2
+		d = y % 10**(n_by_2) #remainder after right shift by n_by_2
 
 		# Step2: Computing ac
 		ac = karatsubaMultiply(a,c)
