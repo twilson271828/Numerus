@@ -233,6 +233,8 @@ BigInt::BigInt(const std::string c) {
 
 BigInt BigInt::mod_n(const BigInt &n) const {
   BigInt z = *this;
+  return z;
+  #if 0
   int m = z.size();
   if (m < n.size()) {
     return z;
@@ -245,23 +247,42 @@ BigInt BigInt::mod_n(const BigInt &n) const {
 
   BigInt r(result);
   return r;
+
+  #endif
 }
 
-BigInt BigInt::shift_n(int m, bool add_to_front) const {
+BigInt BigInt::rshift(const int n) const {
   BigInt z = *this;
-  for (int i = 0; i < m; i++) {
+  for (int i = 0; i < n; i++) {
+    z.numerus.pop_back();
+  }
+  return z;
+}
+//add_to_front = true
+BigInt BigInt::lshift(const int n) const {
+  BigInt z = *this;
+  for (int i = 0; i < n; i++) {
     uint8_t b = 0;
-    if (add_to_front) {
-
-      z.numerus.insert(z.numerus.begin(), b);
-
-    } else {
-      z.numerus.push_back(b);
-    }
+    z.numerus.insert(z.numerus.begin(), b);
   }
   return z;
 }
 
+
+BigInt BigInt::shift_n(const int n, bool add_to_front) const {
+  BigInt z = *this;
+  if (add_to_front) {
+    for (int i = 0; i < n; i++) {
+      uint8_t b = 0;
+      z.numerus.insert(z.numerus.begin(), b);
+    }
+  } else {
+    for (int i = 0; i < n; i++) {
+      z.numerus.pop_back();
+    }
+  }
+  return z;
+}
 void BigInt::numerus_ix(const int &ix, const uint8_t &val) {
   numerus[ix] = val;
 }

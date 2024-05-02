@@ -44,7 +44,9 @@ public:
   BigInt(const std::vector<uint8_t> &num);
   BigInt karatsuba(BigInt &x, BigInt &y) const;
   void numerus_ix(const int &ix, const uint8_t &val);
-  BigInt shift_n(const int n, bool add_to_front = false) const;
+  BigInt lshift(const int n) const;
+  BigInt shift_n(const int n,bool add_to_front=false) const;
+  BigInt rshift(const int n)const;
   BigInt mod_n(const BigInt &num) const;
   BigInt slice(int i, int j) const;
   uint8_t operator[](const int i) const;
