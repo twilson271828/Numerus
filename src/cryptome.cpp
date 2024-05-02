@@ -496,12 +496,16 @@ BigInt karatsuba(BigInt &x, BigInt &y) {
 
 int main() {
 
-  BigInt x("6789353555355553535353553535");
-  BigInt y("2359353555355553535353553535");
+  BigInt z("6789353555355553535353553535");
+  //BigInt y("2359353555355553535353553535");
 
-  BigInt z = x.mod_n(243);
-
+  BigInt zleft3 = z.lshift(3);
+  BigInt zright3 = z.rshift(3);
   std::cout << "z = " << z << "\n";
+  std::cout << "zleft3 = " << zleft3 << "\n";
+  std::cout << "zright3 = " << zright3 << "\n";
+
+  
 
 
 
