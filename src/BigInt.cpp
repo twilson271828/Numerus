@@ -231,24 +231,22 @@ BigInt::BigInt(const std::string c) {
 }
 
 
-BigInt BigInt::mod_n(const BigInt &n) const {
+BigInt BigInt::divmod(const BigInt &n) const {
   BigInt z = *this;
-  return z;
-  #if 0
+  
+  
   int m = z.size();
   if (m < n.size()) {
     return z;
   }
 
-  std::vector<uint8_t> result(n);
-  for (int i = 0; i < n; i++) {
+  std::vector<uint8_t> result(m);
+  for (int i = 0; i < m; i++) {
     result[i] = z[i];
   }
 
   BigInt r(result);
   return r;
-
-  #endif
 }
 
 BigInt BigInt::rshift(const int n) const {

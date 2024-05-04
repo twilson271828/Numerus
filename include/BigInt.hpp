@@ -47,7 +47,7 @@ public:
   BigInt lshift(const int n) const;
   BigInt shift_n(const int n,bool add_to_front=false) const;
   BigInt rshift(const int n)const;
-  BigInt mod_n(const BigInt &num) const;
+  BigInt divmod(const BigInt &num) const;
   BigInt slice(int i, int j) const;
   uint8_t operator[](const int i) const;
   size_t size() const;

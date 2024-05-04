@@ -499,11 +499,8 @@ int main() {
   BigInt z("6789353555355553535353553535");
   //BigInt y("2359353555355553535353553535");
 
-  BigInt zleft3 = z.lshift(3);
-  BigInt zright3 = z.rshift(3);
-  std::cout << "z = " << z << "\n";
-  std::cout << "zleft3 = " << zleft3 << "\n";
-  std::cout << "zright3 = " << zright3 << "\n";
+  BigInt d = z.divmod(BigInt(5));
+  std::cout << "d = " << d << "\n";
 
   
 
