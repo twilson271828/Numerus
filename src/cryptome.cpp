@@ -496,12 +496,15 @@ BigInt karatsuba(BigInt &x, BigInt &y) {
 
 int main() {
 
-  BigInt z("6789353555355553535353553535");
+  BigInt z("12343253");
+
+  BigInt y = z.divmod(3);
+
+  std::cout << "z = " << z << "\n";
+  //std::cout << "y = " << y << "\n";
   //BigInt y("2359353555355553535353553535");
 
-  BigInt d = z.divmod(BigInt(5));
-  std::cout << "d = " << d << "\n";
-
+  
   
 
 
