@@ -231,31 +231,33 @@ BigInt::BigInt(const std::string c) {
 }
 
 
-BigInt BigInt::divmod(const long n) const {
+divmod10 BigInt::divmod(const long n) const {
   BigInt z = *this;
-  
-  
+  divmod10 result;
   int m = z.size();
-  if (m < n) {
-    return z;
-  }
+  //if (m < n) {
+  //  return z;
+  //}
 
-  std::vector<uint8_t> quotient(n);
-  std::vector<uint8_t> remainder(m-n);
-  for (int i = m-1; i >= 0; i--) {
+  int d = m - n;
+  
+  std::vector<uint8_t> quotient(d);
+  std::vector<uint8_t> remainder(n);
+  for (int i = 0; i <= d; i++) {
     quotient[i] = z[i];
   }
 
-  for(int i = n; i < m; i++){
-    remainder[i] = z[i];
+  for(int i = d; i < m; i++){
+    int j = i - d;
+    remainder[j] = z[i];
+    std::cout << "remainder[" << i << "] = " << (int)remainder[i] << "\n";
   }
   
-
   BigInt q(quotient);
   BigInt r(remainder);
-  std::cout << "q = " << q << "\n";
-  std::cout << "r = " << r << "\n";
-  return r;
+  result.quotient = q;
+  result.remainder = r;
+  return result;
 }
 
 BigInt BigInt::rshift(const int n) const {

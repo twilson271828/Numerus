@@ -11,6 +11,7 @@
 enum SIGN { POS, NEG, UNDEFINED };
 
 struct split;
+struct divmod10;
 
 class BigInt {
 
@@ -47,7 +48,7 @@ public:
   BigInt lshift(const int n) const;
   BigInt shift_n(const int n,bool add_to_front=false) const;
   BigInt rshift(const int n)const;
-  BigInt divmod(const long n) const;
+  divmod10 divmod(const long n) const;
   BigInt slice(int i, int j) const;
   uint8_t operator[](const int i) const;
   size_t size() const;
@@ -104,4 +105,9 @@ struct split {
   BigInt xleft;
   BigInt xright;
   size_t m;
+};
+
+struct divmod10 {
+  BigInt quotient;
+  BigInt remainder;
 };
