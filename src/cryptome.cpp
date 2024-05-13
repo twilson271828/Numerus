@@ -498,9 +498,12 @@ int main() {
 
   BigInt z("12343253");
 
-  divmod10 y = z.divmod(3);
+  divmod10 d10 = z.divmod(8);
 
-  std::cout << "z = " << z << "\n";
+  std::cout << "d10.quot = " << d10.quotient << "\n";
+  std::cout << "d10.rem = " << d10.remainder << "\n";
+
+  
  
   //std::cout << "y = " << y << "\n";
   //BigInt y("2359353555355553535353553535");

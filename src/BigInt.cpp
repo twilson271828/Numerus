@@ -235,9 +235,9 @@ divmod10 BigInt::divmod(const long n) const {
   BigInt z = *this;
   divmod10 result;
   int m = z.size();
-  //if (m < n) {
-  //  return z;
-  //}
+  if (m <= n) {
+    return divmod10{BigInt("0"),BigInt(z)};
+  }
 
   int d = m - n;
   
@@ -249,12 +249,12 @@ divmod10 BigInt::divmod(const long n) const {
 
   for(int i = d; i < m; i++){
     int j = i - d;
-    remainder[j] = z[i];
-    std::cout << "remainder[" << i << "] = " << (int)remainder[i] << "\n";
+    remainder[j] = z[i];   
   }
   
   BigInt q(quotient);
   BigInt r(remainder);
+  
   result.quotient = q;
   result.remainder = r;
   return result;
