@@ -497,11 +497,13 @@ BigInt karatsuba(BigInt &x, BigInt &y) {
 int main() {
 
   BigInt z("12343253");
+  BigInt z1 = z.rshift(2);
+  std::cout << "z1 = " << z1 << "\n";
 
-  divmod10 d10 = z.divmod(8);
+  //divmod10 d10 = z.divmod(8);
 
-  std::cout << "d10.quot = " << d10.quotient << "\n";
-  std::cout << "d10.rem = " << d10.remainder << "\n";
+  //std::cout << "d10.quot = " << d10.quotient << "\n";
+  //std::cout << "d10.rem = " << d10.remainder << "\n";
 
   
  

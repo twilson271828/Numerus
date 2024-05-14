@@ -272,7 +272,7 @@ BigInt BigInt::lshift(const int n) const {
   BigInt z = *this;
   for (int i = 0; i < n; i++) {
     uint8_t b = 0;
-    z.numerus.insert(z.numerus.begin(), b);
+    z.numerus.push_back(b);
   }
   return z;
 }
