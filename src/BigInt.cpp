@@ -54,45 +54,8 @@ split BigInt::split_it(size_t m) const {
 }
 
 BigInt BigInt::karatsuba(BigInt &x, BigInt &y) const {
-
-  size_t n = x.size();
-  size_t m = y.size();
-
-  if (n > m) {
-
-    y = y.shift_n(n - m, true);
-  }
-  if (n < m) {
-    x = x.shift_n(m - n, true);
-  }
-
-  if (n < 2 || m < 2) {
-    return x * y;
-  }
-
-  size_t k = std::max(n, m);
-  size_t k2 = std::floor(k / 2);
-
-  split split_x = x.split_it(k2);
-  split split_y = y.split_it(k2);
-
-  BigInt low_x = split_x.xright;
-  BigInt low_y = split_y.xright;
-  BigInt high_x = split_x.xleft;
-  BigInt high_y = split_y.xleft;
-
-  BigInt z2 = karatsuba(high_x, high_y);
-  BigInt z0 = karatsuba(low_x, low_y);
-  BigInt w1 = high_x + low_x;
-  BigInt w2 = high_y + low_y;
-
-  BigInt z1 = karatsuba(w1, w2);
-
-  BigInt W = z1 - z2 - z0;
-
-  BigInt P = z2.shift_n(k2 * 2, false) + W.shift_n(k2, false) + z0;
-
-  return P;
+  return x;
+  
 }
 
 #if 0
@@ -278,20 +241,6 @@ BigInt BigInt::lshift(const int n) const {
 }
 
 
-BigInt BigInt::shift_n(const int n, bool add_to_front) const {
-  BigInt z = *this;
-  if (add_to_front) {
-    for (int i = 0; i < n; i++) {
-      uint8_t b = 0;
-      z.numerus.insert(z.numerus.begin(), b);
-    }
-  } else {
-    for (int i = 0; i < n; i++) {
-      z.numerus.pop_back();
-    }
-  }
-  return z;
-}
 void BigInt::numerus_ix(const int &ix, const uint8_t &val) {
   numerus[ix] = val;
 }
@@ -635,6 +584,22 @@ BigInt BigInt::operator-(const BigInt &num) const {
 
   return z;
 }
+
+BigInt BigInt::shift_n(int m, bool add_to_front) const {
+  BigInt z = *this;
+  for (int i = 0; i < m; i++) {
+    uint8_t b = 0;
+    if (add_to_front) {
+
+      z.numerus.insert(z.numerus.begin(), b);
+
+    } else {
+      z.numerus.push_back(b);
+    }
+  }
+  return z;
+}
+
 
 BigInt BigInt::operator+(const BigInt &num) const {
   BigInt z;

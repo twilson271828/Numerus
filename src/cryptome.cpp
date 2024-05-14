@@ -290,49 +290,7 @@ convolution(std::vector<std::complex<double>> X1,
 
 #endif
 
-BigInt vadd(BigInt &x, BigInt &y) {
-  BigInt z;
 
-  int n = x.size();
-  int m = y.size();
-  int k = std::max(n, m);
-  if (n != m) {
-    if (n > m) {
-      int d = n - m;
-      y = y.shift_n(d, true);
-    } else {
-      int d = m - n;
-      x = x.shift_n(d, true);
-    }
-  }
-
-  std::vector<uint8_t> x_numerus = x.get_numerus();
-  std::vector<uint8_t> y_numerus = y.get_numerus();
-
-  int c = 0;
-  int tot = 0;
-
-  for (int i = k - 1; i >= 0; i--) {
-    tot = x_numerus[i] + y_numerus[i] + c;
-
-    if (tot >= 10) {
-      c = 1;
-
-      z.insert(tot % 10, 0);
-      if (k == 1) {
-        z.insert(c, 0);
-      }
-      if (i == 0) {
-        z.insert(c, 0);
-      }
-    } else {
-      c = 0;
-      z.insert(tot, 0);
-    }
-  }
-
-  return z;
-}
 
 void printVector(std::vector<int> &x) {
   for (auto &i : x) {
@@ -341,143 +299,37 @@ void printVector(std::vector<int> &x) {
   std::cout << "\n";
 }
 
-BigInt vsub(BigInt &x, BigInt &y) {
 
-  int n = x.size();
-  int m = y.size();
-  int k = std::max(n, m);
 
-  std::vector<uint8_t> result(k);
-  std::fill(result.begin(), result.end(), 0);
-
-  if (n != m) {
-    if (n > m) {
-      int d = n - m;
-      y = y.shift_n(d, true);
-    } else {
-      int d = m - n;
-      x = x.shift_n(d, true);
-    }
-  }
-
-  std::vector<uint8_t> x_numerus = x.get_numerus();
-  std::vector<uint8_t> y_numerus = y.get_numerus();
-
-  for (int i = k - 1; i >= 0; i--) {
-    if (x_numerus[i] < y_numerus[i]) {
-      int val = x_numerus[i - 1] - 1;
-      x_numerus[i - 1] = val;
-      result[i] = x_numerus[i] + 10 - y_numerus[i];
-    } else {
-      result[i] = x_numerus[i] - y_numerus[i];
-    }
-  }
-
-  int i = 0;
-  // Remove any leading zeros
-  while (result[i] == 0) {
-    i++;
-  }
-  if (i > 0) {
-    result.erase(result.begin(), result.begin() + i);
-  }
-
-  BigInt z(result);
-  return z;
-}
-
-BigInt vmult(BigInt &x, BigInt &y) {
-
-  int n = x.size();
-  int m = y.size();
-
-  std::vector<uint8_t> x_numerus = x.get_numerus();
-  std::vector<uint8_t> y_numerus = y.get_numerus();
-
-  //  if (n > 50 && m > 50) {
-  //    return karatsuba(x, y);
-  //  }
-
-  int shift = 0;
-  int carry = 0;
-  int base = 10;
-  int t = 0;
-  std::vector<BigInt> vecs;
-
-  for (int i = m - 1; i >= 0; i--) {
-    BigInt z;
-    carry = 0;
-    for (int j = n - 1; j >= 0; j--) {
-      t = x_numerus[j] * y_numerus[i] + carry;
-      carry = 0;
-      if (t >= 10) {
-        auto dv = std::div(t, base);
-        carry = (int)dv.quot;
-        if (j == 0) {
-          z.insert((int)dv.rem, 0);
-          z.insert(carry, 0);
-        } else {
-          z.insert((int)dv.rem, 0);
-        }
-      } else {
-        z.insert(t, 0);
-      }
-    }
-
-    BigInt z1 = z.shift_n(shift);
-    shift += 1;
-    std::vector<BigInt>::iterator ix = vecs.begin();
-    vecs.insert(ix, z1);
-  }
-
-  BigInt a;
-  for (int i = 0; i < vecs.size(); i++) {
-    a = vadd(a, vecs[i]);
-  }
-  return a;
-}
 
 BigInt karatsuba(BigInt &x, BigInt &y) {
 
   size_t n = x.size();
   size_t m = y.size();
 
-  if (n > m) {
-
-    //y = y.shift_n(n - m, true);
-  }
-  if (n < m) {
-    //x = x.shift_n(m - n, true);
-  }
-
-  if (n < 10 || m < 10) {
+ 
+  if (n == 1 || m == 1) {
     return x * y;
   }
 
   size_t k = std::max(n, m);
   size_t k2 = std::floor(k / 2);
 
-  split split_x = x.split_it(k2);
-  split split_y = y.split_it(k2);
+  BigInt a = x.rshift(k2);
+  BigInt b = x.divmod(k2).remainder;
+  BigInt c = y.rshift(k2);
+  BigInt d = y.divmod(k2).remainder;
 
-  BigInt low_x = split_x.xright;
-  BigInt low_y = split_y.xright;
-  BigInt high_x = split_x.xleft;
-  BigInt high_y = split_y.xleft;
+  BigInt ac = karatsuba(a,c);
+  BigInt bd = karatsuba(b,d);
+  BigInt a_b = a+b;
+  BigInt c_d = c+d;
+  BigInt ad_bc = karatsuba(a_b,c_d) -ac -bd;
 
-  BigInt z2 = karatsuba(high_x, high_y);
-  BigInt z0 = karatsuba(low_x, low_y);
-  BigInt w1 = high_x + low_x;
-  BigInt w2 = high_y + low_y;
-
-  BigInt z1 = karatsuba(w1, w2);
-
-  BigInt W = z1 - z2 - z0;
-
-  BigInt P = z2.shift_n(k2 * 2, false) + W.shift_n(k2, false) + z0;
+  return ad_bc;
 
 // Remove any leading zeros
-
+#if 0
   int i = 0;
     while(P[i] == 0){
       i++;
@@ -490,8 +342,8 @@ BigInt karatsuba(BigInt &x, BigInt &y) {
 
     }
 
-
-  return P;
+#endif
+  
 }
 
 int main() {

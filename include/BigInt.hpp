@@ -47,6 +47,7 @@ public:
   void numerus_ix(const int &ix, const uint8_t &val);
   BigInt lshift(const int n) const;
   BigInt rshift(const int n)const;
+  BigInt shift_n(const int n, bool add_to_front = false) const;
   divmod10 divmod(const long n) const;
   BigInt slice(int i, int j) const;
   uint8_t operator[](const int i) const;
