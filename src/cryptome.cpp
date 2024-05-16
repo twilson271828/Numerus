@@ -304,20 +304,20 @@ void printVector(std::vector<int> &x) {
 
 BigInt karatsuba(BigInt &x, BigInt &y) {
 
-  size_t n = x.size();
-  size_t m = y.size();
+  int n = x.size();
+  int m = y.size();
 
  
   if (n == 1 || m == 1) {
     return x * y;
   }
 
-  size_t k = std::max(n, m);
-  size_t k2 = std::floor(k / 2);
-
-  BigInt a = x.rshift(k2);
+  int k = std::max(n, m);
+  int k2 = std::floor(k / 2);
+  
+  BigInt a = x.lshift(k2);
   BigInt b = x.divmod(k2).remainder;
-  BigInt c = y.rshift(k2);
+  BigInt c = y.lshift(k2);
   BigInt d = y.divmod(k2).remainder;
 
   BigInt ac = karatsuba(a,c);
@@ -326,7 +326,10 @@ BigInt karatsuba(BigInt &x, BigInt &y) {
   BigInt c_d = c+d;
   BigInt ad_bc = karatsuba(a_b,c_d) -ac -bd;
 
-  return ad_bc;
+  BigInt result = ac.lshift(2*k2) + ad_bc.lshift(k2) + bd;
+  
+
+  return result;
 
 // Remove any leading zeros
 #if 0
@@ -348,28 +351,13 @@ BigInt karatsuba(BigInt &x, BigInt &y) {
 
 int main() {
 
-  BigInt z("12343253");
-  BigInt z1 = z.rshift(2);
-  std::cout << "z1 = " << z1 << "\n";
+  BigInt x("34254325262465242343242442243432");
+  BigInt y("88862594924324243424");
 
-  //divmod10 d10 = z.divmod(8);
+  BigInt z = karatsuba(x,y);
 
-  //std::cout << "d10.quot = " << d10.quotient << "\n";
-  //std::cout << "d10.rem = " << d10.remainder << "\n";
-
-  
- 
-  //std::cout << "y = " << y << "\n";
-  //BigInt y("2359353555355553535353553535");
-
-  
-  
-
-
-
-
-  
-
+  std::cout << "z = " << z << "\n";
   
   return 0;
 }
+  
