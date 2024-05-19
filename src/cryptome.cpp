@@ -308,25 +308,36 @@ BigInt karatsuba(BigInt &x, BigInt &y) {
   int m = y.size();
 
  
-  if (n == 1 || m == 1) {
+  if (n < 10 || y < 10) {
+    std::cout << "x:   "<< x << "\n";
+    std::cout << "y:   "<< y << "\n";
     return x * y;
   }
 
   int k = std::max(n, m);
   int k2 = std::floor(k / 2);
   
-  BigInt a = x.lshift(k2);
-  BigInt b = x.divmod(k2).remainder;
-  BigInt c = y.lshift(k2);
-  BigInt d = y.divmod(k2).remainder;
+  divmod10 dx = x.divmod(k2);
+  divmod10 dy = y.divmod(k2);
+  BigInt x_high = dx.quotient;
+  BigInt x_low = dx.remainder;
+  BigInt y_high = dy.quotient;
+  BigInt y_low = dy.remainder;
+  std::cout << "********************************************\n";
+  std::cout << "x_high = " << x_high << "\n";
+  std::cout << "x_low = " << x_low << "\n";
+  std::cout << "y_high = " << y_high << "\n";
+  std::cout << "y_low = " << y_low << "\n";
+  std::cout << "********************************************\n";
 
-  BigInt ac = karatsuba(a,c);
-  BigInt bd = karatsuba(b,d);
-  BigInt a_b = a+b;
-  BigInt c_d = c+d;
-  BigInt ad_bc = karatsuba(a_b,c_d) -ac -bd;
+  BigInt z0 = karatsuba(x_low,y_low);
+  BigInt c1 = x_low + x_high;
+  BigInt c2 = y_high+y_high;
+  BigInt z1 = karatsuba(c1,c2);
+  BigInt z2 = karatsuba(x_high,y_high);
+  BigInt z3 = z1 - z2 - z0;
 
-  BigInt result = ac.lshift(2*k2) + ad_bc.lshift(k2) + bd;
+  BigInt result = z2.lshift(2*k2) + z3.lshift(k2) + z0;
   
 
   return result;
@@ -351,13 +362,23 @@ BigInt karatsuba(BigInt &x, BigInt &y) {
 
 int main() {
 
-  BigInt x("34254325262465242343242442243432");
-  BigInt y("88862594924324243424");
+	
+  BigInt x("2328098980890890809809");
+  BigInt y("32448909889098");
 
   BigInt z = karatsuba(x,y);
 
   std::cout << "z = " << z << "\n";
-  
+
+#if 0
+  divmod10 dmx = x.divmod(2);
+  std::cout << "dmx.quotient = " << dmx.quotient << "\n";
+  std::cout << "dmx.remainder = " << dmx.remainder << "\n";
+
+  divmod10 dmy = y.divmod(2);
+  std::cout << "dmy.quotient = " << dmy.quotient << "\n";
+  std::cout << "dmy.remainder = " << dmy.remainder << "\n";
+#endif  
   return 0;
 }
   
