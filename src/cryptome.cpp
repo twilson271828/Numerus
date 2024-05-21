@@ -299,9 +299,6 @@ void printVector(std::vector<int> &x) {
   std::cout << "\n";
 }
 
-
-
-
 BigInt karatsuba(BigInt &x, BigInt &y) {
 
   int n = x.size();
@@ -324,6 +321,9 @@ BigInt karatsuba(BigInt &x, BigInt &y) {
   BigInt y_high = dy.quotient;
   BigInt y_low = dy.remainder;
   std::cout << "********************************************\n";
+  std::cout << "k2 = " << k2 << "\n";
+  std::cout << "x = " << x << "\n";
+  std::cout << "y = " << y << "\n";
   std::cout << "x_high = " << x_high << "\n";
   std::cout << "x_low = " << x_low << "\n";
   std::cout << "y_high = " << y_high << "\n";
@@ -332,7 +332,7 @@ BigInt karatsuba(BigInt &x, BigInt &y) {
 
   BigInt z0 = karatsuba(x_low,y_low);
   BigInt c1 = x_low + x_high;
-  BigInt c2 = y_high+y_high;
+  BigInt c2 = y_low+y_high;
   BigInt z1 = karatsuba(c1,c2);
   BigInt z2 = karatsuba(x_high,y_high);
   BigInt z3 = z1 - z2 - z0;
@@ -367,6 +367,7 @@ int main() {
   BigInt y("32448909889098");
 
   BigInt z = karatsuba(x,y);
+  //BigInt z = x*y;
 
   std::cout << "z = " << z << "\n";
 
