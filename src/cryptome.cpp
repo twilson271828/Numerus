@@ -304,10 +304,9 @@ BigInt karatsuba(BigInt &x, BigInt &y) {
   int n = x.size();
   int m = y.size();
 
- 
   if (n < 10 || y < 10) {
-    std::cout << "x:   "<< x << "\n";
-    std::cout << "y:   "<< y << "\n";
+    //std::cout << "x:   "<< x << "\n";
+    //std::cout << "y:   "<< y << "\n";
     return x * y;
   }
 
@@ -320,15 +319,15 @@ BigInt karatsuba(BigInt &x, BigInt &y) {
   BigInt x_low = dx.remainder;
   BigInt y_high = dy.quotient;
   BigInt y_low = dy.remainder;
-  std::cout << "********************************************\n";
-  std::cout << "k2 = " << k2 << "\n";
-  std::cout << "x = " << x << "\n";
-  std::cout << "y = " << y << "\n";
-  std::cout << "x_high = " << x_high << "\n";
-  std::cout << "x_low = " << x_low << "\n";
-  std::cout << "y_high = " << y_high << "\n";
-  std::cout << "y_low = " << y_low << "\n";
-  std::cout << "********************************************\n";
+  //std::cout << "********************************************\n";
+  //std::cout << "k2 = " << k2 << "\n";
+  //std::cout << "x = " << x << "\n";
+  //std::cout << "y = " << y << "\n";
+  //std::cout << "x_high = " << x_high << "\n";
+  //std::cout << "x_low = " << x_low << "\n";
+  //std::cout << "y_high = " << y_high << "\n";
+  //std::cout << "y_low = " << y_low << "\n";
+  //std::cout << "********************************************\n";
 
   BigInt z0 = karatsuba(x_low,y_low);
   BigInt c1 = x_low + x_high;

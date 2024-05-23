@@ -211,6 +211,7 @@ divmod10 BigInt::divmod(const long n) const {
     quotient[i] = z[i];
   }
 
+
   for(int i = d; i < m; i++){
     int j = i - d;
     remainder[j] = z[i];   
@@ -218,7 +219,13 @@ divmod10 BigInt::divmod(const long n) const {
   
   BigInt q(quotient);
   BigInt r(remainder);
-  
+  std::cout << "***********************************\n";
+  std::cout <<"z = " << z;
+  std::cout << "n = " << n << "\n";
+  std::cout << "q = " << q;
+  std::cout << "r = " << r;
+    std::cout << "***********************************\n";
+
   result.quotient = q;
   result.remainder = r;
  
@@ -471,9 +478,9 @@ BigInt BigInt::operator*(const BigInt &num) {
   BigInt x = *this;
   BigInt y = num;
   BigInt z;
-  std::cout <<" operator * \n";
-  std::cout << "x = " << x << "\n";
-  std::cout << "y = " << y << "\n";
+  //std::cout <<" operator * \n";
+  //std::cout << "x = " << x << "\n";
+  //std::cout << "y = " << y << "\n";
   if (y.size() > x.size()) {
     z = vmult(y, x);
   } else {
