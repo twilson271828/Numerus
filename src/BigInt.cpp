@@ -214,7 +214,11 @@ divmod10 BigInt::divmod(const long n) const {
 
   for(int i = d; i < m; i++){
     int j = i - d;
-    remainder[j] = z[i];   
+    if (z[i] != 0) {
+      std::cout << "z[i] = " << z[i] << "\n";
+      remainder[j] = z[i];
+    }
+   
   }
   
   BigInt q(quotient);
