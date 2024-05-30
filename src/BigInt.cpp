@@ -211,30 +211,24 @@ divmod10 BigInt::divmod(const long n) const {
     quotient[i] = z[i];
   }
 
-
   for(int i = d; i < m; i++){
     int j = i - d;
-    if (z[i] != 0) {
-      std::cout << "z[i] = " << z[i] << "\n";
-      remainder[j] = z[i];
+    remainder[j] = z[i];
     }
    
+  if (remainder[0] == 0){
+    remainder.erase(remainder.begin());
   }
-  
   BigInt q(quotient);
   BigInt r(remainder);
-  std::cout << "***********************************\n";
-  std::cout <<"z = " << z;
-  std::cout << "n = " << n << "\n";
-  std::cout << "q = " << q;
-  std::cout << "r = " << r;
-    std::cout << "***********************************\n";
 
   result.quotient = q;
   result.remainder = r;
  
   return result;
-}
+
+  }
+  
 
 BigInt BigInt::rshift(const int n) const {
   std::cout <<"n = " << n << "\n";
