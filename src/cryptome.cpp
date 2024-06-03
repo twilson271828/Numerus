@@ -362,12 +362,20 @@ BigInt karatsuba(BigInt &x, BigInt &y) {
 int main() {
 
 	
-  //BigInt x("2328098980890890809809");
-  //BigInt y("32448909889098");
-  BigInt x("90890809809");
-  divmod10 dx = x.divmod(5);
-  std::cout << "dx.quotient = " << dx.quotient << "\n";
-  std::cout << "dx.remainder = " << dx.remainder << "\n";
+  BigInt x("2328098980890890809809");
+  BigInt y("32448909889098");
+
+  BigInt z = karatsuba(x,y);
+
+  std::cout << "z = " << z << "\n";
+
+ 
+  
+ 
+  //BigInt x("90890809809");
+  //divmod10 dx = x.divmod(5);
+  //std::cout << "dx.quotient = " << dx.quotient << "\n";
+  //std::cout << "dx.remainder = " << dx.remainder << "\n";
 
   //BigInt z = karatsuba(x,y);
   //BigInt z = x*y;

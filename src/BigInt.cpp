@@ -125,13 +125,14 @@ BigInt BigInt::Toom3(BigInt &x, BigInt &y) const { return x; }
 #endif
 BigInt::BigInt() {
   sign = POS;
-  return;
+  numerus= std::vector<uint8_t>(0);
+  
 }
 
 BigInt::BigInt(const std::vector<uint8_t> &num) {
   numerus = num;
   sign = POS;
-  return;
+  
 }
 
 BigInt::BigInt(const BigInt &num) {
@@ -148,6 +149,11 @@ BigInt::BigInt(const long &num) {
     z.sign = NEG;
   }
 
+  if (x == 0){
+    z.insert(0,0);
+    
+  }
+
   while (x > 0) {
     z.insert(x % 2, 0);
     x /= 2;
@@ -160,7 +166,7 @@ BigInt::BigInt(const std::string c) {
   sign = POS;
   if (c == "NAN") {
     sign = UNDEFINED;
-    return;
+    
   }
   try {
 
@@ -429,6 +435,10 @@ BigInt BigInt::vmult(BigInt &x, BigInt &y) const {
   std::vector<uint8_t> x_numerus = x.get_numerus();
   std::vector<uint8_t> y_numerus = y.get_numerus();
 
+  if (x_numerus[0]==0 || y_numerus[0]==0) {
+    return BigInt(0);
+  }
+
   // if (n > 50 && m > 50) {
   //   return karatsuba(x, y);
   // }
@@ -482,6 +492,8 @@ BigInt BigInt::operator*(const BigInt &num) {
   if (y.size() > x.size()) {
     z = vmult(y, x);
   } else {
+    std::cout << "x = " << x << "\n";
+    std::cout << "y = " << y << "\n";
     z = vmult(x, y);
   }
 
