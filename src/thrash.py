@@ -29,6 +29,8 @@ def karatsubaMultiply(x,y):
 def karatsuba_copilot(x, y):
     
 	if x < 10 or y < 10:
+		print("x = ",x)
+		print("y = ",y)
 		return x * y
 
 
@@ -50,16 +52,20 @@ def karatsuba_copilot(x, y):
 	z0 = karatsuba_copilot(x_low, y_low)
 	z1 = karatsuba_copilot((x_low + x_high), (y_low + y_high))
 	z2 = karatsuba_copilot(x_high, y_high)
-
+	print ("z2 * 10**(2*m) =",z2 * 10**(2*m))
+	print ("(z1 - z2 - z0) * 10**m =", (z1 - z2 - z0) * 10**m)
+	print ("z0 =",z0)
 	return (z2 * 10**(2*m)) + ((z1 - z2 - z0) * 10**m) + z0
 	
+
+
 
 
 def main():
 	x=2328098980890890809809
 	y=32448909889098
 	print(karatsuba_copilot(x,y))
-	print(karatsubaMultiply(x,y))
+	#print(karatsubaMultiply(x,y))
 	print(x*y)
 	
 if __name__ == "__main__":
