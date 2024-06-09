@@ -492,8 +492,8 @@ BigInt BigInt::operator*(const BigInt &num) {
   if (y.size() > x.size()) {
     z = vmult(y, x);
   } else {
-    std::cout << "x = " << x << "\n";
-    std::cout << "y = " << y << "\n";
+    //std::cout << "x = " << x << "\n";
+    //std::cout << "y = " << y << "\n";
     z = vmult(x, y);
   }
 
