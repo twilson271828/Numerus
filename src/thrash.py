@@ -39,9 +39,10 @@ def karatsuba_copilot(x, y):
 
 	x_high, x_low = divmod(x, 10**m)
 	y_high, y_low = divmod(y, 10**m)
-	"""
+	
 	print("****************************************")
-	print("m: ",m)
+	print("k: ",n)
+	print("k2:  ",m)
 	print("x: ",x)
 	print("y: ",y)
 	print("x_high: ",x_high)
@@ -49,15 +50,17 @@ def karatsuba_copilot(x, y):
 	print("y_high: ",y_high)
 	print("y_low: ",y_low)
 	print("****************************************")
-	"""
+	
 	z0 = karatsuba_copilot(x_low, y_low)
 	z1 = karatsuba_copilot((x_low + x_high), (y_low + y_high))
 	z2 = karatsuba_copilot(x_high, y_high)
+	"""
 	print("****************************************")
 	print ("z2 * 10**(2*m) =",z2 * 10**(2*m))
 	print ("(z1 - z2 - z0) * 10**m =", (z1 - z2 - z0) * 10**m)
 	print ("z0 =",z0)
 	print("****************************************")
+	"""
 	return (z2 * 10**(2*m)) + ((z1 - z2 - z0) * 10**m) + z0
 	
 

@@ -2,6 +2,8 @@
 
 int main() {
 
+  int x = 11;
+  std::cout << std::floor(x/2) << "\n";
   // BigInt c1("314159");
   // BigInt c2("271828");
 
