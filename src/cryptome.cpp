@@ -326,10 +326,10 @@ BigInt karatsuba(BigInt &x, BigInt &y) {
   std::cout << "k2 = " << k2 << "\n";
   std::cout << "x = " << x;
   std::cout << "y = " << y;
-  std::cout << "x_high = " << x_high << "\n";
-  std::cout << "x_low = " << x_low << "\n";
-  std::cout << "y_high = " << y_high << "\n";
-  std::cout << "y_low = " << y_low << "\n";
+  std::cout << "x_high = " << x_high;
+  std::cout << "x_low = " << x_low;
+  std::cout << "y_high = " << y_high;
+  std::cout << "y_low = " << y_low;
   std::cout << "********************************************\n";
   
   BigInt z0 = karatsuba(x_low,y_low);
