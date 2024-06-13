@@ -111,10 +111,10 @@ struct divmod10 {
   BigInt quotient;
   BigInt remainder;
 };
-#if 0
-std::ostream& operator<<(std::ostream& os, const divmod10& d) { 
-    os << d.quotient << "\n";
-    os << d.remainder << "\n";
+
+inline std::ostream& operator<<(std::ostream& os, const divmod10& d) { 
+    os << "(" << d.quotient << "," << d.remainder << ")";
+  
     return os;
 }
-#endif
+

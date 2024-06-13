@@ -310,7 +310,7 @@ std::ostream &operator<<(std::ostream &out, const BigInt &num) {
       out << convertToDecimal(x);
     }
   }
-  out << "\n";
+  //out << "\n";
 
   return out;
 }

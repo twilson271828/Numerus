@@ -315,6 +315,7 @@ BigInt karatsuba(BigInt &x, BigInt &y) {
   int k2 = std::floor(k / 2);
   
   divmod10 dx = x.divmod(k2);
+  
   divmod10 dy = y.divmod(k2);
   BigInt x_high = dx.quotient;
   BigInt x_low = dx.remainder;
@@ -322,14 +323,20 @@ BigInt karatsuba(BigInt &x, BigInt &y) {
   BigInt y_low = dy.remainder;
   
   std::cout << "********************************************\n";
+  //std::cout << "n = " << n <<"\n";
+  //std::cout << "m = " << m << "\n";
   std::cout << "k = "<< k << "\n";
   std::cout << "k2 = " << k2 << "\n";
-  std::cout << "x = " << x;
-  std::cout << "y = " << y;
-  std::cout << "x_high = " << x_high;
-  std::cout << "x_low = " << x_low;
-  std::cout << "y_high = " << y_high;
-  std::cout << "y_low = " << y_low;
+  std::cout << "x = " << x << "\n";
+  std::cout << "y = " << y << "\n";
+  std::cout << "dx = " << dx << "\n";
+  std::cout << "dy = " << dy << "\n";
+
+
+  //std::cout << "x_high = " << x_high << "\n";
+  //std::cout << "x_low = " << x_low  << "\n";
+  //std::cout << "y_high = " << y_high << "\n";
+  //std::cout << "y_low = " << y_low << "\n";
   std::cout << "********************************************\n";
   
   BigInt z0 = karatsuba(x_low,y_low);
@@ -377,9 +384,7 @@ int main() {
 
   //std::cout << "z = " << z << "\n";
 
- 
-  
- 
+
   //BigInt x("90890809809");
   //divmod10 dx = x.divmod(5);
   //std::cout << "dx.quotient = " << dx.quotient << "\n";
