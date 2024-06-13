@@ -221,9 +221,11 @@ divmod10 BigInt::divmod(const long n) const {
     int j = i - d;
     remainder[j] = z[i];
     }
-   
-  if (remainder[0] == 0){
+  
+  if (remainder.size() > 0) {
+    if (remainder[0] == 0){
     remainder.erase(remainder.begin());
+    }
   }
   BigInt q(quotient);
   BigInt r(remainder);
@@ -288,6 +290,9 @@ size_t BigInt::size() const { return numerus.size(); }
 std::ostream &operator<<(std::ostream &out, const BigInt &num) {
 
   size_t n = num.size();
+  if (n == 0){
+    return out;
+  }
   if (num.sign == NEG) {
     out << "-";
   }

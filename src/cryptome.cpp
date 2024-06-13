@@ -304,9 +304,9 @@ BigInt karatsuba(BigInt &x, BigInt &y) {
   int n = x.size();
   int m = y.size();
 
-  if (n < 10 || y < 10) {
-    //std::cout << "x:   "<< x << "\n";
-    //std::cout << "y:   "<< y << "\n";
+  if (x < 10 || y < 10) {
+    std::cout << "x:   "<< x << "\n";
+    std::cout << "y:   "<< y << "\n";
     return x * y;
   }
 
@@ -327,8 +327,8 @@ BigInt karatsuba(BigInt &x, BigInt &y) {
   //std::cout << "m = " << m << "\n";
   std::cout << "k = "<< k << "\n";
   std::cout << "k2 = " << k2 << "\n";
-  std::cout << "x = " << x << "\n";
-  std::cout << "y = " << y << "\n";
+  //std::cout << "x = " << x << "\n";
+  //std::cout << "y = " << y << "\n";
   std::cout << "dx = " << dx << "\n";
   std::cout << "dy = " << dy << "\n";
 
@@ -377,12 +377,15 @@ BigInt karatsuba(BigInt &x, BigInt &y) {
 int main() {
 
 	
-  BigInt x("2328098980890890809809");
+  BigInt x("2328098980890890809809");  
   BigInt y("32448909889098");
+
+  //BigInt x("90890809809");
+  //BigInt y("48909889098");
 
   BigInt z = karatsuba(x,y);
 
-  //std::cout << "z = " << z << "\n";
+  std::cout << "z = " << z << "\n";
 
 
   //BigInt x("90890809809");
