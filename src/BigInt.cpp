@@ -140,9 +140,9 @@ BigInt::BigInt(const BigInt &num) {
   sign = num.sign;
 }
 
-BigInt::BigInt(const long &num) {
+BigInt::BigInt(const size_t &num) {
   BigInt z;
-
+  std::cout << "copy constructor for size_t\n";
   long x = num;
   if (x < 0) {
     x *= -1;
@@ -155,8 +155,8 @@ BigInt::BigInt(const long &num) {
   }
 
   while (x > 0) {
-    z.insert(x % 2, 0);
-    x /= 2;
+    z.insert(x % 10, 0);
+    x /= 10;
   }
 
   *this = z;
@@ -733,6 +733,8 @@ bool BigInt::operator<(const BigInt &y) const {
     return false;
 
   if (n > m) {
+        std::cout << "n > m\n";
+
     if (xsign == -1 and ysign == -1)
       return true;
     else if (xsign == 1 and ysign == 1)
@@ -740,15 +742,22 @@ bool BigInt::operator<(const BigInt &y) const {
   }
 
   if (n < m) {
+    
+    std::cout << "n< m\n";
+    std::cout << "n =  " << n << "\n";
+    std::cout << "m =  " << m << "\n";
+    std::cout << "y = " << y << "\n";
+
     if (xsign == -1 and ysign == -1)
       return false;
     else if (xsign == 1 and ysign == 1) {
 
-      return false;
+      return true;
     }
   }
 
   if (n == m) {
+    std::cout << "n==m\n";
     for (int i = 0; i < n; i++) {
       size_t numerus_i = convertToDecimal(numerus[i]);
       size_t temp_i = convertToDecimal(temp[i]);

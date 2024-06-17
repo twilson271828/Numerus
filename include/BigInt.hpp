@@ -40,7 +40,7 @@ public:
 
   BigInt(const BigInt &num);
 
-  BigInt(const long &num);
+  BigInt(const size_t &num);
 
   BigInt(const std::vector<uint8_t> &num);
   BigInt karatsuba(BigInt &x, BigInt &y) const;

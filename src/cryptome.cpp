@@ -377,19 +377,19 @@ BigInt karatsuba(BigInt &x, BigInt &y) {
 int main() {
 
 	
-  //BigInt x("2328098980890890809809");  
-  //BigInt y("32448909889098");
+  BigInt x("2328098980890890809809");  
+  BigInt y("32448909889098");
 
   //BigInt x("90890809809");
   //BigInt y("48909889098");
 
-  //BigInt z = karatsuba(x,y);
+  BigInt z = karatsuba(x,y);
 
-  BigInt x("9");
-  BigInt("8");
+  //BigInt x("8");
+  //BigInt y("9");
 
-  bool z = x < 10;
-  std::cout << "x < 10  " << z  << "\n";
+  //bool z = x < 10;
+  std::cout << "z =   " << z  << "\n";
 
 
 #if 0
