@@ -222,10 +222,9 @@ divmod10 BigInt::divmod(const long n) const {
     remainder[j] = z[i];
     }
   
-  if (remainder.size() > 0) {
-    if (remainder[0] == 0){
+  if (remainder.size() > 1 && remainder[0] == 0){ 
     remainder.erase(remainder.begin());
-    }
+    std::cout << "Remainder.size() = " << remainder.size() << "\n";
   }
   BigInt q(quotient);
   BigInt r(remainder);
@@ -239,11 +238,11 @@ divmod10 BigInt::divmod(const long n) const {
   
 
 BigInt BigInt::rshift(const int n) const {
-  std::cout <<"n = " << n << "\n";
   
   BigInt z(*this);
   for (int i = 0; i < n; i++) {
     z.numerus.pop_back();
+    std::cout << "Z.size()!! = "<< z.size() << "\n";
   }
   return z;
 }
@@ -439,7 +438,9 @@ BigInt BigInt::vmult(BigInt &x, BigInt &y) const {
 
   std::vector<uint8_t> x_numerus = x.get_numerus();
   std::vector<uint8_t> y_numerus = y.get_numerus();
-
+  std::cout << "x_numerus = "<< x_numerus << "\n";
+  std::cout << "y_numerus = "<< y_numerus << "\n";
+   std::cout << "y_numerus.size() = "<< y_numerus.size() << "\n";
   if (x_numerus[0]==0 || y_numerus[0]==0) {
     return BigInt(0);
   }
