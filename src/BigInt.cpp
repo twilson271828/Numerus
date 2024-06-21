@@ -142,7 +142,6 @@ BigInt::BigInt(const BigInt &num) {
 
 BigInt::BigInt(const size_t &num) {
   BigInt z;
-  std::cout << "copy constructor for size_t\n";
   long x = num;
   if (x < 0) {
     x *= -1;
@@ -224,7 +223,6 @@ divmod10 BigInt::divmod(const long n) const {
   
   if (remainder.size() > 1 && remainder[0] == 0){ 
     remainder.erase(remainder.begin());
-    std::cout << "Remainder.size() = " << remainder.size() << "\n";
   }
   BigInt q(quotient);
   BigInt r(remainder);
@@ -242,7 +240,6 @@ BigInt BigInt::rshift(const int n) const {
   BigInt z(*this);
   for (int i = 0; i < n; i++) {
     z.numerus.pop_back();
-    std::cout << "Z.size()!! = "<< z.size() << "\n";
   }
   return z;
 }
@@ -438,9 +435,7 @@ BigInt BigInt::vmult(BigInt &x, BigInt &y) const {
 
   std::vector<uint8_t> x_numerus = x.get_numerus();
   std::vector<uint8_t> y_numerus = y.get_numerus();
-  std::cout << "x_numerus = "<< x_numerus << "\n";
-  std::cout << "y_numerus = "<< y_numerus << "\n";
-   std::cout << "y_numerus.size() = "<< y_numerus.size() << "\n";
+ 
   if (x_numerus[0]==0 || y_numerus[0]==0) {
     return BigInt(0);
   }
@@ -492,14 +487,11 @@ BigInt BigInt::operator*(const BigInt &num) {
   BigInt x = *this;
   BigInt y = num;
   BigInt z;
-  //std::cout <<" operator * \n";
-  //std::cout << "x = " << x << "\n";
-  //std::cout << "y = " << y << "\n";
+  
   if (y.size() > x.size()) {
     z = vmult(y, x);
   } else {
-    //std::cout << "x = " << x << "\n";
-    //std::cout << "y = " << y << "\n";
+    
     z = vmult(x, y);
   }
 
@@ -734,7 +726,7 @@ bool BigInt::operator<(const BigInt &y) const {
     return false;
 
   if (n > m) {
-        std::cout << "n > m\n";
+        
 
     if (xsign == -1 and ysign == -1)
       return true;
@@ -743,11 +735,7 @@ bool BigInt::operator<(const BigInt &y) const {
   }
 
   if (n < m) {
-    
-    std::cout << "n< m\n";
-    std::cout << "n =  " << n << "\n";
-    std::cout << "m =  " << m << "\n";
-    std::cout << "y = " << y << "\n";
+  
 
     if (xsign == -1 and ysign == -1)
       return false;
@@ -758,7 +746,7 @@ bool BigInt::operator<(const BigInt &y) const {
   }
 
   if (n == m) {
-    std::cout << "n==m\n";
+   
     for (int i = 0; i < n; i++) {
       size_t numerus_i = convertToDecimal(numerus[i]);
       size_t temp_i = convertToDecimal(temp[i]);
