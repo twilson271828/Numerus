@@ -246,6 +246,9 @@ BigInt BigInt::rshift(const int n) const {
 //add_to_front = true
 BigInt BigInt::lshift(const int n) const {
   BigInt z = *this;
+  if (z==0){
+    return z;
+  }
   for (int i = 0; i < n; i++) {
     uint8_t b = 0;
     z.numerus.push_back(b);

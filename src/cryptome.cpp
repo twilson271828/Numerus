@@ -337,7 +337,7 @@ BigInt karatsuba(BigInt &x, BigInt &y) {
   //std::cout << "x_low = " << x_low  << "\n";
   //std::cout << "y_high = " << y_high << "\n";
   //std::cout << "y_low = " << y_low << "\n";
-  std::cout << "********************************************\n";
+  //std::cout << "********************************************\n";
   
   BigInt z0 = karatsuba(x_low,y_low);
   BigInt c1 = x_low + x_high;
@@ -346,6 +346,11 @@ BigInt karatsuba(BigInt &x, BigInt &y) {
   BigInt z2 = karatsuba(x_high,y_high);
   BigInt z3 = z1 - z2 - z0;
   std::cout << "********************************************\n";
+  std::cout << "x = " << x << "\n";
+  std::cout << "y = " << y << "\n";
+  std::cout << "z0 = "  << z0 << "\n";
+  std::cout << "z1 = "  << z1 << "\n";
+  std::cout << "z2 = "  << z2 << "\n";
   std::cout << "k2 = " << k2 << "\n";
   std::cout << "z2 * 10**(2*m) =" << z2.lshift(2*k2) << "\n";
   std::cout << "(z1 - z2 - z0) * 10**m =" << z3.lshift(k2) << "\n";
