@@ -304,9 +304,9 @@ BigInt karatsuba(BigInt &x, BigInt &y) {
   int n = x.size();
   int m = y.size();
 
-  if (x < 2 || y < 2) {
-    //std::cout << "x:   "<< x << "\n";
-    //std::cout << "y:   "<< y << "\n";
+  if (x < 10 || y < 10) {
+    std::cout << "x:   "<< x << "\n";
+    std::cout << "y:   "<< y << "\n";
     return x * y;
   }
 
