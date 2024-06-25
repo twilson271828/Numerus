@@ -305,8 +305,8 @@ BigInt karatsuba(BigInt &x, BigInt &y) {
   int m = y.size();
 
   if (x < 10 || y < 10) {
-    std::cout << "x:   "<< x << "\n";
-    std::cout << "y:   "<< y << "\n";
+    //std::cout << "x:   "<< x << "\n";
+    //std::cout << "y:   "<< y << "\n";
     return x * y;
   }
 
@@ -346,15 +346,19 @@ BigInt karatsuba(BigInt &x, BigInt &y) {
   BigInt z2 = karatsuba(x_high,y_high);
   BigInt z3 = z1 - z2 - z0;
   std::cout << "********************************************\n";
-  std::cout << "x = " << x << "\n";
-  std::cout << "y = " << y << "\n";
-  std::cout << "z0 = "  << z0 << "\n";
-  std::cout << "z1 = "  << z1 << "\n";
-  std::cout << "z2 = "  << z2 << "\n";
-  std::cout << "k2 = " << k2 << "\n";
-  std::cout << "z2 * 10**(2*m) =" << z2.lshift(2*k2) << "\n";
-  std::cout << "(z1 - z2 - z0) * 10**m =" << z3.lshift(k2) << "\n";
   std::cout << "z0 = " << z0 << "\n";
+  std::cout << "c1 = " << c1 << "\n";
+  std::cout << "c2 = " << c2 << "\n";
+  std::cout << "z1 = " << z1 << "\n";
+  std::cout << "z2 = " << z2 << "\n";
+  //std::cout << "x_low = " << x_low  << "\n";
+  //std::cout << "y_high = " << y_high << "\n";
+  //std::cout << "y_low = " << y_low << "\n";
+  //std::cout << "k = " << k << "\n";
+  //std::cout << "k2 = " << k2 << "\n";
+  //std::cout << "z2 * 10**(2*m) =" << z2.lshift(2*k2) << "\n";
+  //std::cout << "(z1 - z2 - z0) * 10**m =" << z3.lshift(k2) << "\n";
+  //std::cout << "z0 = " << z0 << "\n";
   std::cout << "********************************************\n";
 
   BigInt result = z2.lshift(2*k2) + z3.lshift(k2) + z0;
@@ -383,8 +387,8 @@ BigInt karatsuba(BigInt &x, BigInt &y) {
 int main() {
 
 	
-  BigInt x("23");  
-  BigInt y("324");
+  BigInt x("230");  
+  BigInt y("3204");
 
   //BigInt x("90890809809");
   //BigInt y("48909889098");

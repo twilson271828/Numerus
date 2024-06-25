@@ -36,11 +36,22 @@ def karatsuba_copilot(x, y):
 
 	n = max(len(str(x)), len(str(y)))
 	m = n // 2
+	
 
 	x_high, x_low = divmod(x, 10**m)
 	y_high, y_low = divmod(y, 10**m)
 	
-	#print("****************************************")
+	#print("**********************************")
+	#print("x: ",x)
+	#print("y: ",y)
+	#print("x_high: ",x_high)
+	#print("x_low: ",x_low)
+	#print("y_high: ",y_high)
+	#print("y_low: ",y_low)
+	#print("k = ",n)
+	#print("k2 = ",m)
+
+	#print("**********************************")
 	#print("k: ",n)
 	#print("k2:  ",m)
 	#print("x: ",x)
@@ -52,18 +63,22 @@ def karatsuba_copilot(x, y):
 	#print("****************************************")
 	
 	z0 = karatsuba_copilot(x_low, y_low)
+	c1 = x_low+x_high
+	c2 = y_low+y_high
 	z1 = karatsuba_copilot((x_low + x_high), (y_low + y_high))
 	z2 = karatsuba_copilot(x_high, y_high)
 
 	print("****************************************")
-	print("k2 =  ",m)
-	print("x = ",x)
-	print("y = ",y)
+	#print("k2 =  ",m)
+	#print("x = ",x)
+	#print("y = ",y)
 	print ("z0 =",z0)
+	print("c1 = ",c1)
+	print("c2 = ",c2)
 	print ("z1 =",z1)
 	print("z2 = ",z2)
-	print ("z2 * 10**(2*m) =",z2 * 10**(2*m))
-	print ("(z1 - z2 - z0) * 10**m =", (z1 - z2 - z0) * 10**m)
+	#print ("z2 * 10**(2*m) =",z2 * 10**(2*m))
+	#print ("(z1 - z2 - z0) * 10**m =", (z1 - z2 - z0) * 10**m)
 	
 	print("****************************************")
 
@@ -74,8 +89,8 @@ def karatsuba_copilot(x, y):
 
 
 def main():
-	x=2328
-	y=32448
+	x=230
+	y=3204
 	z=karatsuba_copilot(x,y)
 	print(z)
 	#print(x*y)
