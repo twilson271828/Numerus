@@ -387,8 +387,10 @@ BigInt karatsuba(BigInt &x, BigInt &y) {
 int main() {
 
 	
-  BigInt x("230");  
-  BigInt y("3204");
+  //BigInt x("230");  
+  //BigInt y("3204");
+  BigInt x("32");
+  BigInt y("36");
 
   //BigInt x("90890809809");
   //BigInt y("48909889098");

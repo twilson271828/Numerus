@@ -438,8 +438,7 @@ BigInt BigInt::vmult(BigInt &x, BigInt &y) const {
 
   std::vector<uint8_t> x_numerus = x.get_numerus();
   std::vector<uint8_t> y_numerus = y.get_numerus();
-  std::cout << "x_numerus = " << x_numerus << "\n";
-  std::cout << "y_numerus = " << y_numerus << "\n";
+  
   if (x_numerus[0]==0 || y_numerus[0]==0) {
     return BigInt(0);
   }

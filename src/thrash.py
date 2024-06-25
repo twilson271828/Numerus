@@ -89,8 +89,10 @@ def karatsuba_copilot(x, y):
 
 
 def main():
-	x=230
-	y=3204
+	#x=230
+	#y=3204
+	x = 32
+	y = 36
 	z=karatsuba_copilot(x,y)
 	print(z)
 	#print(x*y)
