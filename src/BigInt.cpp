@@ -627,6 +627,7 @@ BigInt BigInt::shift_n(int m, bool add_to_front) const {
 
 BigInt BigInt::operator+(const BigInt &num) const {
   BigInt z;
+  
   BigInt x = *this;
   BigInt y = num;
   int nx = x.size();
@@ -661,14 +662,15 @@ BigInt BigInt::operator+(const BigInt &num) const {
 
   int c = 0;
   int tot = 0;
+  
   for (int i = n - 1; i >= 0; i--) {
-    size_t xi = convertToDecimal(x[i]);
-    size_t yi = convertToDecimal(y[i]);
+    int xi = x[i];
+    int yi = y[i];
     tot = xi + yi + c;
     if (tot >= 10) {
       c = 1;
       z.insert(tot % 10, 0);
-      if (n == 1) {
+      if (n == 1 || i == 0) {
         z.insert(1, 0);
       }
     } else {
