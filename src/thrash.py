@@ -72,14 +72,17 @@ def karatsuba_copilot(x, y):
 	#print("k2 =  ",m)
 	#print("x = ",x)
 	#print("y = ",y)
+	print("x_high: ",x_high)
+	print("x_low: ",x_low)
+	print("y_high: ",y_high)
+	print("y_low: ",y_low)
 	print ("z0 =",z0)
 	print("c1 = ",c1)
 	print("c2 = ",c2)
 	print ("z1 =",z1)
 	print("z2 = ",z2)
-	#print ("z2 * 10**(2*m) =",z2 * 10**(2*m))
-	#print ("(z1 - z2 - z0) * 10**m =", (z1 - z2 - z0) * 10**m)
-	
+	print ("z2 * 10**(2*m) =",z2 * 10**(2*m))
+	print ("(z1 - z2 - z0) * 10**m =", (z1 - z2 - z0) * 10**m)
 	print("****************************************")
 
 	return (z2 * 10**(2*m)) + ((z1 - z2 - z0) * 10**m) + z0
