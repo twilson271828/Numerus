@@ -394,17 +394,27 @@ int main() {
   //BigInt x("32");
   //BigInt y("36");
 
-  BigInt x("90890809809");
-  BigInt y("48909889098");
+  //BigInt x("980");
+  //BigInt y("489");
 
-  BigInt z = karatsuba(x,y);
+  BigInt z0("56");
+  BigInt z1("204");
+  BigInt z2("45");
+
+  //BigInt z = z1-z2-z0;
+  BigInt z = z1-z2;
+  std::cout << "z = " << z << "\n";
+
+  
+
+  //BigInt z = karatsuba(x,y);
   //BigInt z = BigInt("900")+BigInt("240")+BigInt("12");
-  std::cout << "z =   " << z  << "\n";
+  //std::cout << "z =   " << z  << "\n";
   //BigInt x("8");
   //BigInt y("9");
 
   //bool z = x < 10;
-  std::cout << "z =   " << z  << "\n";
+  //std::cout << "z =   " << z  << "\n";
 
 
 #if 0

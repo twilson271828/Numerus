@@ -405,10 +405,15 @@ BigInt BigInt::vsub(BigInt &x, BigInt &y) const {
     }
   }
 
+  std::cout <<"x = " <<x << "\n";
+  std::cout <<"y = " <<y << "\n";
+
   std::vector<uint8_t> x_numerus = x.get_numerus();
   std::vector<uint8_t> y_numerus = y.get_numerus();
 
   for (int i = k - 1; i >= 0; i--) {
+    std::cout << "x_numerus[i] = " << (int)x_numerus[i] << "\n";
+    std::cout << "y_numerus[i] = " << (int)y_numerus[i] << "\n";
     if (x_numerus[i] < y_numerus[i]) {
       int val = x_numerus[i - 1] - 1;
       x_numerus[i - 1] = val;
@@ -543,10 +548,12 @@ BigInt BigInt::operator-(const BigInt &num) const {
 
   if (nx < ny) {
     BigInt zx = x.shift_n(n - m, true);
+    std::cout << "A\n";
     x = zx;
   } else if (nx > ny) {
     BigInt zy = y.shift_n(n - m, true);
     y = zy;
+    std::cout << "B\n";
   }
 
   if (x < y && x.sign == POS && y.sign == POS) {
@@ -558,14 +565,19 @@ BigInt BigInt::operator-(const BigInt &num) const {
     y = temp;
     z = vsub(x, y);
     z.sign = NEG;
+    std::cout << "C\n";
+
     return z;
   }
 
   if (x < y && x.sign == NEG && y.sign == POS) {
+  std::cout << "D\n";
+
     // cannot happen
   }
 
   if (x < y && x.sign == POS && y.sign == NEG) {
+    std::cout << "E\n";
     // cannot happen
   }
 
@@ -573,13 +585,16 @@ BigInt BigInt::operator-(const BigInt &num) const {
     // tested
     z = vsub(x, y);
     z.sign = NEG;
+    std::cout << "F\n";
     return z;
   }
 
   if (x > y && x.sign == POS && y.sign == POS) {
     // tested
     z = vsub(x, y);
+    
     z.sign = POS;
+    std::cout << "G\n";
     return z;
   }
 
@@ -587,10 +602,12 @@ BigInt BigInt::operator-(const BigInt &num) const {
     // tested
     z = vadd(x, y);
     z.sign = POS;
+    std::cout << "H\n";
     return z;
   }
 
   if (x > y && x.sign == NEG && y.sign == POS) {
+    std::cout << "I\n";
     // cannot happen
   }
 
@@ -603,6 +620,7 @@ BigInt BigInt::operator-(const BigInt &num) const {
 
     z = vsub(x, y);
     z.sign = POS;
+    std::cout << "J\n";
     return z;
   }
 
