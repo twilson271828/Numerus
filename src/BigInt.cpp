@@ -1,5 +1,7 @@
 #include "../include/BigInt.hpp"
 
+#include <stdio.h>
+
 std::vector<uint8_t> BigInt::get_numerus() {
 
   std::vector<uint8_t> v = numerus;
@@ -392,9 +394,11 @@ BigInt BigInt::vsub(BigInt &x, BigInt &y) const {
   int m = y.size();
   int k = std::max(n, m);
 
+
+
   std::vector<uint8_t> result(k);
   std::fill(result.begin(), result.end(), uint8_t(0));
-
+#if 0
   if (n != m) {
     if (n > m) {
       int d = n - m;
@@ -404,7 +408,7 @@ BigInt BigInt::vsub(BigInt &x, BigInt &y) const {
       x = x.shift_n(d, true);
     }
   }
-
+#endif
   std::cout <<"x = " <<x << "\n";
   std::cout <<"y = " <<y << "\n";
 
@@ -412,8 +416,8 @@ BigInt BigInt::vsub(BigInt &x, BigInt &y) const {
   std::vector<uint8_t> y_numerus = y.get_numerus();
 
   for (int i = k - 1; i >= 0; i--) {
-    std::cout << "x_numerus[i] = " << (int)x_numerus[i] << "\n";
-    std::cout << "y_numerus[i] = " << (int)y_numerus[i] << "\n";
+    printf("x_numerus[%d] = %d\n",i,x_numerus[i]);
+    //printf("y_numerus[%d] = %d\n",i,y_numerus[i]);
     if (x_numerus[i] < y_numerus[i]) {
       int val = x_numerus[i - 1] - 1;
       x_numerus[i - 1] = val;
