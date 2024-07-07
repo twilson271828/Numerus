@@ -394,10 +394,14 @@ BigInt BigInt::vsub(BigInt &x, BigInt &y) const {
   int m = y.size();
   int k = std::max(n, m);
 
-
-
   std::vector<uint8_t> result(k);
   std::fill(result.begin(), result.end(), uint8_t(0));
+  std::vector<uint8_t> x_numerus = x.get_numerus();
+  std::vector<uint8_t> y_numerus = y.get_numerus();
+
+  for (int i = k - 1; i >= 0; i--) {
+    printf("x_numerus[%d] = %d\n",i,x_numerus[i]);
+  }
 #if 0
   if (n != m) {
     if (n > m) {
@@ -412,15 +416,14 @@ BigInt BigInt::vsub(BigInt &x, BigInt &y) const {
   std::cout <<"x = " <<x << "\n";
   std::cout <<"y = " <<y << "\n";
 
-  std::vector<uint8_t> x_numerus = x.get_numerus();
-  std::vector<uint8_t> y_numerus = y.get_numerus();
-
+ 
   for (int i = k - 1; i >= 0; i--) {
     printf("x_numerus[%d] = %d\n",i,x_numerus[i]);
+    uint8_t carry = 0;
     //printf("y_numerus[%d] = %d\n",i,y_numerus[i]);
     if (x_numerus[i] < y_numerus[i]) {
-      int val = x_numerus[i - 1] - 1;
-      x_numerus[i - 1] = val;
+      x_numerus[i - 1]--;
+      
       result[i] = uint8_t(x_numerus[i] + 10 - y_numerus[i]);
     } else {
       result[i] = uint8_t(x_numerus[i] - y_numerus[i]);
