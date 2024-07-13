@@ -398,8 +398,10 @@ int main() {
   //BigInt y("489");
 
   BigInt z0("56");
-  BigInt z1("204");
+  BigInt z1("2004");
   BigInt z2("45");
+
+  //204-045=056
 
   //BigInt z = z1-z2-z0;
   BigInt z = z1-z2;

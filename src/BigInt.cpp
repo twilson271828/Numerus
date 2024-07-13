@@ -398,10 +398,6 @@ BigInt BigInt::vsub(BigInt &x, BigInt &y) const {
   std::fill(result.begin(), result.end(), uint8_t(0));
   std::vector<uint8_t> x_numerus = x.get_numerus();
   std::vector<uint8_t> y_numerus = y.get_numerus();
-
-  for (int i = k - 1; i >= 0; i--) {
-    printf("x_numerus[%d] = %d\n",i,x_numerus[i]);
-  }
 #if 0
   if (n != m) {
     if (n > m) {
@@ -416,19 +412,30 @@ BigInt BigInt::vsub(BigInt &x, BigInt &y) const {
   std::cout <<"x = " <<x << "\n";
   std::cout <<"y = " <<y << "\n";
 
- 
   for (int i = k - 1; i >= 0; i--) {
-    printf("x_numerus[%d] = %d\n",i,x_numerus[i]);
     uint8_t carry = 0;
-    //printf("y_numerus[%d] = %d\n",i,y_numerus[i]);
     if (x_numerus[i] < y_numerus[i]) {
-      x_numerus[i - 1]--;
+      carry = 1;
+      while (x_numerus[i - 1] == 0) {
+        x_numerus[i-1]=10;
+        i--;
+      }
+      x_numerus[i - 1] -= 1;
       
-      result[i] = uint8_t(x_numerus[i] + 10 - y_numerus[i]);
+      result[i] = x_numerus[i] + 10 - y_numerus[i];
+      printf("x_numerus[%d] = %d\n",i,x_numerus[i]);
+      printf("y_numerus[%d] = %d\n",i,y_numerus[i]);
+      printf("result[%d] = %d\n",i,result[i]);
+
     } else {
-      result[i] = uint8_t(x_numerus[i] - y_numerus[i]);
+      result[i] = x_numerus[i] - y_numerus[i];
     }
   }
+
+ std::cout <<"x = " <<x << "\n";
+ std::cout <<"y = " <<y << "\n";
+
+
 
   int i = 0;
   // Remove any leading zeros
