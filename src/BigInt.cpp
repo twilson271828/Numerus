@@ -416,10 +416,12 @@ BigInt BigInt::vsub(BigInt &x, BigInt &y) const {
     uint8_t carry = 0;
     if (x_numerus[i] < y_numerus[i]) {
       carry = 1;
-      while (x_numerus[i - 1] == 0) {
-        x_numerus[i-1]=10;
-        i--;
+      int j = i;
+      while (x_numerus[j - 1] == 0) {
+        x_numerus[j-1]=10;
+        j--;
       }
+      x_numerus[j-1] -= 1; 
       x_numerus[i - 1] -= 1;
       
       result[i] = x_numerus[i] + 10 - y_numerus[i];
