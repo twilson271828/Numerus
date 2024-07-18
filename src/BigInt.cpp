@@ -385,9 +385,16 @@ BigInt BigInt::vadd(BigInt &x, BigInt &y) const {
     ptr->erase(ptr->begin(), ptr->begin() + i);
   }
 
+
   return z;
 }
 
+void BigInt::print_numerus() const {
+  for (auto x : this->numerus) {
+    std::cout << convertToDecimal(x);
+  }
+  std::cout << "\n";
+}
 BigInt BigInt::vsub(BigInt &x, BigInt &y) const {
 
   int n = x.size();
@@ -409,34 +416,24 @@ BigInt BigInt::vsub(BigInt &x, BigInt &y) const {
     }
   }
 #endif
-  std::cout <<"x = " <<x << "\n";
-  std::cout <<"y = " <<y << "\n";
-
+  //x.print_numerus();
+  //y.print_numerus();
+  uint8_t carry = 0;
   for (int i = k - 1; i >= 0; i--) {
-    uint8_t carry = 0;
-    if (x_numerus[i] < y_numerus[i]) {
+    //for (int i = 0; i < k; i++) {
+    std::cout <<"x["<<i<<"] = "<<convertToDecimal(x_numerus[i])<<"\n";
+    std::cout <<"y["<<i<<"] = "<<convertToDecimal(y_numerus[i])<<"\n";  
+    uint8_t diff = x_numerus[i]-y_numerus[i]-carry;
+    if (diff < 0) {
+      diff += 10;
       carry = 1;
-      int j = i;
-      while (x_numerus[j - 1] == 0) {
-        x_numerus[j-1]=10;
-        j--;
-      }
-      x_numerus[j-1] -= 1; 
-      x_numerus[i - 1] -= 1;
-      
-      result[i] = x_numerus[i] + 10 - y_numerus[i];
-      printf("x_numerus[%d] = %d\n",i,x_numerus[i]);
-      printf("y_numerus[%d] = %d\n",i,y_numerus[i]);
-      printf("result[%d] = %d\n",i,result[i]);
-
-    } else {
-      result[i] = x_numerus[i] - y_numerus[i];
     }
+    else{
+      carry = 0;
+    }
+    
+    result[i] = diff;
   }
-
- std::cout <<"x = " <<x << "\n";
- std::cout <<"y = " <<y << "\n";
-
 
 
   int i = 0;

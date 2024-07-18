@@ -26,6 +26,25 @@ def karatsubaMultiply(x,y):
 
 		return finalAns
 
+
+
+def vsub(x,y):
+	carry = 0
+	result=[]
+	for i in range (len(x)):
+		print("x[%d] = %d, y[%d] = %d, carry = %d" % (i,x[i],i,y[i],carry))
+		diff = x[i] - y[i] - carry
+		if diff < 0:
+			diff += 10
+			carry = 1
+		else:
+			carry = 0
+		result.append(diff)
+
+	return result
+
+
+
 def karatsuba_copilot(x, y):
     
 	if x < 10 or y < 10:
@@ -92,14 +111,10 @@ def karatsuba_copilot(x, y):
 
 
 def main():
-	#x=230
-	#y=3204
-	x = 980
-	y=489
-
-	z=karatsuba_copilot(x,y)
-	print(z)
-	print(x*y)
+	x=[2,0,0,4]
+	y=[0,0,4,5]
+	z=vsub(x,y)
+	print("z = ",z)
 	
 if __name__ == "__main__":
 	main()

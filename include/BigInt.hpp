@@ -52,6 +52,7 @@ public:
   BigInt slice(int i, int j) const;
   uint8_t operator[](const int i) const;
   size_t size() const;
+  void print_numerus() const;
 
   int get_sign() const;
   void set_sign(SIGN x);
