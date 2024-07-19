@@ -425,6 +425,11 @@ BigInt BigInt::vsub(BigInt &x, BigInt &y) const {
     std::cout <<"y["<<i<<"] = "<<convertToDecimal(y_numerus[i])<<"\n";  
     uint8_t diff = x_numerus[i]-y_numerus[i]-carry;
     if (diff < 0) {
+      int j = i-1;
+      while (x_numerus[j] == 0) {
+
+        j--;
+      }
       diff += 10;
       carry = 1;
     }
