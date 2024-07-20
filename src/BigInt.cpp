@@ -396,7 +396,7 @@ void BigInt::print_numerus() const {
   std::cout << "\n";
 }
 BigInt BigInt::vsub(BigInt &x, BigInt &y) const {
-
+  
   int n = x.size();
   int m = y.size();
   int k = std::max(n, m);
@@ -416,22 +416,29 @@ BigInt BigInt::vsub(BigInt &x, BigInt &y) const {
     }
   }
 #endif
-  //x.print_numerus();
-  //y.print_numerus();
+  x.print_numerus();
+  y.print_numerus();
   uint8_t carry = 0;
   for (int i = k - 1; i >= 0; i--) {
+     for (auto x : x_numerus) {
+      std::cout << convertToDecimal(x);
+  }
+  std::cout << "\n";
     //for (int i = 0; i < k; i++) {
-    std::cout <<"x["<<i<<"] = "<<convertToDecimal(x_numerus[i])<<"\n";
-    std::cout <<"y["<<i<<"] = "<<convertToDecimal(y_numerus[i])<<"\n";  
+    //std::cout <<"x["<<i<<"] = "<<convertToDecimal(x_numerus[i])<<"\n";
+    //std::cout <<"y["<<i<<"] = "<<convertToDecimal(y_numerus[i])<<"\n";  
     uint8_t diff = x_numerus[i]-y_numerus[i]-carry;
     if (diff < 0) {
+      carry = 1;
       int j = i-1;
       while (x_numerus[j] == 0) {
-
+        x_numerus[j]=10 - carry;
+        
         j--;
       }
+      x_numerus[j]-=carry;
       diff += 10;
-      carry = 1;
+      carry = 0;
     }
     else{
       carry = 0;
