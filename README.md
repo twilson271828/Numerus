@@ -1,2 +1,2 @@
 # Numerus
-A C++ library for performing number theory calculations
+A C++ library for very large integers.  
