@@ -95,7 +95,6 @@ public:
 };
 
 std::bitset<4> convertToBinary(uint8_t &n);
-size_t convertToDecimal(std::bitset<4> const &n);
 
 struct bitset_add {
   std::bitset<4> sum;

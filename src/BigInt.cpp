@@ -307,13 +307,13 @@ std::ostream &operator<<(std::ostream &out, const BigInt &num) {
       ++i;
     }
     while (i < n) {
-      out << convertToDecimal(num[i]);
+      out << (int)(num[i]);
       i++;
     }
 
   } else {
     for (auto x : num.numerus) {
-      out << convertToDecimal(x);
+      out << (int)(x);
     }
   }
   //out << "\n";
@@ -391,7 +391,7 @@ BigInt BigInt::vadd(BigInt &x, BigInt &y) const {
 
 void BigInt::print_numerus() const {
   for (auto x : this->numerus) {
-    std::cout << convertToDecimal(x);
+    std::cout << (int)(x);
   }
   std::cout << "\n";
 }
@@ -416,24 +416,17 @@ BigInt BigInt::vsub(BigInt &x, BigInt &y) const {
     }
   }
 #endif
-  x.print_numerus();
-  y.print_numerus();
-  uint8_t carry = 0;
+  
+  int carry = 0;
   for (int i = k - 1; i >= 0; i--) {
-     for (auto x : x_numerus) {
-      std::cout << convertToDecimal(x);
-  }
-  std::cout << "\n";
-    //for (int i = 0; i < k; i++) {
-    //std::cout <<"x["<<i<<"] = "<<convertToDecimal(x_numerus[i])<<"\n";
-    //std::cout <<"y["<<i<<"] = "<<convertToDecimal(y_numerus[i])<<"\n";  
-    uint8_t diff = x_numerus[i]-y_numerus[i]-carry;
+  
+    int diff = (int)x_numerus[i]-(int)y_numerus[i]-carry;
+    
     if (diff < 0) {
       carry = 1;
       int j = i-1;
-      while (x_numerus[j] == 0) {
-        x_numerus[j]=10 - carry;
-        
+      while ((int)x_numerus[j] == 0) {
+        x_numerus[j]=10 - carry;        
         j--;
       }
       x_numerus[j]-=carry;
@@ -445,6 +438,7 @@ BigInt BigInt::vsub(BigInt &x, BigInt &y) const {
     }
     
     result[i] = diff;
+
   }
 
 
@@ -573,12 +567,12 @@ BigInt BigInt::operator-(const BigInt &num) const {
 
   if (nx < ny) {
     BigInt zx = x.shift_n(n - m, true);
-    std::cout << "A\n";
+  
     x = zx;
   } else if (nx > ny) {
     BigInt zy = y.shift_n(n - m, true);
     y = zy;
-    std::cout << "B\n";
+    
   }
 
   if (x < y && x.sign == POS && y.sign == POS) {
@@ -590,19 +584,19 @@ BigInt BigInt::operator-(const BigInt &num) const {
     y = temp;
     z = vsub(x, y);
     z.sign = NEG;
-    std::cout << "C\n";
+    
 
     return z;
   }
 
   if (x < y && x.sign == NEG && y.sign == POS) {
-  std::cout << "D\n";
+  
 
     // cannot happen
   }
 
   if (x < y && x.sign == POS && y.sign == NEG) {
-    std::cout << "E\n";
+    
     // cannot happen
   }
 
@@ -610,7 +604,7 @@ BigInt BigInt::operator-(const BigInt &num) const {
     // tested
     z = vsub(x, y);
     z.sign = NEG;
-    std::cout << "F\n";
+    
     return z;
   }
 
@@ -619,7 +613,7 @@ BigInt BigInt::operator-(const BigInt &num) const {
     z = vsub(x, y);
     
     z.sign = POS;
-    std::cout << "G\n";
+    
     return z;
   }
 
@@ -627,12 +621,12 @@ BigInt BigInt::operator-(const BigInt &num) const {
     // tested
     z = vadd(x, y);
     z.sign = POS;
-    std::cout << "H\n";
+    
     return z;
   }
 
   if (x > y && x.sign == NEG && y.sign == POS) {
-    std::cout << "I\n";
+    
     // cannot happen
   }
 
@@ -645,7 +639,7 @@ BigInt BigInt::operator-(const BigInt &num) const {
 
     z = vsub(x, y);
     z.sign = POS;
-    std::cout << "J\n";
+    
     return z;
   }
 
@@ -796,8 +790,8 @@ bool BigInt::operator<(const BigInt &y) const {
   if (n == m) {
    
     for (int i = 0; i < n; i++) {
-      size_t numerus_i = convertToDecimal(numerus[i]);
-      size_t temp_i = convertToDecimal(temp[i]);
+      size_t numerus_i = numerus[i];
+      size_t temp_i = temp[i];
       if ((numerus_i > temp_i) && (xsign == -1)) {
 
         return true;
@@ -851,8 +845,8 @@ bool BigInt::operator<=(const BigInt &y) const {
 
   if (n == m) {
     for (int i = 0; i < n; i++) {
-      size_t numerus_i = convertToDecimal(numerus[i]);
-      size_t temp_i = convertToDecimal(temp[i]);
+      size_t numerus_i =numerus[i];
+      size_t temp_i = temp[i];
       if ((numerus_i > temp_i) && (xsign == -1)) {
 
         return true;
@@ -902,8 +896,8 @@ bool BigInt::operator>(const BigInt &y) const {
 
   if (n == m) {
     for (int i = 0; i < n; i++) {
-      size_t numerus_i = convertToDecimal(numerus[i]);
-      size_t temp_i = convertToDecimal(temp[i]);
+      size_t numerus_i = numerus[i];
+      size_t temp_i = temp[i];
       if ((numerus_i > temp_i) && (xsign == -1))
         return false;
       else if ((numerus_i > temp_i) && (xsign == 1))
@@ -953,8 +947,8 @@ bool BigInt::operator>=(const BigInt &y) const {
 
   if (n == m) {
     for (int i = 0; i < n; i++) {
-      size_t numerus_i = convertToDecimal(numerus[i]);
-      size_t temp_i = convertToDecimal(temp[i]);
+      size_t numerus_i = numerus[i];
+      size_t temp_i = temp[i];
       if ((numerus_i > temp_i) && (xsign == -1))
         return false;
       else if ((numerus_i > temp_i) && (xsign == 1))
@@ -987,8 +981,4 @@ std::bitset<4> convertToBinary(uint8_t &n) {
   return b;
 }
 
-size_t convertToDecimal(std::bitset<4> const &b) {
 
-  size_t n = (size_t)b.to_ulong();
-  return n;
-}
