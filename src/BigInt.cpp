@@ -13,18 +13,19 @@ BigInt BigInt::slice(int i, int j) const {
 
   int d = (j - 1) + 1;
   int ds = this->size() - 1;
+  
   if (d > ds) {
-    return BigInt("NAN");
+    return BigInt("NaN");
   }
 
   if (i > j) {
 
-    return BigInt("NAN");
+    return BigInt("NaN");
   }
 
   if ((i < 0) || (j < 0)) {
-
-    return BigInt("NAN");
+    
+    return BigInt("NaN");
   }
 
   // Starting and Ending iterators
@@ -193,8 +194,9 @@ BigInt::BigInt(const size_t &num) {
 
 BigInt::BigInt(const std::string c) {
   sign = POS;
-  if (c == "NAN") {
+  if (c == "NaN") {
     sign = UNDEFINED;
+    return;
   }
   try {
 
@@ -312,6 +314,10 @@ int BigInt::get_sign() const {
 size_t BigInt::size() const { return numerus.size(); }
 
 std::ostream &operator<<(std::ostream &out, const BigInt &num) {
+  if (num.sign == UNDEFINED){
+    out << "NaN";
+    return out;
+  }
 
   size_t n = num.size();
   if (n == 0) {

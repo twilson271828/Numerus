@@ -290,6 +290,8 @@ convolution(std::vector<std::complex<double>> X1,
 
 #endif
 
+
+
 void printVector(std::vector<int> &x) {
   for (auto &i : x) {
     std::cout << i << " ";
@@ -332,42 +334,10 @@ BigInt karatsuba(BigInt &x, BigInt &y) {
 }
 
 int main() {
+  BigInt z("6789353555355553535353553535");
+  BigInt z2=z.slice(-1,-1);
+  std::cout << "z2 = " << z2 << "\n";
 
-  BigInt x("230");
-  BigInt y("3204");
-  BigInt z = karatsuba(x, y);
-  // BigInt x("32");
-  // BigInt y("36");
 
-  // BigInt x("980");
-  // BigInt y("489");
-
-  BigInt z0("56");
-  BigInt z1("2004");
-  BigInt z2("45");
-
-  // 204-045=056
-
-  // BigInt z = z1-z2;
-  std::cout << "z = " << z << "\n";
-
-  // BigInt z = karatsuba(x,y);
-  // BigInt z = BigInt("900")+BigInt("240")+BigInt("12");
-  // std::cout << "z =   " << z  << "\n";
-  // BigInt x("8");
-  // BigInt y("9");
-
-  // bool z = x < 10;
-  // std::cout << "z =   " << z  << "\n";
-
-#if 0
-  divmod10 dmx = x.divmod(2);
-  std::cout << "dmx.quotient = " << dmx.quotient << "\n";
-  std::cout << "dmx.remainder = " << dmx.remainder << "\n";
-
-  divmod10 dmy = y.divmod(2);
-  std::cout << "dmy.quotient = " << dmy.quotient << "\n";
-  std::cout << "dmy.remainder = " << dmy.remainder << "\n";
-#endif
-  return 0;
+return 0;
 }
