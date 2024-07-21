@@ -11,6 +11,7 @@
 enum SIGN { POS, NEG, UNDEFINED };
 
 struct split;
+struct divmod10;
 
 class BigInt {
 
@@ -22,7 +23,7 @@ private:
   BigInt vsub(BigInt &x, BigInt &y) const;
   BigInt vadd(BigInt &x, BigInt &y) const;
   BigInt vmult(BigInt &x, BigInt &y) const;
-  BigInt karatsuba(BigInt &x, BigInt &y) const;
+
   // BigInt Schonhage_Strassen(BigInt &x, BigInt &y) const;
   // BigInt Toom3(BigInt &x, BigInt &y) const;
   // std::complex<double> exponentiate(size_t k, size_t n, size_t N);
@@ -39,15 +40,19 @@ public:
 
   BigInt(const BigInt &num);
 
-  BigInt(const long &num);
+  BigInt(const size_t &num);
 
   BigInt(const std::vector<uint8_t> &num);
-
+  BigInt karatsuba(BigInt &x, BigInt &y) const;
   void numerus_ix(const int &ix, const uint8_t &val);
+  BigInt lshift(const int n) const;
+  BigInt rshift(const int n) const;
   BigInt shift_n(const int n, bool add_to_front = false) const;
+  divmod10 divmod(const long n) const;
   BigInt slice(int i, int j) const;
   uint8_t operator[](const int i) const;
   size_t size() const;
+  void print_numerus() const;
 
   int get_sign() const;
   void set_sign(SIGN x);
@@ -90,7 +95,6 @@ public:
 };
 
 std::bitset<4> convertToBinary(uint8_t &n);
-size_t convertToDecimal(std::bitset<4> const &n);
 
 struct bitset_add {
   std::bitset<4> sum;
@@ -102,3 +106,14 @@ struct split {
   BigInt xright;
   size_t m;
 };
+
+struct divmod10 {
+  BigInt quotient;
+  BigInt remainder;
+};
+
+inline std::ostream &operator<<(std::ostream &os, const divmod10 &d) {
+  os << "(" << d.quotient << "," << d.remainder << ")";
+
+  return os;
+}
