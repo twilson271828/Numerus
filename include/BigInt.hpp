@@ -23,7 +23,7 @@ private:
   BigInt vsub(BigInt &x, BigInt &y) const;
   BigInt vadd(BigInt &x, BigInt &y) const;
   BigInt vmult(BigInt &x, BigInt &y) const;
-  
+
   // BigInt Schonhage_Strassen(BigInt &x, BigInt &y) const;
   // BigInt Toom3(BigInt &x, BigInt &y) const;
   // std::complex<double> exponentiate(size_t k, size_t n, size_t N);
@@ -46,7 +46,7 @@ public:
   BigInt karatsuba(BigInt &x, BigInt &y) const;
   void numerus_ix(const int &ix, const uint8_t &val);
   BigInt lshift(const int n) const;
-  BigInt rshift(const int n)const;
+  BigInt rshift(const int n) const;
   BigInt shift_n(const int n, bool add_to_front = false) const;
   divmod10 divmod(const long n) const;
   BigInt slice(int i, int j) const;
@@ -112,9 +112,8 @@ struct divmod10 {
   BigInt remainder;
 };
 
-inline std::ostream& operator<<(std::ostream& os, const divmod10& d) { 
-    os << "(" << d.quotient << "," << d.remainder << ")";
-  
-    return os;
-}
+inline std::ostream &operator<<(std::ostream &os, const divmod10 &d) {
+  os << "(" << d.quotient << "," << d.remainder << ")";
 
+  return os;
+}

@@ -290,8 +290,6 @@ convolution(std::vector<std::complex<double>> X1,
 
 #endif
 
-
-
 void printVector(std::vector<int> &x) {
   for (auto &i : x) {
     std::cout << i << " ";
@@ -305,121 +303,62 @@ BigInt karatsuba(BigInt &x, BigInt &y) {
   int m = y.size();
 
   if (x < 10 || y < 10) {
-    //std::cout << "x:   "<< x << "\n";
-    //std::cout << "y:   "<< y << "\n";
+
     return x * y;
   }
 
   int k = std::max(n, m);
 
   int k2 = std::floor(k / 2);
-  
+
   divmod10 dx = x.divmod(k2);
-  
+
   divmod10 dy = y.divmod(k2);
   BigInt x_high = dx.quotient;
   BigInt x_low = dx.remainder;
   BigInt y_high = dy.quotient;
   BigInt y_low = dy.remainder;
-  
-  //std::cout << "********************************************\n";
-  //std::cout << "n = " << n <<"\n";
-  //std::cout << "m = " << m << "\n";
-  //std::cout << "k = "<< k << "\n";
-  //std::cout << "k2 = " << k2 << "\n";
-  //std::cout << "x = " << x << "\n";
-  //std::cout << "y = " << y << "\n";
-  //std::cout << "dx = " << dx << "\n";
-  //std::cout << "dy = " << dy << "\n";
 
-
-  //std::cout << "x_high = " << x_high << "\n";
-  //std::cout << "x_low = " << x_low  << "\n";
-  //std::cout << "y_high = " << y_high << "\n";
-  //std::cout << "y_low = " << y_low << "\n";
-  //std::cout << "********************************************\n";
-  
-  BigInt z0 = karatsuba(x_low,y_low);
+  BigInt z0 = karatsuba(x_low, y_low);
   BigInt c1 = x_low + x_high;
-  BigInt c2 = y_low+y_high;
-  BigInt z1 = karatsuba(c1,c2);
-  BigInt z2 = karatsuba(x_high,y_high);
+  BigInt c2 = y_low + y_high;
+  BigInt z1 = karatsuba(c1, c2);
+  BigInt z2 = karatsuba(x_high, y_high);
   BigInt z3 = z1 - z2 - z0;
-  std::cout << "********************************************\n";
-  std::cout << "x_high = " << x_high << "\n";
-  std::cout << "x_low = " << x_low  << "\n";
-  std::cout << "y_high = " << y_high << "\n";
-  std::cout << "y_low = " << y_low << "\n";
-  std::cout << "z0 = " << z0 << "\n";
-  std::cout << "c1 = " << c1 << "\n";
-  std::cout << "c2 = " << c2 << "\n";
-  std::cout << "z1 = " << z1 << "\n";
-  std::cout << "z2 = " << z2 << "\n";
 
-  //std::cout << "k = " << k << "\n";
-  //std::cout << "k2 = " << k2 << "\n";
-  std::cout << "z2 * 10**(2*m) =" << z2.lshift(2*k2) << "\n";
-  std::cout << "(z1 - z2 - z0) * 10**m =" << z3.lshift(k2) << "\n";
-  //std::cout << "z0 = " << z0 << "\n";
-  std::cout << "********************************************\n";
-
-  BigInt result = z2.lshift(2*k2) + z3.lshift(k2) + z0;
-  
+  BigInt result = z2.lshift(2 * k2) + z3.lshift(k2) + z0;
 
   return result;
-
-// Remove any leading zeros
-#if 0
-  int i = 0;
-    while(P[i] == 0){
-      i++;
-    }
-    
-    if (i > 0) {
-    
-     std::unique_ptr<std::vector<uint8_t>> ptr = P.numerus_ptr();
-     ptr->erase(ptr->begin(),ptr->begin()+i);
-
-    }
-
-#endif
-  
 }
 
 int main() {
 
-	
-  //BigInt x("230");  
-  //BigInt y("3204");
-  //BigInt x("32");
-  //BigInt y("36");
+  BigInt x("230");
+  BigInt y("3204");
+  BigInt z = karatsuba(x, y);
+  // BigInt x("32");
+  // BigInt y("36");
 
-  //BigInt x("980");
-  //BigInt y("489");
+  // BigInt x("980");
+  // BigInt y("489");
 
   BigInt z0("56");
   BigInt z1("2004");
   BigInt z2("45");
 
-  //204-045=056
+  // 204-045=056
 
-  //BigInt z = z1-z2-z0;
-  BigInt z = z1-z2;
+  // BigInt z = z1-z2;
   std::cout << "z = " << z << "\n";
 
-  
+  // BigInt z = karatsuba(x,y);
+  // BigInt z = BigInt("900")+BigInt("240")+BigInt("12");
+  // std::cout << "z =   " << z  << "\n";
+  // BigInt x("8");
+  // BigInt y("9");
 
-  
-
-  //BigInt z = karatsuba(x,y);
-  //BigInt z = BigInt("900")+BigInt("240")+BigInt("12");
-  //std::cout << "z =   " << z  << "\n";
-  //BigInt x("8");
-  //BigInt y("9");
-
-  //bool z = x < 10;
-  //std::cout << "z =   " << z  << "\n";
-
+  // bool z = x < 10;
+  // std::cout << "z =   " << z  << "\n";
 
 #if 0
   divmod10 dmx = x.divmod(2);
@@ -429,7 +368,6 @@ int main() {
   divmod10 dmy = y.divmod(2);
   std::cout << "dmy.quotient = " << dmy.quotient << "\n";
   std::cout << "dmy.remainder = " << dmy.remainder << "\n";
-#endif  
+#endif
   return 0;
 }
-  

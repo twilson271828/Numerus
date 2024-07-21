@@ -18,12 +18,12 @@ BigInt BigInt::slice(int i, int j) const {
   }
 
   if (i > j) {
-  
+
     return BigInt("NAN");
   }
 
   if ((i < 0) || (j < 0)) {
-  
+
     return BigInt("NAN");
   }
 
@@ -56,8 +56,39 @@ split BigInt::split_it(size_t m) const {
 }
 
 BigInt BigInt::karatsuba(BigInt &x, BigInt &y) const {
-  return x;
-  
+  if (x.size() == 0 || y.size() == 0) {
+    return BigInt("0");
+  }
+  int n = x.size();
+  int m = y.size();
+
+  if (x < 10 || y < 10) {
+
+    return x * y;
+  }
+
+  int k = std::max(n, m);
+
+  int k2 = std::floor(k / 2);
+
+  divmod10 dx = x.divmod(k2);
+
+  divmod10 dy = y.divmod(k2);
+  BigInt x_high = dx.quotient;
+  BigInt x_low = dx.remainder;
+  BigInt y_high = dy.quotient;
+  BigInt y_low = dy.remainder;
+
+  BigInt z0 = karatsuba(x_low, y_low);
+  BigInt c1 = x_low + x_high;
+  BigInt c2 = y_low + y_high;
+  BigInt z1 = karatsuba(c1, c2);
+  BigInt z2 = karatsuba(x_high, y_high);
+  BigInt z3 = z1 - z2 - z0;
+
+  BigInt result = z2.lshift(2 * k2) + z3.lshift(k2) + z0;
+
+  return result;
 }
 
 #if 0
@@ -127,14 +158,12 @@ BigInt BigInt::Toom3(BigInt &x, BigInt &y) const { return x; }
 #endif
 BigInt::BigInt() {
   sign = POS;
-  numerus= std::vector<uint8_t>(0);
-  
+  numerus = std::vector<uint8_t>(0);
 }
 
 BigInt::BigInt(const std::vector<uint8_t> &num) {
   numerus = num;
   sign = POS;
-  
 }
 
 BigInt::BigInt(const BigInt &num) {
@@ -150,9 +179,8 @@ BigInt::BigInt(const size_t &num) {
     z.sign = NEG;
   }
 
-  if (x == 0){
-    z.insert(0,0);
-    
+  if (x == 0) {
+    z.insert(0, 0);
   }
 
   while (x > 0) {
@@ -167,7 +195,6 @@ BigInt::BigInt(const std::string c) {
   sign = POS;
   if (c == "NAN") {
     sign = UNDEFINED;
-    
   }
   try {
 
@@ -200,30 +227,29 @@ BigInt::BigInt(const std::string c) {
   }
 }
 
-
 divmod10 BigInt::divmod(const long n) const {
   BigInt z = *this;
-  
+
   divmod10 result;
   int m = z.size();
   if (m <= n) {
-    return divmod10{BigInt("0"),BigInt(z)};
+    return divmod10{BigInt("0"), BigInt(z)};
   }
 
   int d = m - n;
- 
+
   std::vector<uint8_t> quotient(d);
   std::vector<uint8_t> remainder(n);
   for (int i = 0; i <= d; i++) {
     quotient[i] = z[i];
   }
 
-  for(int i = d; i < m; i++){
+  for (int i = d; i < m; i++) {
     int j = i - d;
     remainder[j] = z[i];
-    }
-  
-  if (remainder.size() > 1 && remainder[0] == 0){ 
+  }
+
+  if (remainder.size() > 1 && remainder[0] == 0) {
     remainder.erase(remainder.begin());
   }
   BigInt q(quotient);
@@ -231,24 +257,22 @@ divmod10 BigInt::divmod(const long n) const {
 
   result.quotient = q;
   result.remainder = r;
- 
-  return result;
 
-  }
-  
+  return result;
+}
 
 BigInt BigInt::rshift(const int n) const {
-  
+
   BigInt z(*this);
   for (int i = 0; i < n; i++) {
     z.numerus.pop_back();
   }
   return z;
 }
-//add_to_front = true
+// add_to_front = true
 BigInt BigInt::lshift(const int n) const {
   BigInt z = *this;
-  if (z==0){
+  if (z == 0) {
     return z;
   }
   for (int i = 0; i < n; i++) {
@@ -257,7 +281,6 @@ BigInt BigInt::lshift(const int n) const {
   }
   return z;
 }
-
 
 void BigInt::numerus_ix(const int &ix, const uint8_t &val) {
   numerus[ix] = val;
@@ -291,7 +314,7 @@ size_t BigInt::size() const { return numerus.size(); }
 std::ostream &operator<<(std::ostream &out, const BigInt &num) {
 
   size_t n = num.size();
-  if (n == 0){
+  if (n == 0) {
     return out;
   }
   if (num.sign == NEG) {
@@ -316,7 +339,7 @@ std::ostream &operator<<(std::ostream &out, const BigInt &num) {
       out << (int)(x);
     }
   }
-  //out << "\n";
+  // out << "\n";
 
   return out;
 }
@@ -385,7 +408,6 @@ BigInt BigInt::vadd(BigInt &x, BigInt &y) const {
     ptr->erase(ptr->begin(), ptr->begin() + i);
   }
 
-
   return z;
 }
 
@@ -396,7 +418,7 @@ void BigInt::print_numerus() const {
   std::cout << "\n";
 }
 BigInt BigInt::vsub(BigInt &x, BigInt &y) const {
-  
+
   int n = x.size();
   int m = y.size();
   int k = std::max(n, m);
@@ -405,42 +427,28 @@ BigInt BigInt::vsub(BigInt &x, BigInt &y) const {
   std::fill(result.begin(), result.end(), uint8_t(0));
   std::vector<uint8_t> x_numerus = x.get_numerus();
   std::vector<uint8_t> y_numerus = y.get_numerus();
-#if 0
-  if (n != m) {
-    if (n > m) {
-      int d = n - m;
-      y = y.shift_n(d, true);
-    } else {
-      int d = m - n;
-      x = x.shift_n(d, true);
-    }
-  }
-#endif
-  
+
   int carry = 0;
   for (int i = k - 1; i >= 0; i--) {
-  
-    int diff = (int)x_numerus[i]-(int)y_numerus[i]-carry;
-    
+
+    int diff = (int)x_numerus[i] - (int)y_numerus[i] - carry;
+
     if (diff < 0) {
       carry = 1;
-      int j = i-1;
+      int j = i - 1;
       while ((int)x_numerus[j] == 0) {
-        x_numerus[j]=10 - carry;        
+        x_numerus[j] = 10 - carry;
         j--;
       }
-      x_numerus[j]-=carry;
+      x_numerus[j] -= carry;
       diff += 10;
       carry = 0;
-    }
-    else{
+    } else {
       carry = 0;
     }
-    
+
     result[i] = diff;
-
   }
-
 
   int i = 0;
   // Remove any leading zeros
@@ -462,8 +470,8 @@ BigInt BigInt::vmult(BigInt &x, BigInt &y) const {
 
   std::vector<uint8_t> x_numerus = x.get_numerus();
   std::vector<uint8_t> y_numerus = y.get_numerus();
-  
-  if (x_numerus[0]==0 || y_numerus[0]==0) {
+
+  if (x_numerus[0] == 0 || y_numerus[0] == 0) {
     return BigInt(0);
   }
 
@@ -514,11 +522,11 @@ BigInt BigInt::operator*(const BigInt &num) {
   BigInt x = *this;
   BigInt y = num;
   BigInt z;
-  
+
   if (y.size() > x.size()) {
     z = vmult(y, x);
   } else {
-    
+
     z = vmult(x, y);
   }
 
@@ -567,12 +575,11 @@ BigInt BigInt::operator-(const BigInt &num) const {
 
   if (nx < ny) {
     BigInt zx = x.shift_n(n - m, true);
-  
+
     x = zx;
   } else if (nx > ny) {
     BigInt zy = y.shift_n(n - m, true);
     y = zy;
-    
   }
 
   if (x < y && x.sign == POS && y.sign == POS) {
@@ -584,19 +591,17 @@ BigInt BigInt::operator-(const BigInt &num) const {
     y = temp;
     z = vsub(x, y);
     z.sign = NEG;
-    
 
     return z;
   }
 
   if (x < y && x.sign == NEG && y.sign == POS) {
-  
 
     // cannot happen
   }
 
   if (x < y && x.sign == POS && y.sign == NEG) {
-    
+
     // cannot happen
   }
 
@@ -604,16 +609,16 @@ BigInt BigInt::operator-(const BigInt &num) const {
     // tested
     z = vsub(x, y);
     z.sign = NEG;
-    
+
     return z;
   }
 
   if (x > y && x.sign == POS && y.sign == POS) {
     // tested
     z = vsub(x, y);
-    
+
     z.sign = POS;
-    
+
     return z;
   }
 
@@ -621,12 +626,12 @@ BigInt BigInt::operator-(const BigInt &num) const {
     // tested
     z = vadd(x, y);
     z.sign = POS;
-    
+
     return z;
   }
 
   if (x > y && x.sign == NEG && y.sign == POS) {
-    
+
     // cannot happen
   }
 
@@ -639,7 +644,7 @@ BigInt BigInt::operator-(const BigInt &num) const {
 
     z = vsub(x, y);
     z.sign = POS;
-    
+
     return z;
   }
 
@@ -661,10 +666,9 @@ BigInt BigInt::shift_n(int m, bool add_to_front) const {
   return z;
 }
 
-
 BigInt BigInt::operator+(const BigInt &num) const {
   BigInt z;
-  
+
   BigInt x = *this;
   BigInt y = num;
   int nx = x.size();
@@ -699,7 +703,7 @@ BigInt BigInt::operator+(const BigInt &num) const {
 
   int c = 0;
   int tot = 0;
-  
+
   for (int i = n - 1; i >= 0; i--) {
     int xi = x[i];
     int yi = y[i];
@@ -768,7 +772,6 @@ bool BigInt::operator<(const BigInt &y) const {
     return false;
 
   if (n > m) {
-        
 
     if (xsign == -1 and ysign == -1)
       return true;
@@ -777,7 +780,6 @@ bool BigInt::operator<(const BigInt &y) const {
   }
 
   if (n < m) {
-  
 
     if (xsign == -1 and ysign == -1)
       return false;
@@ -788,7 +790,7 @@ bool BigInt::operator<(const BigInt &y) const {
   }
 
   if (n == m) {
-   
+
     for (int i = 0; i < n; i++) {
       size_t numerus_i = numerus[i];
       size_t temp_i = temp[i];
@@ -845,7 +847,7 @@ bool BigInt::operator<=(const BigInt &y) const {
 
   if (n == m) {
     for (int i = 0; i < n; i++) {
-      size_t numerus_i =numerus[i];
+      size_t numerus_i = numerus[i];
       size_t temp_i = temp[i];
       if ((numerus_i > temp_i) && (xsign == -1)) {
 
@@ -980,5 +982,3 @@ std::bitset<4> convertToBinary(uint8_t &n) {
 
   return b;
 }
-
-
