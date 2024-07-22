@@ -296,19 +296,20 @@ uint8_t BigInt::operator[](const int i) const { return numerus[i]; }
 
 void BigInt::set_sign(SIGN x) { sign = x; }
 void BigInt::operator!() {
-  if (sign == NEG)
+  if (sign == NEG) {
     sign = POS;
-  if (sign == POS)
+  }
+  else if (sign == POS) {
     sign = NEG;
+  }
+  else if (sign == UNDEFINED) {
+    sign = UNDEFINED;
+  }
+ 
 }
-int BigInt::get_sign() const {
-
-  if (sign == NEG)
-    return -1;
-  else if (sign == POS)
-    return 1;
-  else
-    return 0;
+SIGN BigInt::get_sign() const {
+  return sign;
+  
 }
 
 size_t BigInt::size() const { return numerus.size(); }
@@ -345,7 +346,6 @@ std::ostream &operator<<(std::ostream &out, const BigInt &num) {
       out << (int)(x);
     }
   }
-  // out << "\n";
 
   return out;
 }
@@ -424,7 +424,8 @@ void BigInt::print_numerus() const {
   std::cout << "\n";
 }
 BigInt BigInt::vsub(BigInt &x, BigInt &y) const {
-
+  x.print_numerus();
+  y.print_numerus();
   int n = x.size();
   int m = y.size();
   int k = std::max(n, m);

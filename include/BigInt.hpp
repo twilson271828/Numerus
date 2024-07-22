@@ -54,7 +54,7 @@ public:
   size_t size() const;
   void print_numerus() const;
 
-  int get_sign() const;
+  SIGN get_sign() const;
   void set_sign(SIGN x);
   std::unique_ptr<std::vector<uint8_t>> numerus_ptr();
   std::vector<uint8_t> get_numerus();
