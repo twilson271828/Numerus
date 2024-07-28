@@ -334,15 +334,15 @@ BigInt karatsuba(BigInt &x, BigInt &y) {
 }
 
 int main() {
-  
- BigInt z1("4324432423432");
- 
-BigInt z2("23245");
 
-  BigInt z = z1 - z2;
+ BigInt x("271828453454345545545545");
+ BigInt y("314159453453523442343"); 
+
+  BigInt z =x*y;
   std::cout << "z = " << z << "\n";
-  std::cout << "truth = 4324432400187\n";
 
+  
+ 
 
 return 0;
 }

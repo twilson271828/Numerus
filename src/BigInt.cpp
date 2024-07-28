@@ -57,6 +57,9 @@ split BigInt::split_it(size_t m) const {
 }
 
 BigInt BigInt::karatsuba(BigInt &x, BigInt &y) const {
+
+  
+  
   if (x.size() == 0 || y.size() == 0) {
     return BigInt("0");
   }
@@ -64,7 +67,7 @@ BigInt BigInt::karatsuba(BigInt &x, BigInt &y) const {
   int m = y.size();
 
   if (x < 10 || y < 10) {
-
+    
     return x * y;
   }
 
@@ -83,7 +86,9 @@ BigInt BigInt::karatsuba(BigInt &x, BigInt &y) const {
   BigInt z0 = karatsuba(x_low, y_low);
   BigInt c1 = x_low + x_high;
   BigInt c2 = y_low + y_high;
+
   BigInt z1 = karatsuba(c1, c2);
+ 
   BigInt z2 = karatsuba(x_high, y_high);
   BigInt z3 = z1 - z2 - z0;
 
@@ -427,8 +432,7 @@ void BigInt::print_numerus() const {
   std::cout << "\n";
 }
 BigInt BigInt::vsub(BigInt &x, BigInt &y) const {
-  x.print_numerus();
-  y.print_numerus();
+
   int n = x.size();
   int m = y.size();
   int k = std::max(n, m);
@@ -485,9 +489,10 @@ BigInt BigInt::vmult(BigInt &x, BigInt &y) const {
     return BigInt(0);
   }
 
-  // if (n > 50 && m > 50) {
-  //   return karatsuba(x, y);
-  // }
+  if (n > 10 || y > 10) {
+    
+    return karatsuba(x, y);
+   }
 
   int shift = 0;
   int carry = 0;
@@ -573,8 +578,7 @@ BigInt BigInt::operator/(const BigInt &num) const { return num; }
 BigInt BigInt::operator-(const BigInt &num) const {
   BigInt x = *this;
   BigInt y = num;
-  std::cout << "x = " << x << "\n";
-  std::cout << "y = " << y << "\n";
+ 
   BigInt z;
   if (x == y) {
     return BigInt("0");
@@ -587,17 +591,14 @@ BigInt BigInt::operator-(const BigInt &num) const {
   
   if (nx < ny) {
     x = x.shift_n(n - m, true);
-    std::cout << "A\n";
+   
     
   } else if (nx > ny) {
     y = y.shift_n(n - m, true);
-    
-    std::cout << "B\n";
-
+  
   }
   
   if (x < y && x.sign == POS && y.sign == POS) {
-    // tested
     // swap x and y
 
     BigInt temp = x;
@@ -605,24 +606,20 @@ BigInt BigInt::operator-(const BigInt &num) const {
     y = temp;
     z = vsub(x, y);
     z.sign = NEG;
-    std::cout << "C\n";
 
     return z;
   }
 
   if (x < y && x.sign == NEG && y.sign == POS) {
-    std::cout << "D\n";
     // cannot happen
   }
 
   if (x < y && x.sign == POS && y.sign == NEG) {
-     std::cout << "E\n";
+   
     // cannot happen
   }
 
   if (x < y && x.sign == NEG && y.sign == NEG) {
-    // tested
-     std::cout << "F\n";
     z = vsub(x, y);
     z.sign = NEG;
 
@@ -630,18 +627,14 @@ BigInt BigInt::operator-(const BigInt &num) const {
   }
   
   if (x > y && x.sign == POS && y.sign == POS) {
-    // tested
-     std::cout << "G\n";
     z = vsub(x, y);
-
     z.sign = POS;
 
     return z;
   }
 
   if (x > y && x.sign == POS && y.sign == NEG) {
-    // tested
-     std::cout << "H\n";
+    
     z = vadd(x, y);
     z.sign = POS;
 
@@ -649,14 +642,12 @@ BigInt BigInt::operator-(const BigInt &num) const {
   }
 
   if (x > y && x.sign == NEG && y.sign == POS) {
-     std::cout << "I\n";
+    
     // cannot happen
   }
 
   if (x > y && x.sign == NEG && y.sign == NEG) {
-    // tested
     // swap x and y
-     std::cout << "J\n";
     BigInt temp = x;
     x = y;
     y = temp;
