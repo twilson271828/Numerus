@@ -573,6 +573,8 @@ BigInt BigInt::operator/(const BigInt &num) const { return num; }
 BigInt BigInt::operator-(const BigInt &num) const {
   BigInt x = *this;
   BigInt y = num;
+  std::cout << "x = " << x << "\n";
+  std::cout << "y = " << y << "\n";
   BigInt z;
   if (x == y) {
     return BigInt("0");
@@ -582,13 +584,13 @@ BigInt BigInt::operator-(const BigInt &num) const {
 
   int n = std::max(nx, ny);
   int m = std::min(nx, ny);
-  BigInt zx,zy;
+  
   if (nx < ny) {
-    zx = x.shift_n(n - m, true);
+    x = x.shift_n(n - m, true);
     std::cout << "A\n";
     
   } else if (nx > ny) {
-    zy = y.shift_n(n - m, true);
+    y = y.shift_n(n - m, true);
     
     std::cout << "B\n";
 
@@ -598,10 +600,10 @@ BigInt BigInt::operator-(const BigInt &num) const {
     // tested
     // swap x and y
 
-    BigInt temp = zx;
-    zx = zy;
-    zy = temp;
-    z = vsub(zx, zy);
+    BigInt temp = x;
+    x = y;
+    y = temp;
+    z = vsub(x, y);
     z.sign = NEG;
     std::cout << "C\n";
 
@@ -621,19 +623,16 @@ BigInt BigInt::operator-(const BigInt &num) const {
   if (x < y && x.sign == NEG && y.sign == NEG) {
     // tested
      std::cout << "F\n";
-    z = vsub(zx, zy);
+    z = vsub(x, y);
     z.sign = NEG;
 
     return z;
   }
-  std::cout << "x = " << x << "\n";
-  std::cout << "y = " << y << "\n";
-  bool s = x > y;
-  std::cout << "s = " << s << "\n";
+  
   if (x > y && x.sign == POS && y.sign == POS) {
     // tested
      std::cout << "G\n";
-    z = vsub(zx, zy);
+    z = vsub(x, y);
 
     z.sign = POS;
 
@@ -643,7 +642,7 @@ BigInt BigInt::operator-(const BigInt &num) const {
   if (x > y && x.sign == POS && y.sign == NEG) {
     // tested
      std::cout << "H\n";
-    z = vadd(zx, zy);
+    z = vadd(x, y);
     z.sign = POS;
 
     return z;
@@ -658,11 +657,11 @@ BigInt BigInt::operator-(const BigInt &num) const {
     // tested
     // swap x and y
      std::cout << "J\n";
-    BigInt temp = zx;
-    zx = zy;
-    zy = temp;
+    BigInt temp = x;
+    x = y;
+    y = temp;
 
-    z = vsub(zx, zy);
+    z = vsub(x,y);
     z.sign = POS;
 
     return z;
