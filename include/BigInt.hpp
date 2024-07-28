@@ -87,7 +87,7 @@ public:
 
   void operator--();
 
-  void operator!();
+  //void operator!();
 
   split split_it(size_t m) const;
 

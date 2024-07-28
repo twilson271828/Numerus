@@ -295,6 +295,7 @@ std::unique_ptr<std::vector<uint8_t>> BigInt::numerus_ptr() {
 uint8_t BigInt::operator[](const int i) const { return numerus[i]; }
 
 void BigInt::set_sign(SIGN x) { sign = x; }
+#if 0
 void BigInt::operator!() {
   if (sign == NEG) {
     sign = POS;
@@ -307,6 +308,8 @@ void BigInt::operator!() {
   }
  
 }
+#endif
+
 SIGN BigInt::get_sign() const {
   return sign;
   
@@ -700,21 +703,21 @@ BigInt BigInt::operator+(const BigInt &num) const {
     y = zy;
   }
 
-  int xsign = x.get_sign();
-  int ysign = y.get_sign();
+  SIGN xsign = x.get_sign();
+  SIGN ysign = y.get_sign();
 
-  if (xsign < 0 && ysign > 0) {
+  if (xsign == NEG && ysign == POS) {
     x.sign = POS;
     return y - x;
   }
-  if (xsign > 0 && ysign < 0) {
+  if (xsign == POS && ysign == NEG) {
     y.sign = POS;
     return x - y;
   }
-  if (xsign < 0 && ysign < 0) {
+  if (xsign == NEG && ysign == NEG) {
     z.sign = NEG;
   }
-  if (xsign > 0 && ysign > 0) {
+  if (xsign == POS && ysign == POS) {
     z.sign = POS;
   }
 
@@ -739,23 +742,22 @@ BigInt BigInt::operator+(const BigInt &num) const {
   return z;
 }
 
-#if 0
 
-BigInt BigInt::operator!() const {
+#if 0
+ void BigInt::operator!() {
   BigInt z = *this;
   if (z.sign == POS) {
     z.sign = NEG;
   } else {
     z.sign = POS;
   }
-  return z;
+  
 }
 #endif
-
 bool BigInt::operator==(const BigInt &y) const {
   BigInt temp = y;
-  int xsign = get_sign();
-  int ysign = temp.get_sign();
+  SIGN xsign = get_sign();
+  SIGN ysign = temp.get_sign();
   if (xsign != ysign)
     return false;
 
@@ -834,28 +836,28 @@ bool BigInt::operator<=(const BigInt &y) const {
     return true;
   }
   BigInt temp = y;
-  int xsign = get_sign();
-  int ysign = temp.get_sign();
+  SIGN xsign = get_sign();
+  SIGN ysign = temp.get_sign();
 
   int n = size();
   int m = temp.size();
 
-  if (xsign < 0 and ysign > 0)
+  if (xsign == NEG and ysign == POS)
     return true;
-  else if (xsign > 0 and ysign < 0)
+  else if (xsign == POS and ysign ==NEG)
     return false;
 
   if (n > m) {
-    if (xsign == -1 and ysign == -1)
+    if (xsign == NEG and ysign == NEG)
       return true;
-    else if (xsign == 1 and ysign == 1)
+    else if (xsign == POS and ysign == POS)
       return false;
   }
 
   if (n < m) {
-    if (xsign == -1 and ysign == -1)
+    if (xsign == NEG and ysign == NEG)
       return false;
-    else if (xsign == 1 and ysign == 1) {
+    else if (xsign == POS and ysign == POS) {
 
       return false;
     }
@@ -865,14 +867,14 @@ bool BigInt::operator<=(const BigInt &y) const {
     for (int i = 0; i < n; i++) {
       size_t numerus_i = numerus[i];
       size_t temp_i = temp[i];
-      if ((numerus_i > temp_i) && (xsign == -1)) {
+      if ((numerus_i > temp_i) && (xsign == NEG)) {
 
         return true;
       } else if ((numerus_i > temp_i) && (xsign == 1))
         return false;
-      else if ((temp_i > numerus_i) && (xsign == -1))
+      else if ((temp_i > numerus_i) && (xsign == NEG))
         return false;
-      else if ((temp_i > numerus_i) && (xsign == 1)) {
+      else if ((temp_i > numerus_i) && (xsign == POS)) {
 
         return true;
       }
@@ -887,28 +889,28 @@ bool BigInt::operator>(const BigInt &y) const {
   // -1 == False
   BigInt temp = y;
 
-  int xsign = get_sign();
-  int ysign = temp.get_sign();
+  SIGN xsign = get_sign();
+  SIGN ysign = temp.get_sign();
 
   int n = size();
   int m = temp.size();
 
-  if (xsign < 0 and ysign > 0)
+  if (xsign == NEG and ysign == POS)
     return false;
-  else if (xsign > 0 and ysign < 0)
+  else if (xsign == POS and ysign == NEG)
     return true;
 
   if (n > m) {
-    if (xsign == -1 and ysign == -1)
+    if (xsign == NEG and ysign == NEG)
       return false;
-    else if (xsign == 1 and ysign == 1)
+    else if (xsign == POS and ysign == POS)
       return true;
   }
 
   if (n < m) {
-    if (xsign == -1 and ysign == -1)
+    if (xsign == NEG and ysign == NEG)
       return true;
-    else if (xsign == 1 and ysign == 1)
+    else if (xsign == POS and ysign == POS)
       return false;
   }
 
@@ -916,13 +918,13 @@ bool BigInt::operator>(const BigInt &y) const {
     for (int i = 0; i < n; i++) {
       size_t numerus_i = numerus[i];
       size_t temp_i = temp[i];
-      if ((numerus_i > temp_i) && (xsign == -1))
+      if ((numerus_i > temp_i) && (xsign == NEG))
         return false;
-      else if ((numerus_i > temp_i) && (xsign == 1))
+      else if ((numerus_i > temp_i) && (xsign == POS))
         return true;
-      else if ((temp_i > numerus_i) && (xsign == -1))
+      else if ((temp_i > numerus_i) && (xsign == NEG))
         return true;
-      else if ((temp_i > numerus_i) && (xsign == 1))
+      else if ((temp_i > numerus_i) && (xsign == POS))
         return false;
     }
   }
@@ -938,28 +940,28 @@ bool BigInt::operator>=(const BigInt &y) const {
   }
   BigInt temp = y;
 
-  int xsign = get_sign();
-  int ysign = temp.get_sign();
+  SIGN xsign = get_sign();
+  SIGN ysign = temp.get_sign();
 
   int n = size();
   int m = temp.size();
 
-  if (xsign < 0 and ysign > 0)
+  if (xsign ==NEG and ysign == POS)
     return false;
-  else if (xsign > 0 and ysign < 0)
+  else if (xsign == POS and ysign == NEG)
     return true;
 
   if (n > m) {
-    if (xsign == -1 and ysign == -1)
+    if (xsign == NEG and ysign == NEG)
       return false;
-    else if (xsign == 1 and ysign == 1)
+    else if (xsign == POS and ysign == POS)
       return true;
   }
 
   if (n < m) {
-    if (xsign == -1 and ysign == -1)
+    if (xsign == NEG and ysign == NEG)
       return true;
-    else if (xsign == 1 and ysign == 1)
+    else if (xsign == POS and ysign == POS)
       return false;
   }
 
@@ -967,13 +969,13 @@ bool BigInt::operator>=(const BigInt &y) const {
     for (int i = 0; i < n; i++) {
       size_t numerus_i = numerus[i];
       size_t temp_i = temp[i];
-      if ((numerus_i > temp_i) && (xsign == -1))
+      if ((numerus_i > temp_i) && (xsign == NEG))
         return false;
-      else if ((numerus_i > temp_i) && (xsign == 1))
+      else if ((numerus_i > temp_i) && (xsign == POS))
         return true;
-      else if ((temp_i > numerus_i) && (xsign == -1))
+      else if ((temp_i > numerus_i) && (xsign == NEG))
         return true;
-      else if ((temp_i > numerus_i) && (xsign == 1))
+      else if ((temp_i > numerus_i) && (xsign == POS))
         return false;
     }
   }
