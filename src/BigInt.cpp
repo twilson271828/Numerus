@@ -58,9 +58,6 @@ split BigInt::split_it(size_t m) const {
 
 BigInt BigInt::karatsuba(BigInt &x, BigInt &y) const {
 
-   std::cout << "x = " << x << "\n";
-    std::cout << "y = " << y << "\n";  
-  
   if (x.size() == 0 || y.size() == 0) {
     return BigInt("0");
   }
@@ -769,51 +766,45 @@ bool BigInt::operator==(const BigInt &y) const {
 }
 
 bool BigInt::operator<(const BigInt &y) const {
-
   
-  BigInt temp = y;
   SIGN xsign = this->get_sign();
   SIGN ysign = y.get_sign();
 
-  int n = size();
+  int n = this->size();
   int m = y.size();
 
-
+  if (xsign==POS and ysign == NEG){
+    return false;
+  }
+  if (xsign == NEG and ysign == POS){
+    return true;
+  }
   if (n > m) {
     
-    if (xsign == NEG and ysign == POS)
-      return true;
-    else if (xsign == POS and ysign == POS)
-      return false;
-    else if (xsign == NEG and ysign == NEG)
-      return false;
-    else if (xsign==POS and ysign == NEG){
+    if (xsign == POS and ysign == POS){
       return false;
     }
+    else if (xsign == NEG and ysign == NEG)
+      return true;
   }
 
   if (n < m) {
-    if (xsign == NEG and ysign == POS)
-      return true;
-    else if (xsign == POS and ysign == NEG)
-      return false;
-    else if (xsign == NEG and ysign == NEG)
-      return false;
-    else if (xsign == POS and ysign == POS)
-      return false;
-    if (xsign == NEG and ysign == POS){
-            return false;
     
+    if (xsign == NEG and ysign == NEG) {
+      return false;
     }
+    else if (xsign == POS and ysign == POS) {
+      return true;
+    }
+    
   }
-
+  
   if (n == m) {
 
     for (int i = 0; i < n; i++) {
       size_t numerus_i = numerus[i];
-      size_t temp_i = temp[i];
+      size_t temp_i = y[i];
       if ((numerus_i > temp_i) && (xsign == NEG)) {
-
         return true;
       } else if ((numerus_i > temp_i) && (xsign == POS))
         return false;
@@ -830,17 +821,16 @@ bool BigInt::operator<(const BigInt &y) const {
 }
 
 bool BigInt::operator<=(const BigInt &y) const {
-  // -1 == True
-  // 1 == False
+ 
   if (*this == y) {
     return true;
   }
-  BigInt temp = y;
-  SIGN xsign = get_sign();
-  SIGN ysign = temp.get_sign();
+  
+  SIGN xsign = this->get_sign();
+  SIGN ysign = y.get_sign();
 
   int n = size();
-  int m = temp.size();
+  int m = y.size();
 
   if (xsign == NEG and ysign == POS)
     return true;
@@ -848,15 +838,18 @@ bool BigInt::operator<=(const BigInt &y) const {
     return false;
 
   if (n > m) {
-    if (xsign == NEG and ysign == NEG)
+    if (xsign == NEG and ysign == NEG) {
       return true;
-    else if (xsign == POS and ysign == POS)
+    }
+    else if (xsign == POS and ysign == POS) {
       return false;
+    }
   }
 
   if (n < m) {
-    if (xsign == NEG and ysign == NEG)
+    if (xsign == NEG and ysign == NEG) {
       return false;
+    }
     else if (xsign == POS and ysign == POS) {
 
       return false;
@@ -866,7 +859,7 @@ bool BigInt::operator<=(const BigInt &y) const {
   if (n == m) {
     for (int i = 0; i < n; i++) {
       size_t numerus_i = numerus[i];
-      size_t temp_i = temp[i];
+      size_t temp_i = y[i];
       if ((numerus_i > temp_i) && (xsign == NEG)) {
 
         return true;

@@ -34,6 +34,12 @@ TEST_F (BigIntTest, MultiplicationTests) {
 
   EXPECT_EQ(z6, truth2);
 
+  BigInt z7("271828453454345545545545");
+  BigInt z8("314159453453523442343"); 
+  BigInt z9 = z7*z8;
+  BigInt truth3("85397478370333732998963744994908858288011935");
+  EXPECT_EQ(z9, truth3);
+
 
 }
 TEST_F(BigIntTest, InequalityTests) {

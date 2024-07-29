@@ -338,12 +338,12 @@ int main() {
  BigInt x("271828453454345545545545");
  BigInt y("314159453453523442343"); 
 
-  //BigInt z =x*y;
-  //std::cout << "z = " << z << "\n";
-
-  BigInt z("5");
+  BigInt z =x*y;
   std::cout << "z = " << z << "\n";
-  std::cout << "z < 10 = " << (z < BigInt(10)) << "\n";
+
+  //BigInt z("5");
+  //std::cout << "z = " << z << "\n";
+  //std::cout << "z < 10 = " << (z < BigInt(10)) << "\n";
 
   
  
