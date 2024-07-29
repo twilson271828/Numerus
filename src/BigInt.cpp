@@ -58,7 +58,8 @@ split BigInt::split_it(size_t m) const {
 
 BigInt BigInt::karatsuba(BigInt &x, BigInt &y) const {
 
-  
+   std::cout << "x = " << x << "\n";
+    std::cout << "y = " << y << "\n";  
   
   if (x.size() == 0 || y.size() == 0) {
     return BigInt("0");
@@ -66,9 +67,10 @@ BigInt BigInt::karatsuba(BigInt &x, BigInt &y) const {
   int n = x.size();
   int m = y.size();
 
-  if (x < 10 || y < 10) {
-    
-    return x * y;
+  if (x < 10 && y < 10) {
+
+    int result = (int)x[0] * (int)y[0];
+    return BigInt(result);
   }
 
   int k = std::max(n, m);
@@ -183,6 +185,9 @@ BigInt::BigInt(const size_t &num) {
   if (x < 0) {
     x *= -1;
     z.sign = NEG;
+  }
+  else{
+    z.sign = POS;
   }
 
   if (x == 0) {
@@ -765,8 +770,7 @@ bool BigInt::operator==(const BigInt &y) const {
 
 bool BigInt::operator<(const BigInt &y) const {
 
-  // -1 == True
-  // 1 == False
+  
   BigInt temp = y;
   SIGN xsign = this->get_sign();
   SIGN ysign = y.get_sign();
@@ -774,26 +778,32 @@ bool BigInt::operator<(const BigInt &y) const {
   int n = size();
   int m = y.size();
 
-  if (xsign == NEG &&  ysign == POS)
-    return true;
-  else if (xsign == POS and ysign == NEG)
-    return false;
 
   if (n > m) {
-
+    
     if (xsign == NEG and ysign == POS)
       return true;
     else if (xsign == POS and ysign == POS)
       return false;
+    else if (xsign == NEG and ysign == NEG)
+      return false;
+    else if (xsign==POS and ysign == NEG){
+      return false;
+    }
   }
 
   if (n < m) {
-
     if (xsign == NEG and ysign == POS)
-      return false;
-    else if (xsign == POS and ysign == NEG) {
-
       return true;
+    else if (xsign == POS and ysign == NEG)
+      return false;
+    else if (xsign == NEG and ysign == NEG)
+      return false;
+    else if (xsign == POS and ysign == POS)
+      return false;
+    if (xsign == NEG and ysign == POS){
+            return false;
+    
     }
   }
 
