@@ -539,6 +539,7 @@ BigInt BigInt::operator*(const BigInt &num) {
   BigInt x = *this;
   BigInt y = num;
   BigInt z;
+  
 
   if (y.size() > x.size()) {
     z = vmult(y, x);
@@ -546,6 +547,14 @@ BigInt BigInt::operator*(const BigInt &num) {
 
     z = vmult(x, y);
   }
+
+  SIGN xsign = x.get_sign();
+  SIGN ysign = y.get_sign();
+
+    if ( (xsign == NEG and ysign == POS) or (xsign == NEG and ysign == POS) ){
+      
+      z.set_sign(NEG);            
+    }
 
   return z;
 }
@@ -581,7 +590,10 @@ BigInt BigInt::operator-(const BigInt &num) const {
   BigInt x = *this;
   BigInt y = num;
  
-  BigInt z;
+    BigInt z;
+
+  
+
   if (x == y) {
     return BigInt("0");
   }
