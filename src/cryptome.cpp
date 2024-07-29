@@ -335,15 +335,19 @@ BigInt karatsuba(BigInt &x, BigInt &y) {
 
 int main() {
 
- BigInt x("271828453454345545545545");
- BigInt y("314159453453523442343"); 
+ 
+  BigInt z1("543243");
+  BigInt z2("-12443");
+  BigInt z3("-3");
+  BigInt z4("34342324");
+  BigInt z5("-34342324");
 
-  BigInt z =x*y;
-  std::cout << "z = " << z << "\n";
+  std::cout << "z1 < z2 = " << (z1 < z2) << "\n";
+  std::cout << "z1 > z2 = " << (z1 > z2) << "\n";
 
-  //BigInt z("5");
-  //std::cout << "z = " << z << "\n";
-  //std::cout << "z < 10 = " << (z < BigInt(10)) << "\n";
+  std::cout << "z3 < z4 = " << (z3 < z4) << "\n";
+  std::cout << "z3 < z2 = " << (z3 < z2) << "\n";
+
 
   
  
