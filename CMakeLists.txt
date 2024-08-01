@@ -5,11 +5,15 @@ project(
     VERSION 1.0
     LANGUAGES CXX)
 
+    enable_testing()
+
     add_subdirectory(src)
 
     add_subdirectory(include)
 
     add_subdirectory(tests)
+
+    
 
 
     set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
