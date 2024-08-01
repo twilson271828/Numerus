@@ -7,7 +7,8 @@ target_link_libraries(BigIntUnitTest
   GTest::GTest
   BigInt)
 
-  add_test(BigIntUnitTest BigIntUnitTest)
+  
+  add_test(NAME BigIntUnitTest COMMAND BigIntUnitTest)
   
   set_target_properties(BigIntUnitTest PROPERTIES RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/testbin")
 
