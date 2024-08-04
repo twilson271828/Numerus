@@ -32,12 +32,12 @@ project(
         message(FATAL_ERROR "gcovr not found! Please install it.")
     endif()
     
-    # Add a custom target for coverage
     add_custom_target(coverage
-        COMMAND ${CMAKE_CTEST_COMMAND}
-        COMMAND ${GCOVR} -r ${CMAKE_SOURCE_DIR} --html --html-details -o ${CMAKE_BINARY_DIR}/coverage.html
-        WORKING_DIRECTORY ${CMAKE_BINARY_DIR}
-        COMMENT "Generating code coverage report"
-    )
+    COMMAND ${CMAKE_COMMAND} -E env GCOV_PREFIX=${CMAKE_BINARY_DIR}/CMakeFiles/cryptome.dir
+    COMMAND ${CMAKE_COMMAND} -E env GCOV_PREFIX_STRIP=3
+    COMMAND ${CMAKE_COMMAND} -E env GCOVR_CONFIG=${CMAKE_SOURCE_DIR}/.gcovr.cfg
+    COMMAND gcovr -r ${CMAKE_SOURCE_DIR} --html --html-details -o coverage.html
+    WORKING_DIRECTORY ${CMAKE_BINARY_DIR}
+    DEPENDS cryptome
+)
 
-    
