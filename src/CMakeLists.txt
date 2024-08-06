@@ -5,7 +5,8 @@ add_library(BigInt BigInt.cpp ${HEADER_LIST})
 target_include_directories(BigInt PUBLIC ../include)
 
 target_compile_features(BigInt PUBLIC cxx_std_20)
-target_link_libraries(BigInt armadillo)
+target_link_libraries(BigInt gcov)
+
 
 add_executable(driver driver.cpp)
 add_executable(cryptome cryptome.cpp)
