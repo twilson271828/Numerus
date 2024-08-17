@@ -10,8 +10,13 @@ project(
     add_subdirectory(src)
     add_subdirectory(include)
     add_subdirectory(tests)
+    set(CMAKE_VERBOSE_MAKEFILE ON)
 
-    if(CMAKE_COMPILER_IS_GNUCXX)
+    set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
+    set(CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/cmake/)
+    include(${CMAKE_MODULE_PATH}/CodeCoverage.cmake)
+
+    if(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_CXX_COMPILER_ID MATCHES "Clang")
         set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} --coverage")
         set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} --coverage")
         set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} --coverage")
@@ -21,9 +26,8 @@ project(
         message(STATUS "CMAKE_EXE_LINKER_FLAGS: ${CMAKE_EXE_LINKER_FLAGS}")
     endif()
 
-    set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
-    set(CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/cmake/)
-    include(${CMAKE_MODULE_PATH}/CodeCoverage.cmake)
+    add_test(NAME BigIntUnitTest COMMAND BigIntUnitTest)
+    set_target_properties(BigIntUnitTest PROPERTIES RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/testbin")
 
     message(STATUS "CMAKE_RUNTIME_OUTPUT_DIRECTORY: ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}")
     message(STATUS "CMAKE_MODULE_PATH: ${CMAKE_MODULE_PATH}")
@@ -35,4 +39,10 @@ project(
         message(FATAL_ERROR "gcovr not found! Please install it.")
     endif()
     
-   
+add_custom_target(coverage
+    COMMAND ${CMAKE_COMMAND} -E env GCOV_PREFIX=${CMAKE_BINARY_DIR} GCOV_PREFIX_STRIP=3 gcovr -r ${CMAKE_SOURCE_DIR} --html --html-details -o coverage.html
+    WORKING_DIRECTORY ${CMAKE_BINARY_DIR}
+    DEPENDS BigIntUnitTest
+)
+
+message(STATUS "CMAKE_SOURCE_DIR: ${CMAKE_SOURCE_DIR}")
