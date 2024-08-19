@@ -8,7 +8,7 @@ target_link_libraries(BigIntUnitTest
   BigInt)
 
   
-  add_test(NAME BigIntUnitTest COMMAND BigIntUnitTest)
+add_test(NAME BigIntUnitTest COMMAND BigIntUnitTest)
   
 target_compile_options(BigIntUnitTest PRIVATE --coverage)
 target_link_libraries(BigIntUnitTest PRIVATE --coverage)

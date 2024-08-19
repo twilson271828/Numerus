@@ -46,6 +46,13 @@ TEST_F (BigIntTest, MultiplicationTests) {
   BigInt truth4("-85397478370333732998963744994908858288011935");
   EXPECT_EQ(z12, truth4);
 
+  BigInt z13("-271828453454345545545545");
+  BigInt z14("-314159453453523442343");
+  BigInt z15 = z13*z14;
+  BigInt truth5("85397478370333732998963744994908858288011935");
+  EXPECT_EQ(z15, truth5);
+
+
 
 }
 TEST_F(BigIntTest, InequalityTests) {
@@ -84,7 +91,10 @@ TEST_F(BigIntTest, InequalityTests) {
   EXPECT_EQ(z11, 0);
 }
 
-TEST_F(BigIntTest, EqualityTests) { EXPECT_EQ(e, e); }
+TEST_F(BigIntTest, EqualityTests) { 
+  EXPECT_EQ(e, e); 
+  EXPECT_NE(e, pi);
+  }
 
 // Demonstrate some basic assertions.
 TEST_F(BigIntTest, AdditionTests) {
@@ -126,9 +136,19 @@ TEST_F(BigIntTest, shift_n_Test) {
 }
 
 TEST_F(BigIntTest, split_it_tests) {
-
+  
+  
   BigInt z("6789424643665457123213125523442134324234242352342380724234242");
-  EXPECT_EQ(z, z);
+  split c1 = z.split_it(6);
+  BigInt zleft("6789424643665457123213125523442134324234242352342380724");
+  BigInt zright("234242");
+  BigInt nan("NaN");
+  EXPECT_EQ(c1.xleft, zleft);
+  EXPECT_EQ(c1.xright, zright);
+  split c2 = z.split_it(62);
+  EXPECT_EQ(c2.xleft,nan);
+  EXPECT_EQ(c2.xright,nan);
+
 }
 
 TEST_F(BigIntTest, SliceTests) {
