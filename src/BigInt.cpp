@@ -556,6 +556,10 @@ BigInt BigInt::operator*(const BigInt &num) {
       z.set_sign(NEG);            
     }
 
+    if (xsign == NEG and ysign == NEG){
+      z.set_sign(POS);
+    }
+
   return z;
 }
 
