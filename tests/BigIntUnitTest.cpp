@@ -4,7 +4,13 @@
 class BigIntTest : public ::testing::Test {
 public:
   void SetUp() override {
+    //long constructors
+    zero_long=BigInt(0);
+    pi_long=BigInt(314159);
+    mpi_long=BigInt(-314159);
 
+    //string constructors
+    nan  = BigInt("NaN");
     c0 = BigInt("0");
     e = BigInt("271828");
     pi = BigInt("314159");
@@ -13,12 +19,44 @@ public:
   }
   void TearDown() override {}
 
+  BigInt zero_long;
+  BigInt pi_long;
+  BigInt mpi_long;
+
+  BigInt nan;
   BigInt c0;
   BigInt e;
   BigInt pi;
   BigInt me;
   BigInt mpi;
 };
+
+TEST_F(BigIntTest, ConstructorTests) {
+
+  BigInt z1("NaN");
+  BigInt z2("314159");
+  BigInt z3("-271828");
+  BigInt z4("-314159");
+  BigInt z5("0");
+
+  EXPECT_EQ(z1, nan);
+  EXPECT_EQ(z1.get_sign(), UNDEFINED);
+  EXPECT_EQ(z2, pi);
+  EXPECT_EQ(z3, me);
+  EXPECT_EQ(z4, mpi);
+  EXPECT_EQ(z5, c0);
+
+
+  BigInt z6(0);
+  BigInt z7(314159);
+  BigInt z8(-314159);
+
+  EXPECT_EQ(z6, zero_long);
+  EXPECT_EQ(z7, pi_long);
+  EXPECT_EQ(z8, mpi_long);
+}
+
+
 TEST_F (BigIntTest, MultiplicationTests) {
   BigInt z1("271828453454345545545545");
   BigInt z2("314159453453523442343");
