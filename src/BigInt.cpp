@@ -13,7 +13,7 @@ BigInt BigInt::slice(int i, int j) const {
 
   int d = (j - 1) + 1;
   int ds = this->size() - 1;
-  
+
   if (d > ds) {
     return BigInt("NaN");
   }
@@ -24,7 +24,7 @@ BigInt BigInt::slice(int i, int j) const {
   }
 
   if ((i < 0) || (j < 0)) {
-    
+
     return BigInt("NaN");
   }
 
@@ -59,14 +59,16 @@ split BigInt::split_it(size_t m) const {
 BigInt BigInt::karatsuba(BigInt &x, BigInt &y) const {
 
   if (x.size() == 0 || y.size() == 0) {
+
     return BigInt("0");
   }
   int n = x.size();
   int m = y.size();
 
-  if (x < 10 && y < 10) {
+  if (x.abs() < 10 && y.abs() < 10) {
 
     int result = (int)x[0] * (int)y[0];
+
     return BigInt(result);
   }
 
@@ -87,7 +89,7 @@ BigInt BigInt::karatsuba(BigInt &x, BigInt &y) const {
   BigInt c2 = y_low + y_high;
 
   BigInt z1 = karatsuba(c1, c2);
- 
+
   BigInt z2 = karatsuba(x_high, y_high);
   BigInt z3 = z1 - z2 - z0;
 
@@ -182,8 +184,7 @@ BigInt::BigInt(const size_t &num) {
   if (x < 0) {
     x *= -1;
     z.sign = NEG;
-  }
-  else{
+  } else {
     z.sign = POS;
   }
 
@@ -242,6 +243,7 @@ divmod10 BigInt::divmod(const long n) const {
   divmod10 result;
   int m = z.size();
   if (m <= n) {
+
     return divmod10{BigInt("0"), BigInt(z)};
   }
 
@@ -317,15 +319,21 @@ void BigInt::operator!() {
 }
 #endif
 
-SIGN BigInt::get_sign() const {
-  return sign;
-  
+BigInt BigInt::abs() const {
+  BigInt z = *this;
+  if (z.get_sign() == NEG) {
+    z.set_sign(POS);
+  }
+  return z;
 }
+
+SIGN BigInt::get_sign() const { return sign; }
 
 size_t BigInt::size() const { return numerus.size(); }
 
 std::ostream &operator<<(std::ostream &out, const BigInt &num) {
-  if (num.sign == UNDEFINED){
+
+  if (num.sign == UNDEFINED) {
     out << "NaN";
     return out;
   }
@@ -347,10 +355,9 @@ std::ostream &operator<<(std::ostream &out, const BigInt &num) {
       ++i;
     }
     while (i < n) {
-      out << (int)(num[i]);
+      out << static_cast<int>(num[i]);
       i++;
     }
-
   } else {
     for (auto x : num.numerus) {
       out << (int)(x);
@@ -488,13 +495,14 @@ BigInt BigInt::vmult(BigInt &x, BigInt &y) const {
   std::vector<uint8_t> y_numerus = y.get_numerus();
 
   if (x_numerus[0] == 0 || y_numerus[0] == 0) {
+
     return BigInt(0);
   }
 
   if (n > 10 || y > 10) {
-    
+
     return karatsuba(x, y);
-   }
+  }
 
   int shift = 0;
   int carry = 0;
@@ -539,7 +547,6 @@ BigInt BigInt::operator*(const BigInt &num) {
   BigInt x = *this;
   BigInt y = num;
   BigInt z;
-  
 
   if (y.size() > x.size()) {
     z = vmult(y, x);
@@ -551,14 +558,14 @@ BigInt BigInt::operator*(const BigInt &num) {
   SIGN xsign = x.get_sign();
   SIGN ysign = y.get_sign();
 
-    if ( (xsign == NEG and ysign == POS) or (xsign == NEG and ysign == POS) ){
-      
-      z.set_sign(NEG);            
-    }
+  if ((xsign == NEG and ysign == POS) or (xsign == NEG and ysign == POS)) {
 
-    if (xsign == NEG and ysign == NEG){
-      z.set_sign(POS);
-    }
+    z.set_sign(NEG);
+  }
+
+  if (xsign == NEG and ysign == NEG) {
+    z.set_sign(POS);
+  }
 
   return z;
 }
@@ -593,10 +600,8 @@ BigInt BigInt::operator/(const BigInt &num) const { return num; }
 BigInt BigInt::operator-(const BigInt &num) const {
   BigInt x = *this;
   BigInt y = num;
- 
-    BigInt z;
 
-  
+  BigInt z;
 
   if (x == y) {
     return BigInt("0");
@@ -606,16 +611,13 @@ BigInt BigInt::operator-(const BigInt &num) const {
 
   int n = std::max(nx, ny);
   int m = std::min(nx, ny);
-  
+
   if (nx < ny) {
     x = x.shift_n(n - m, true);
-   
-    
   } else if (nx > ny) {
     y = y.shift_n(n - m, true);
-  
   }
-  
+
   if (x < y && x.sign == POS && y.sign == POS) {
     // swap x and y
 
@@ -633,7 +635,7 @@ BigInt BigInt::operator-(const BigInt &num) const {
   }
 
   if (x < y && x.sign == POS && y.sign == NEG) {
-   
+
     // cannot happen
   }
 
@@ -643,7 +645,7 @@ BigInt BigInt::operator-(const BigInt &num) const {
 
     return z;
   }
-  
+
   if (x > y && x.sign == POS && y.sign == POS) {
     z = vsub(x, y);
     z.sign = POS;
@@ -652,7 +654,7 @@ BigInt BigInt::operator-(const BigInt &num) const {
   }
 
   if (x > y && x.sign == POS && y.sign == NEG) {
-    
+
     z = vadd(x, y);
     z.sign = POS;
 
@@ -660,7 +662,7 @@ BigInt BigInt::operator-(const BigInt &num) const {
   }
 
   if (x > y && x.sign == NEG && y.sign == POS) {
-    
+
     // cannot happen
   }
 
@@ -670,7 +672,7 @@ BigInt BigInt::operator-(const BigInt &num) const {
     x = y;
     y = temp;
 
-    z = vsub(x,y);
+    z = vsub(x, y);
     z.sign = POS;
 
     return z;
@@ -686,7 +688,6 @@ BigInt BigInt::shift_n(int m, bool add_to_front) const {
     if (add_to_front) {
 
       z.numerus.insert(z.numerus.begin(), b);
-
     } else {
       z.numerus.push_back(b);
     }
@@ -750,7 +751,6 @@ BigInt BigInt::operator+(const BigInt &num) const {
   return z;
 }
 
-
 #if 0
  void BigInt::operator!() {
   BigInt z = *this;
@@ -782,39 +782,36 @@ bool BigInt::operator==(const BigInt &y) const {
 }
 
 bool BigInt::operator<(const BigInt &y) const {
-  
+
   SIGN xsign = this->get_sign();
   SIGN ysign = y.get_sign();
 
   int n = this->size();
   int m = y.size();
 
-  if (xsign==POS and ysign == NEG){
+  if (xsign == POS and ysign == NEG) {
     return false;
   }
-  if (xsign == NEG and ysign == POS){
+  if (xsign == NEG and ysign == POS) {
     return true;
   }
   if (n > m) {
-    
-    if (xsign == POS and ysign == POS){
+
+    if (xsign == POS and ysign == POS) {
       return false;
-    }
-    else if (xsign == NEG and ysign == NEG)
+    } else if (xsign == NEG and ysign == NEG)
       return true;
   }
 
   if (n < m) {
-    
+
     if (xsign == NEG and ysign == NEG) {
       return false;
-    }
-    else if (xsign == POS and ysign == POS) {
+    } else if (xsign == POS and ysign == POS) {
       return true;
     }
-    
   }
-  
+
   if (n == m) {
 
     for (int i = 0; i < n; i++) {
@@ -837,11 +834,11 @@ bool BigInt::operator<(const BigInt &y) const {
 }
 
 bool BigInt::operator<=(const BigInt &y) const {
- 
+
   if (*this == y) {
     return true;
   }
-  
+
   SIGN xsign = this->get_sign();
   SIGN ysign = y.get_sign();
 
@@ -850,14 +847,13 @@ bool BigInt::operator<=(const BigInt &y) const {
 
   if (xsign == NEG and ysign == POS)
     return true;
-  else if (xsign == POS and ysign ==NEG)
+  else if (xsign == POS and ysign == NEG)
     return false;
 
   if (n > m) {
     if (xsign == NEG and ysign == NEG) {
       return true;
-    }
-    else if (xsign == POS and ysign == POS) {
+    } else if (xsign == POS and ysign == POS) {
       return false;
     }
   }
@@ -865,8 +861,7 @@ bool BigInt::operator<=(const BigInt &y) const {
   if (n < m) {
     if (xsign == NEG and ysign == NEG) {
       return false;
-    }
-    else if (xsign == POS and ysign == POS) {
+    } else if (xsign == POS and ysign == POS) {
 
       return false;
     }
@@ -955,7 +950,7 @@ bool BigInt::operator>=(const BigInt &y) const {
   int n = size();
   int m = temp.size();
 
-  if (xsign ==NEG and ysign == POS)
+  if (xsign == NEG and ysign == POS)
     return false;
   else if (xsign == POS and ysign == NEG)
     return true;

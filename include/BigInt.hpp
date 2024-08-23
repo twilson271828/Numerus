@@ -53,7 +53,7 @@ public:
   uint8_t operator[](const int i) const;
   size_t size() const;
   void print_numerus() const;
-
+  BigInt abs() const;
   SIGN get_sign() const;
   void set_sign(SIGN x);
   std::unique_ptr<std::vector<uint8_t>> numerus_ptr();
@@ -87,7 +87,7 @@ public:
 
   void operator--();
 
-  //void operator!();
+  // void operator!();
 
   split split_it(size_t m) const;
 

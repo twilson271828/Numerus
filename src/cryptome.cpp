@@ -290,8 +290,6 @@ convolution(std::vector<std::complex<double>> X1,
 
 #endif
 
-
-
 void printVector(std::vector<int> &x) {
   for (auto &i : x) {
     std::cout << i << " ";
@@ -335,14 +333,11 @@ BigInt karatsuba(BigInt &x, BigInt &y) {
 
 int main() {
 
-    BigInt z13("-271828453454345545545545");
-    BigInt z14("-314159453453523442343");
+  BigInt z13("-271828453454345545545545");
+  BigInt z14("-314159453453523442343");
+  BigInt z15 = z13 * z14;
+  std::cout << "z15   = " << z15 << "\n";
+  std::cout << "truth = 85397478370333732998963744994908858288011935\n";
 
-    BigInt z15 = z13*z14;
-    std::cout << "z15 = " << z15 << "\n";
-
- 
-
-
-return 0;
+  return 0;
 }
