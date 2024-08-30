@@ -13,9 +13,9 @@ public:
     //string constructors
     nan  = BigInt("NaN");
     //c0 = BigInt("0");
-    //e = BigInt("271828");
+    e = BigInt("271828");
     //pi = BigInt("314159");
-    //me = BigInt("-271828");
+    me = BigInt("-271828");
     //mpi = BigInt("-314159");
   }
   void TearDown() override {}
@@ -39,7 +39,8 @@ TEST_F(BigIntTest, ConstructorTests) {
 
   
   //BigInt z2("314159");
-  //BigInt z3("-271828");
+  BigInt z3("271828");
+  BigInt z4("-271828");
   //BigInt z4("-314159");
   //BigInt z5("0");
 
@@ -47,7 +48,8 @@ TEST_F(BigIntTest, ConstructorTests) {
   EXPECT_NE(z2,nan);
   //EXPECT_EQ(z1.get_sign(), UNDEFINED);
   //EXPECT_EQ(z2, pi);
-  //EXPECT_EQ(z3, me);
+  EXPECT_EQ(z3, e);
+  EXPECT_EQ(z4, me);
   //EXPECT_EQ(z4, mpi);
   //EXPECT_EQ(z5, c0);
 

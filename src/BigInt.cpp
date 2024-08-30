@@ -221,8 +221,8 @@ BigInt::BigInt(const std::string c) {
         }
 
         else {
-          throw std::runtime_error("Encountered a non-numeric char character "
-                                   "when attempting to construct a BigInt");
+          sign = UNDEFINED;
+          return;
         }
       } else {
 
