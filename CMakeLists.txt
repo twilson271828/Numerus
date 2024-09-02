@@ -21,16 +21,13 @@ project(
         set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} --coverage")
         set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} --coverage")
 
-        message(STATUS "CMAKE_CXX_FLAGS: ${CMAKE_CXX_FLAGS}")
-        message(STATUS "CMAKE_C_FLAGS: ${CMAKE_C_FLAGS}")
-        message(STATUS "CMAKE_EXE_LINKER_FLAGS: ${CMAKE_EXE_LINKER_FLAGS}")
     endif()
 
     add_test(NAME BigIntUnitTest COMMAND BigIntUnitTest)
     set_target_properties(BigIntUnitTest PROPERTIES RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/testbin")
 
-    message(STATUS "CMAKE_RUNTIME_OUTPUT_DIRECTORY: ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}")
-    message(STATUS "CMAKE_MODULE_PATH: ${CMAKE_MODULE_PATH}")
+    #message(STATUS "CMAKE_RUNTIME_OUTPUT_DIRECTORY: ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}")
+    #message(STATUS "CMAKE_MODULE_PATH: ${CMAKE_MODULE_PATH}")
 
     
     # Find gcovr
@@ -39,10 +36,4 @@ project(
         message(FATAL_ERROR "gcovr not found! Please install it.")
     endif()
     
-add_custom_target(coverage
-    COMMAND ${CMAKE_COMMAND} -E env GCOV_PREFIX=${CMAKE_BINARY_DIR} GCOV_PREFIX_STRIP=3 gcovr -r ${CMAKE_SOURCE_DIR} --html --html-details -o coverage.html
-    WORKING_DIRECTORY ${CMAKE_BINARY_DIR}
-    DEPENDS BigIntUnitTest
-)
-
-message(STATUS "CMAKE_SOURCE_DIR: ${CMAKE_SOURCE_DIR}")
+#message(STATUS "CMAKE_SOURCE_DIR: ${CMAKE_SOURCE_DIR}")
