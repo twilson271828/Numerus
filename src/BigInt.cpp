@@ -499,11 +499,12 @@ BigInt BigInt::vmult(BigInt &x, BigInt &y) const {
     return BigInt(0);
   }
 
-  if (n > 10 || y > 10) {
-
+  if (n > 10 || m > 10) {
+    
     return karatsuba(x, y);
   }
 
+ 
   int shift = 0;
   int carry = 0;
   int base = 10;
@@ -868,18 +869,24 @@ bool BigInt::operator<=(const BigInt &y) const {
   }
 
   if (n == m) {
+   
     for (int i = 0; i < n; i++) {
       size_t numerus_i = numerus[i];
       size_t temp_i = y[i];
+  
       if ((numerus_i > temp_i) && (xsign == NEG)) {
-
+        
         return true;
-      } else if ((numerus_i > temp_i) && (xsign == 1))
+      } else if ((numerus_i > temp_i) && (xsign == POS)){
+         
         return false;
-      else if ((temp_i > numerus_i) && (xsign == NEG))
+      }
+      else if ((temp_i > numerus_i) && (xsign == NEG)){
+         
         return false;
+      }
       else if ((temp_i > numerus_i) && (xsign == POS)) {
-
+          
         return true;
       }
     } // end for

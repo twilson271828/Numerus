@@ -333,8 +333,12 @@ BigInt karatsuba(BigInt &x, BigInt &y) {
 
 int main() {
 
-  BigInt z13("-2$4$$#");
-  std::cout << "z13 = " << z13 << "\n";
- 
+  BigInt z16("535344");
+  BigInt z17("42323");
+  BigInt z18 = z16 * z17;
+  BigInt pi("314159");
+  BigInt e("271828");
+  bool z = pi <= e;
+  std::cout << "z = " << z << "\n";
   return 0;
 }

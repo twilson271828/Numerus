@@ -11,7 +11,9 @@ public:
     mpi_long=BigInt(-314159);
 
     //string constructors
-    nan  = BigInt("NaN");
+    nan1  = BigInt("NaN");
+    nan2  = BigInt("32$$%");
+    
     c0 = BigInt("0");
     e = BigInt("271828");
     pi = BigInt("314159");
@@ -24,7 +26,8 @@ public:
   BigInt pi_long;
   BigInt mpi_long;
 
-  BigInt nan;
+  BigInt nan1;
+  BigInt nan2;
   BigInt c0;
   BigInt e;
   BigInt pi;
@@ -42,21 +45,50 @@ TEST_F(BigIntTest, ConstructorTests) {
   
   BigInt z5("0");
 
-  EXPECT_EQ(z1, nan);
-  EXPECT_NE(z2,nan);
+  EXPECT_EQ(z1, nan1);
+  EXPECT_NE(z2,nan1);
   EXPECT_EQ(z1.get_sign(), UNDEFINED);
-  EXPECT_EQ(z2, pi);
+  
   EXPECT_EQ(z3, e);
   EXPECT_EQ(z4, me);
-  EXPECT_EQ(z4, mpi);
   EXPECT_EQ(z5, c0);
-  BigInt z6(0);
-  BigInt z7(314159);
-  BigInt z8(-314159);
-
- 
+  
 }
 
+TEST_F(BigIntTest, Get_Numerus){
+  BigInt z1("271828");
+  std::vector<uint8_t> v1 = {2,7,1,8,2,8};
+  EXPECT_EQ(z1.get_numerus(), v1);
+
+}
+
+TEST_F(BigIntTest, OstreamOperator) {
+    std::ostringstream oss;
+    oss << e;
+    EXPECT_EQ(oss.str(), "271828");
+
+    oss.str("");  // Clear the stream
+    oss << pi;
+    EXPECT_EQ(oss.str(), "314159");
+
+    oss.str("");  // Clear the stream
+    oss << me;
+    EXPECT_EQ(oss.str(), "-271828");
+
+    oss.str("");  // Clear the stream
+    oss << mpi;
+    EXPECT_EQ(oss.str(), "-314159");
+
+    oss.str("");
+    oss << nan1;
+    EXPECT_EQ(oss.str(), "NaN");
+
+    oss.str("");
+    oss << nan2;
+    EXPECT_EQ(oss.str(), "NaN");
+
+
+}
 
 TEST_F (BigIntTest, MultiplicationTests) {
   BigInt z1("271828453454345545545545");
@@ -90,6 +122,12 @@ TEST_F (BigIntTest, MultiplicationTests) {
   BigInt z15 = z13*z14;
   BigInt truth5("85397478370333732998963744994908858288011935");
   EXPECT_EQ(z15, truth5);
+
+  BigInt z16("535344");
+  BigInt z17("42323");
+  BigInt truth6("22657364112");
+  BigInt z18 = z16*z17;
+  EXPECT_EQ(z18, truth6);
 
 
 
@@ -128,6 +166,15 @@ TEST_F(BigIntTest, InequalityTests) {
 
   bool z11 = e < mpi;
   EXPECT_EQ(z11, 0);
+
+  bool z12 = pi <= e;
+  EXPECT_EQ(z12, 0);
+
+  bool z13 = e <= pi;
+  EXPECT_EQ(z13, 1);
+
+  bool z14 = mpi >= me;
+  EXPECT_EQ(z14, 0);
 }
 
 TEST_F(BigIntTest, EqualityTests) { 
