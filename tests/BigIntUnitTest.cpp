@@ -297,6 +297,23 @@ TEST_F(BigIntTest, SubtractionTests) {
   // EXPECT_EQ(truth4,mz1-mz2);
 }
 
+TEST_F(BigIntTest,PreIncrementTest){
+
+  BigInt z("234324324234");
+  ++z;
+  BigInt truth("234324324235");
+  EXPECT_EQ(z, truth);
+
+}
+
+TEST_F(BigIntTest,PreDecrementTest){
+
+  BigInt z("234324324234");
+  --z;
+  BigInt truth("234324324233");
+  EXPECT_EQ(z, truth);
+
+}
 
 int main(int argc, char **argv) {
 
