@@ -34,6 +34,16 @@ public:
   BigInt me;
   BigInt mpi;
 };
+TEST_F(BigIntTest, LongConstructorTests) {
+  EXPECT_EQ(zero_long, c0);
+  EXPECT_EQ(pi_long, pi);
+  EXPECT_EQ(mpi_long, mpi);
+}
+
+TEST_F(BigIntTest,print_numerus){
+  BigInt z("271828");
+  z.print_numerus();
+}
 
 TEST_F(BigIntTest, ConstructorTests) {
 
@@ -125,9 +135,21 @@ TEST_F (BigIntTest, MultiplicationTests) {
 
   BigInt z16("535344");
   BigInt z17("42323");
-  BigInt truth6("22657364112");
+  BigInt truth6("22657364112"); 
   BigInt z18 = z16*z17;
   EXPECT_EQ(z18, truth6);
+
+  BigInt z19;
+  BigInt z20;
+  BigInt z21 = z19*z20;
+  EXPECT_EQ(z21,nan1);
+
+  BigInt z22("0");
+  BigInt z23("0");
+  BigInt z24 = z22*z23;
+  EXPECT_EQ(z24, c0);
+
+
 
 
 

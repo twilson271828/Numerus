@@ -58,10 +58,7 @@ split BigInt::split_it(size_t m) const {
 
 BigInt BigInt::karatsuba(BigInt &x, BigInt &y) const {
 
-  if (x.size() == 0 || y.size() == 0) {
-
-    return BigInt("0");
-  }
+  
   int n = x.size();
   int m = y.size();
 
@@ -548,6 +545,13 @@ BigInt BigInt::operator*(const BigInt &num) {
   BigInt x = *this;
   BigInt y = num;
   BigInt z;
+
+  if (x.size() == 0 || y.size() == 0) {
+    return BigInt("NaN");
+  }
+  if (x == 0 || y == 0) {
+    return BigInt("0");
+  }
 
   if (y.size() > x.size()) {
     z = vmult(y, x);
