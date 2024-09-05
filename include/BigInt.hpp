@@ -23,7 +23,7 @@ private:
   BigInt vsub(BigInt &x, BigInt &y) const;
   BigInt vadd(BigInt &x, BigInt &y) const;
   BigInt vmult(BigInt &x, BigInt &y) const;
-  bool is_digit_char(char c) const;
+  //bool is_digit_char(char c) const;
 
   // BigInt Schonhage_Strassen(BigInt &x, BigInt &y) const;
   // BigInt Toom3(BigInt &x, BigInt &y) const;
@@ -59,6 +59,7 @@ public:
   void set_sign(SIGN x);
   std::unique_ptr<std::vector<uint8_t>> numerus_ptr();
   std::vector<uint8_t> get_numerus();
+  bool is_digit_char(char c) const;
 
   /// @brief
   // void negative();

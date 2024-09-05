@@ -198,7 +198,7 @@ BigInt::BigInt(const size_t &num) {
 }
 
 bool BigInt::is_digit_char(char c) const {
-  return (c >= '0' && c <= '9');
+  return !(c >= '0' && c <= '9');
 }
 
 BigInt::BigInt(const std::string c) {
