@@ -197,23 +197,34 @@ BigInt::BigInt(const size_t &num) {
   *this = z;
 }
 
+bool BigInt::is_digit_char(char c) const {
+  return (c >= '0' && c <= '9');
+}
+
 BigInt::BigInt(const std::string c) {
   sign = POS;
-  if (c == "NaN") {
+  char ch;
+
+  int n = c.size();
+  if (n==0 || c == "Nan"){
     sign = UNDEFINED;
     return;
   }
-  try {
-
-    int n = c.size();
+  if (n==1){
+    ch=c[0];  
+    if ( ! is_digit_char(ch)) {
+      sign = UNDEFINED;
+      return;
+    }
+    
+  }
     for (int i = 0; i < n; i++) {
+      ch = c[i];
 
-      char ch = c[i];
-
-      if (int(ch) < int('0') || int(ch) > int('9')) {
+      if (is_digit_char(ch)) {
         if (i == 0 && int(ch) == 45) {
           sign = NEG;
-        } else if (int(ch) == 43) {
+        } else if (i==0 && int(ch) == 43) {
           sign = POS;
         }
 
@@ -221,19 +232,13 @@ BigInt::BigInt(const std::string c) {
           sign = UNDEFINED;
           return;
         }
+
       } else {
-
         uint8_t x = int(ch) - int('0');
-
         numerus.push_back(x);
       }
-    }
-  } catch (std::exception &e) {
-    std::cout << "Caught Exception:" << e.what() << "\n";
-    std::exit(0);
   }
 }
-
 divmod10 BigInt::divmod(const long n) const {
   BigInt z = *this;
 

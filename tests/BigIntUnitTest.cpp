@@ -54,6 +54,9 @@ TEST_F(BigIntTest, ConstructorTests) {
   BigInt z4("-271828");
   
   BigInt z5("0");
+  BigInt z6("+314159");
+  BigInt z7("+-314159");
+  BigInt z8("-+314159");
 
   EXPECT_EQ(z1, nan1);
   EXPECT_NE(z2,nan1);
@@ -62,6 +65,10 @@ TEST_F(BigIntTest, ConstructorTests) {
   EXPECT_EQ(z3, e);
   EXPECT_EQ(z4, me);
   EXPECT_EQ(z5, c0);
+  EXPECT_EQ(z6,pi);
+  EXPECT_EQ(z7,nan1);
+  EXPECT_EQ(z8,nan1);
+
   
 }
 
