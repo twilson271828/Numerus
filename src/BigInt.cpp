@@ -197,10 +197,68 @@ BigInt::BigInt(const size_t &num) {
   *this = z;
 }
 
-bool BigInt::is_digit_char(char c) const {
-  return !(c >= '0' && c <= '9');
+bool BigInt::is_digit(char ch) const {
+
+  return (int(ch) >= int('0') && int(ch) <= int('9'));
+
 }
 
+BigInt::BigInt(const std::string c) {
+  sign=POS;
+  char ch;
+  int n = c.size();
+  if (n==0 || c == "Nan"){
+    sign = UNDEFINED;
+    return;
+  }
+  if (n==1){
+
+    ch=c[0];  
+    if ( ! is_digit(ch)) {
+      sign = UNDEFINED;
+      return;
+    }  
+  if (int(ch) ==45){
+    sign = NEG;
+  }
+  if (int(ch) == 43){
+    sign = POS;
+  }
+  
+  if (is_digit(ch)){
+    uint8_t x = int(ch) - int('0');
+        numerus.push_back(x);
+  }
+  if (!is_digit(ch)){
+    sign = UNDEFINED;
+    return;
+    }
+
+  }
+    for (int i = 0; i < n; i++) {
+      ch = c[i];
+       
+        if (i==0 && int(ch) ==45){
+          sign = NEG;
+        }
+        if (i == 0 && int(ch) == 43){
+          sign = POS;
+        }
+
+      if (is_digit(ch)) {
+        uint8_t x = int(ch) - int('0');
+        numerus.push_back(x);
+      }
+      else {
+        sign = UNDEFINED;
+        return;
+      }
+  
+  }
+
+}
+
+#if 0
 BigInt::BigInt(const std::string c) {
   sign = POS;
   char ch;
@@ -239,6 +297,8 @@ BigInt::BigInt(const std::string c) {
       }
   }
 }
+
+#endif
 divmod10 BigInt::divmod(const long n) const {
   BigInt z = *this;
 

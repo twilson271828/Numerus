@@ -59,7 +59,7 @@ public:
   void set_sign(SIGN x);
   std::unique_ptr<std::vector<uint8_t>> numerus_ptr();
   std::vector<uint8_t> get_numerus();
-  bool is_digit_char(char c) const;
+  bool is_digit(char c) const;
 
   /// @brief
   // void negative();
