@@ -211,49 +211,47 @@ BigInt::BigInt(const std::string c) {
     sign = UNDEFINED;
     return;
   }
-  if (n==1){
 
-    ch=c[0];  
+  ch=c[0];  
+
+  if (n==1){    
     if ( ! is_digit(ch)) {
       sign = UNDEFINED;
       return;
-    }  
-  if (int(ch) ==45){
-    sign = NEG;
+    }
+    else {
+      uint8_t x = int(ch) - int('0');
+      numerus.push_back(x);
+      return;
+    }
   }
+
+  if (int(ch) != 45 && int(ch) != 43 && !is_digit(ch)) {
+    sign = UNDEFINED;
+    
+    return;
+  } 
+  if (int(ch) ==45){
+      sign = NEG;
+    }
   if (int(ch) == 43){
-    sign = POS;
+      sign = POS;
+    }
+  if (is_digit(ch) && int(ch) != 45 && int(ch) != 43) {
+     uint8_t x = int(ch) - int('0');
+    numerus.push_back(x);
   }
   
-  if (is_digit(ch)){
-    uint8_t x = int(ch) - int('0');
-        numerus.push_back(x);
-  }
-  if (!is_digit(ch)){
-    sign = UNDEFINED;
-    return;
-    }
-
-  }
-    for (int i = 0; i < n; i++) {
-      ch = c[i];
-       
-        if (i==0 && int(ch) ==45){
-          sign = NEG;
-        }
-        if (i == 0 && int(ch) == 43){
-          sign = POS;
-        }
-
-      if (is_digit(ch)) {
-        uint8_t x = int(ch) - int('0');
+    for (int i = 1; i < n; i++) {     
+      ch = c[i];                   
+      if (is_digit(ch)) {        
+        uint8_t x = int(ch) - int('0');        
         numerus.push_back(x);
       }
       else {
         sign = UNDEFINED;
         return;
-      }
-  
+      }  
   }
 
 }

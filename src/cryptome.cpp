@@ -333,23 +333,30 @@ BigInt karatsuba(BigInt &x, BigInt &y) {
 
 int main() {
 
-  BigInt z16("314159");
+  
+  BigInt zero_long1("0");
+  BigInt zero_long2(0);
+  BigInt mpi("-314159");
+  //BigInt zero("0");
   //BigInt z17("42323");
   //BigInt z18 = z16 * z17;
   //BigInt pi("-+314159");
   //BigInt e("+-271828");
   //std::cout << "e = " << e << "\n";
   //std::cout << "pi = " << pi << "\n";
-  std::cout << "z16 = " << z16 << "\n";
-  char c1='-';
+  std::cout << "mpi = " << mpi << "\n";
+  //char c1='-';
 
-  std::cout << "- = "<< int(c1) << "\n";
-  char c2 = '+';
-  std::cout << "+ = "<< int(c2) << "\n";
-  char c3 = '0';
-  std::cout << "0 = "<< int(c3) << "\n";
-  char c4 = '9';
-  std::cout << "9 = "<< int(c4) << "\n";
+  //std::cout << "- = "<< int(c1) << "\n";
+  //char c2 = '+';
+  //std::cout << "+ = "<< int(c2) << "\n";
+  //char c3 = '0';
+  //std::cout << "0 = "<< int(c3) << "\n";
+  //char c4 = '9';
+  //std::cout << "9 = "<< int(c4) << "\n";
+
+  
+
   //bool z18 = z17.is_digit('3');
   //std::cout << "is_digit_char('3') = " << z18 << "\n";
   
