@@ -6,7 +6,8 @@
 #include <memory>
 #include <string>
 #include <vector>
-//#include <armadillo>
+#include <typeinfo>
+
 
 enum SIGN { POS, NEG, UNDEFINED };
 
@@ -19,7 +20,7 @@ private:
   std::vector<uint8_t> numerus;
 
   SIGN sign;
-
+  
   BigInt vsub(BigInt &x, BigInt &y) const;
   BigInt vadd(BigInt &x, BigInt &y) const;
   BigInt vmult(BigInt &x, BigInt &y) const;
@@ -41,7 +42,7 @@ public:
 
   BigInt(const BigInt &num);
 
-  BigInt(const size_t &num);
+  BigInt(const long &num);
 
   BigInt(const std::vector<uint8_t> &num);
   BigInt karatsuba(BigInt &x, BigInt &y) const;
@@ -64,8 +65,7 @@ public:
   /// @brief
   // void negative();
   void insert(const uint8_t &val, const int &ix);
-  // void insert(const int &val, const int &ix);
-
+  
   BigInt operator*(const BigInt &num);
   BigInt operator/(const BigInt &num) const;
 

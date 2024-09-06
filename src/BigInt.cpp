@@ -3,7 +3,6 @@
 #include <stdio.h>
 
 std::vector<uint8_t> BigInt::get_numerus() {
-
   std::vector<uint8_t> v = numerus;
   return v;
 }
@@ -160,6 +159,10 @@ BigInt BigInt::Schonhage_Strassen(BigInt &x, BigInt &y) const { return x; }
 BigInt BigInt::Toom3(BigInt &x, BigInt &y) const { return x; }
 
 #endif
+
+
+
+
 BigInt::BigInt() {
   sign = POS;
   numerus = std::vector<uint8_t>(0);
@@ -175,8 +178,9 @@ BigInt::BigInt(const BigInt &num) {
   sign = num.sign;
 }
 
-BigInt::BigInt(const size_t &num) {
+BigInt::BigInt(const long &num) {
   BigInt z;
+ 
   long x = num;
   if (x < 0) {
     x *= -1;
@@ -207,7 +211,7 @@ BigInt::BigInt(const std::string c) {
   sign=POS;
   char ch;
   int n = c.size();
-  if (n==0 || c == "Nan"){
+  if (n==0 || c == "NaN"){
     sign = UNDEFINED;
     return;
   }

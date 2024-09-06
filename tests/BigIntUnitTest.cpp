@@ -13,6 +13,7 @@ public:
     //string constructors
     nan1  = BigInt("NaN");
     nan2  = BigInt("32$$%");
+    nan3 = BigInt("%");
     
     c0 = BigInt("0");
     e = BigInt("271828");
@@ -28,6 +29,7 @@ public:
 
   BigInt nan1;
   BigInt nan2;
+  BigInt nan3;
   BigInt c0;
   BigInt e;
   BigInt pi;
@@ -57,10 +59,17 @@ TEST_F(BigIntTest, ConstructorTests) {
   BigInt z6("+314159");
   BigInt z7("+-314159");
   BigInt z8("-+314159");
+  BigInt z9("&");
+  BigInt z10("&&3434324");
 
   EXPECT_EQ(z1, nan1);
   EXPECT_NE(z2,nan1);
   EXPECT_EQ(z1.get_sign(), UNDEFINED);
+  EXPECT_EQ(z9,nan1);
+  EXPECT_EQ(z9.get_sign(),UNDEFINED);
+
+  EXPECT_EQ(z10,nan1);
+  EXPECT_EQ(z10.get_sign(),UNDEFINED);
   
   EXPECT_EQ(z3, e);
   EXPECT_EQ(z4, me);
