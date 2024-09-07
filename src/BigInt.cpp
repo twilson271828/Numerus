@@ -9,6 +9,7 @@ std::vector<uint8_t> BigInt::get_numerus() {
 
 BigInt BigInt::slice(int i, int j) const {
   BigInt z;
+  z.set_sign(this->get_sign());
 
   int d = (j - 1) + 1;
   int ds = this->size() - 1;
@@ -26,7 +27,7 @@ BigInt BigInt::slice(int i, int j) const {
 
     return BigInt("NaN");
   }
-
+  
   // Starting and Ending iterators
   auto start = this->numerus.begin() + i;
   auto end = this->numerus.begin() + i + (j - i) + 1;
@@ -165,6 +166,7 @@ BigInt BigInt::Toom3(BigInt &x, BigInt &y) const { return x; }
 
 BigInt::BigInt() {
   sign = _NULL;
+  numerus = std::vector<uint8_t>(0);
   
 }
 
@@ -606,7 +608,10 @@ BigInt BigInt::operator*(const BigInt &num) {
   BigInt x = *this;
   BigInt y = num;
   BigInt z;
-
+  if (this->sign == UNDEFINED || num.sign == UNDEFINED || this->sign == _NULL || num.sign == _NULL) {
+    return BigInt("NaN");
+  }
+  
   if (x.size() == 0 || y.size() == 0) {
     return BigInt("NaN");
   }
@@ -630,6 +635,10 @@ BigInt BigInt::operator*(const BigInt &num) {
   }
 
   if (xsign == NEG and ysign == NEG) {
+    z.set_sign(POS);
+  }
+
+  if (xsign == POS and ysign == POS) {
     z.set_sign(POS);
   }
 

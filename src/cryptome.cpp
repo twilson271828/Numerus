@@ -342,19 +342,14 @@ BigInt karatsuba(BigInt &x, BigInt &y) {
 
 int main() {
 
-  BigInt null;
-  BigInt nan("NaN");
-  BigInt zero_long1("0");
-  BigInt zero_long2(0);
-  BigInt mpi("-314159");
-  
-   std::ostringstream oss;
-    oss << "Null = "<< null << ","<< "NaN = "<< nan << "\n";
-    std::cout << oss.str();
+ BigInt z16("535344");
+ BigInt z17("42323");
 
-  BigInt pi("-+314159");
-  std::cout << "pi = "<< pi << "\n";
-  //BigInt e("+-271828");
+ BigInt z18 = z16 * z17;
+ std::cout << "z16 = " << z16 << "\n";
+ std::cout << "z17 = " << z17 << "\n";
+ std::cout << "z18 = " << z18 << "\n";
+
 
   
   
