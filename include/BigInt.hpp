@@ -9,7 +9,7 @@
 #include <typeinfo>
 
 
-enum SIGN { POS, NEG, UNDEFINED };
+enum SIGN { POS, NEG, UNDEFINED,_NULL};
 
 struct split;
 struct divmod10;

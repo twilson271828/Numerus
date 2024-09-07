@@ -14,7 +14,7 @@ public:
     nan1  = BigInt("NaN");
     nan2  = BigInt("32$$%");
     nan3 = BigInt("%");
-    
+   
     c0 = BigInt("0");
     e = BigInt("271828");
     pi = BigInt("314159");
@@ -26,7 +26,7 @@ public:
   BigInt zero_long;
   BigInt pi_long;
   BigInt mpi_long;
-
+  BigInt empty;
   BigInt nan1;
   BigInt nan2;
   BigInt nan3;
@@ -112,6 +112,10 @@ TEST_F(BigIntTest, OstreamOperator) {
     oss.str("");
     oss << nan2;
     EXPECT_EQ(oss.str(), "NaN");
+
+    oss.str("");
+    oss << empty;
+    EXPECT_EQ(oss.str(), "_NULL");
 
 
 }

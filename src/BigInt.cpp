@@ -164,8 +164,8 @@ BigInt BigInt::Toom3(BigInt &x, BigInt &y) const { return x; }
 
 
 BigInt::BigInt() {
-  sign = POS;
-  numerus = std::vector<uint8_t>(0);
+  sign = _NULL;
+  
 }
 
 BigInt::BigInt(const std::vector<uint8_t> &num) {
@@ -388,6 +388,11 @@ std::ostream &operator<<(std::ostream &out, const BigInt &num) {
 
   if (num.sign == UNDEFINED) {
     out << "NaN";
+    return out;
+  }
+
+   if (num.sign == _NULL) {
+    out << "_NULL";
     return out;
   }
 
