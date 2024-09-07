@@ -336,14 +336,7 @@ divmod10 BigInt::divmod(const long n) const {
   return result;
 }
 
-BigInt BigInt::rshift(const int n) const {
 
-  BigInt z(*this);
-  for (int i = 0; i < n; i++) {
-    z.numerus.pop_back();
-  }
-  return z;
-}
 // add_to_front = true
 BigInt BigInt::lshift(const int n) const {
   BigInt z = *this;
@@ -355,10 +348,6 @@ BigInt BigInt::lshift(const int n) const {
     z.numerus.push_back(b);
   }
   return z;
-}
-
-void BigInt::numerus_ix(const int &ix, const uint8_t &val) {
-  numerus[ix] = val;
 }
 
 std::unique_ptr<std::vector<uint8_t>> BigInt::numerus_ptr() {
@@ -1065,20 +1054,3 @@ bool BigInt::operator>=(const BigInt &y) const {
   return false;
 }
 
-std::bitset<4> convertToBinary(uint8_t &n) {
-  std::bitset<4> b;
-  int i = 0;
-
-  try {
-    while (n > 0) {
-      int r = n % 2;
-      n /= 2;
-      b.set(i, r);
-      i += 1;
-    }
-  } catch (std::out_of_range &e) {
-    std::cout << "std::out_of_range exception caught: " << e.what() << "\n";
-  }
-
-  return b;
-}
