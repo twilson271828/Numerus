@@ -217,6 +217,17 @@ TEST_F(BigIntTest, InequalityTests) {
 
   bool z14 = mpi >= me;
   EXPECT_EQ(z14, 0);
+
+  bool z15 =  e <= e;
+  EXPECT_EQ(z15, 1);
+
+  bool z16 =  e >= e;
+  EXPECT_EQ(z16, 1);
+
+  bool z17 =  me >= mpi;
+  EXPECT_EQ(z17, 1);
+
+  
 }
 
 TEST_F(BigIntTest, EqualityTests) { 
@@ -349,13 +360,21 @@ TEST_F(BigIntTest,PreIncrementTest){
 }
 
 TEST_F(BigIntTest,PreDecrementTest){
-
   BigInt z("234324324234");
   --z;
   BigInt truth("234324324233");
   EXPECT_EQ(z, truth);
-
 }
+
+TEST_F (BigIntTest,GetNumerusPtrTest){
+
+  BigInt z("234324324234");
+  std::unique_ptr<std::vector<uint8_t>> v = z.numerus_ptr();
+  std::vector<uint8_t> v1 = {2,3,4,3,2,4,3,2,4,2,3,4};
+  EXPECT_EQ(*v, v1);
+}
+
+
 
 int main(int argc, char **argv) {
 
