@@ -89,7 +89,24 @@ TEST_F(BigIntTest, Get_Numerus){
 }
 
 TEST_F(BigIntTest, OstreamOperator) {
+
     std::ostringstream oss;
+    BigInt z;
+    std::vector<uint8_t> v1 = {0,0,0,2,7,1,8,2,8};
+    z.setNumerus(v1);
+    z.set_sign(POS);
+    oss << z;
+    EXPECT_EQ(oss.str(), "271828");
+
+    oss.str("");  // Clear the stream
+    BigInt zempty;
+    std::vector<uint8_t> vempty;
+    zempty.setNumerus(vempty);
+    oss << zempty;
+    EXPECT_EQ(oss.str(), "_NULL");
+
+
+    oss.str("");  // Clear the stream
     oss << e;
     EXPECT_EQ(oss.str(), "271828");
 
@@ -171,8 +188,6 @@ TEST_F (BigIntTest, MultiplicationTests) {
 
 
 
-
-
 }
 TEST_F(BigIntTest, InequalityTests) {
 
@@ -227,6 +242,16 @@ TEST_F(BigIntTest, InequalityTests) {
   bool z17 =  me >= mpi;
   EXPECT_EQ(z17, 1);
 
+  BigInt z18("-314159654");
+  BigInt z19("-271828");
+  bool z20 = z18 >= z19;
+  EXPECT_EQ(z20, 0);
+
+  BigInt z21("314159654");
+  BigInt z22("271828");
+  bool z23 = z21 >= z22;
+  EXPECT_EQ(z23, 1);
+  
   
 }
 

@@ -342,13 +342,12 @@ BigInt karatsuba(BigInt &x, BigInt &y) {
 
 int main() {
 
- BigInt z16("535344");
- BigInt z17("42323");
-
- BigInt z18 = z16 * z17;
- std::cout << "z16 = " << z16 << "\n";
- std::cout << "z17 = " << z17 << "\n";
- std::cout << "z18 = " << z18 << "\n";
+  std::ostringstream oss;
+   BigInt zempty;
+    std::vector<uint8_t> vempty;
+    zempty.setNumerus(vempty);
+    oss << zempty;
+    std::cout << "zempty = " << oss.str() << "\n";   
 
 
   

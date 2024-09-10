@@ -7,6 +7,10 @@ std::vector<uint8_t> BigInt::get_numerus() {
   return v;
 }
 
+void BigInt::setNumerus(const std::vector<uint8_t>& source) {
+    numerus = source; // or numerus.assign(source.begin(), source.end());
+}
+
 BigInt BigInt::slice(int i, int j) const {
   BigInt z;
   z.set_sign(this->get_sign());
@@ -398,20 +402,16 @@ std::ostream &operator<<(std::ostream &out, const BigInt &num) {
     return out;
   }
 
-  size_t n = num.size();
-  if (n == 0) {
-    return out;
-  }
   if (num.sign == NEG) {
     out << "-";
   }
-
+  size_t n = num.size();
+  
   int i = 0;
 
   if (num[i] == 0) {
 
     while (num[i] == 0 && i < n) {
-      out << 0;
       ++i;
     }
     while (i < n) {

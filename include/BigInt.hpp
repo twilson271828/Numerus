@@ -44,6 +44,7 @@ public:
 
   BigInt(const long &num);
 
+  void setNumerus(const std::vector<uint8_t>& source);
   BigInt(const std::vector<uint8_t> &num);
   BigInt karatsuba(BigInt &x, BigInt &y) const;
   BigInt lshift(const int n) const;
