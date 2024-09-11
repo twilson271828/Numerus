@@ -189,6 +189,8 @@ TEST_F (BigIntTest, MultiplicationTests) {
 
 
 }
+
+
 TEST_F(BigIntTest, InequalityTests) {
 
   bool z1 = pi > e;
@@ -205,6 +207,17 @@ TEST_F(BigIntTest, InequalityTests) {
 
   bool z5 = e > mpi;
   EXPECT_EQ(z5, 1);
+
+   bool z16 =  e >= e;
+  EXPECT_EQ(z16, 1);
+
+  bool z17 =  me >= mpi;
+  EXPECT_EQ(z17, 1);
+
+   bool z14 = mpi >= me;
+   EXPECT_EQ(z14, 0);
+
+
 
   bool z6 = pi < e;
   EXPECT_EQ(z6, 0);
@@ -230,27 +243,28 @@ TEST_F(BigIntTest, InequalityTests) {
   bool z13 = e <= pi;
   EXPECT_EQ(z13, 1);
 
-  bool z14 = mpi >= me;
-  EXPECT_EQ(z14, 0);
+ 
 
   bool z15 =  e <= e;
   EXPECT_EQ(z15, 1);
 
-  bool z16 =  e >= e;
-  EXPECT_EQ(z16, 1);
-
-  bool z17 =  me >= mpi;
-  EXPECT_EQ(z17, 1);
+ 
 
   BigInt z18("-314159654");
   BigInt z19("-271828");
-  bool z20 = z18 >= z19;
-  EXPECT_EQ(z20, 0);
+  bool z20 = z18 <= z19;
+  EXPECT_EQ(z20, 1);
 
-  BigInt z21("314159654");
-  BigInt z22("271828");
-  bool z23 = z21 >= z22;
-  EXPECT_EQ(z23, 1);
+  bool z21 = z18 > z19;
+  EXPECT_EQ(z21, 0);
+
+  bool z22 = z19 >= z18;
+  EXPECT_EQ(z22, 1);
+
+  BigInt z23("314159654");
+  BigInt z24("271828");
+  bool z25 = z23 >= z24;
+  EXPECT_EQ(z25, 1);
   
   
 }
