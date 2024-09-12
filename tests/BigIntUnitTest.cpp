@@ -243,29 +243,34 @@ TEST_F(BigIntTest, InequalityTests) {
   bool z13 = e <= pi;
   EXPECT_EQ(z13, 1);
 
- 
 
   bool z15 =  e <= e;
   EXPECT_EQ(z15, 1);
 
  
-
+  //n > m
   BigInt z18("-314159654");
   BigInt z19("-271828");
   bool z20 = z18 <= z19;
   EXPECT_EQ(z20, 1);
 
+  //n > m
   bool z21 = z18 > z19;
   EXPECT_EQ(z21, 0);
 
+  //n < m
   bool z22 = z19 >= z18;
   EXPECT_EQ(z22, 1);
 
+  //n > m
   BigInt z23("314159654");
   BigInt z24("271828");
   bool z25 = z23 >= z24;
   EXPECT_EQ(z25, 1);
   
+  bool z26 = z19 < z18;
+  EXPECT_EQ(z26, 0);
+
   
 }
 

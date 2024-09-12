@@ -1018,53 +1018,30 @@ bool BigInt::operator>(const BigInt &y) const {
 }
 
 bool BigInt::operator>=(const BigInt &y) const {
-  // 1 == True
-  // -1 == False
-  if (*this == y) {
-    return true;
-  }
-  BigInt temp = y;
-
-  SIGN xsign = get_sign();
-  SIGN ysign = temp.get_sign();
-
-  int n = size();
-  int m = temp.size();
-
-  if (xsign == NEG and ysign == POS)
-    return false;
-  else if (xsign == POS and ysign == NEG)
-    return true;
-
-  if (n > m) {
-    if (xsign == NEG and ysign == NEG)
-      return false;
-    else if (xsign == POS and ysign == POS)
-      return true;
-  }
-
-  if (n < m) {
-    if (xsign == NEG and ysign == NEG)
-      return true;
-    else if (xsign == POS and ysign == POS)
-      return false;
-  }
-
-  if (n == m) {
-    for (int i = 0; i < n; i++) {
-      size_t numerus_i = numerus[i];
-      size_t temp_i = temp[i];
-      if ((numerus_i > temp_i) && (xsign == NEG))
-        return false;
-      else if ((numerus_i > temp_i) && (xsign == POS))
+    if (*this == y) {
         return true;
-      else if ((temp_i > numerus_i) && (xsign == NEG))
-        return true;
-      else if ((temp_i > numerus_i) && (xsign == POS))
-        return false;
     }
-  }
 
-  return false;
+    SIGN xsign = get_sign();
+    SIGN ysign = y.get_sign();
+
+    if (xsign != ysign) {
+        return xsign == POS;
+    }
+
+    int n = size();
+    int m = y.size();
+
+    if (n != m) {
+        return (n > m) == (xsign == POS);
+    }
+
+    for (int i = 0; i < n; ++i) {
+        if (numerus[i] != y.numerus[i]) {
+            return (numerus[i] > y.numerus[i]) == (xsign == POS);
+        }
+    }
+
+    return false;
 }
 
