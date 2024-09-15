@@ -225,6 +225,12 @@ TEST_F(BigIntTest,LEQ){
   
   bool t8 = pipi <= mpi;
   EXPECT_EQ(t8, 1);
+
+  bool t9 = pi <= e;
+  EXPECT_EQ(t9, 0);
+
+  bool t10 = e <= pi;
+  EXPECT_EQ(t10, 1);
   
 }
 

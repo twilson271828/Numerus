@@ -938,7 +938,7 @@ bool BigInt::operator<=(const BigInt &y) const {
             return (numerus[i] > y.numerus[i]) == (xsign == NEG);
         }
     }
-
+    std::cout <<"here" << std::endl;
     return false;
 }
 
