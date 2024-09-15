@@ -342,17 +342,15 @@ BigInt karatsuba(BigInt &x, BigInt &y) {
 
 int main() {
 
-  std::ostringstream oss;
-   BigInt zempty;
-    std::vector<uint8_t> vempty;
-    zempty.setNumerus(vempty);
-    oss << zempty;
-    std::cout << "zempty = " << oss.str() << "\n";   
+  BigInt eight("8");
+  BigInt mthree("-3");
 
+  BigInt m5("-5");
 
-  
-  
+  BigInt mtwo("-2");
 
- 
+  BigInt z = eight - m5;
+  std::cout << z << "\n";
+
   return 0;
 }
