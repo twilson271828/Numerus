@@ -62,7 +62,6 @@ public:
   bool is_digit(char c) const;
 
   /// @brief
-  // void negative();
   void insert(const uint8_t &val, const int &ix);
   
   BigInt operator*(const BigInt &num);
@@ -88,14 +87,10 @@ public:
 
   void operator--();
 
-  // void operator!();
-
   split split_it(size_t m) const;
 
   friend std::ostream &operator<<(std::ostream &out, const BigInt &num);
 };
-
-
 
 struct split {
   BigInt xleft;

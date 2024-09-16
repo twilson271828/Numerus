@@ -187,6 +187,11 @@ TEST_F(BigIntTest, MultiplicationTests) {
   BigInt z26(5);
   BigInt z27 = z25 * z26;
   EXPECT_EQ(z27, c0);
+
+  BigInt z28(34242);
+  BigInt z29(432546366);
+  BigInt z30 = z28 * z29;
+  EXPECT_EQ(z30, BigInt("14811252664572"));
 }
 
 TEST_F(BigIntTest, LEQ) {
@@ -362,6 +367,18 @@ TEST_F(BigIntTest, EqualityTests) {
   EXPECT_NE(e, pi);
 }
 
+TEST_F(BigIntTest,NotEqual){
+
+  BigInt pi("314159");
+  BigInt e("271828");
+
+  bool t1 = e != pi;
+  EXPECT_EQ(t1, 1);
+
+  bool t2 = e != e;
+  EXPECT_EQ(t2, 0);
+
+}
 // Demonstrate some basic assertions.
 TEST_F(BigIntTest, AdditionTests) {
 

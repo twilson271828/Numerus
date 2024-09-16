@@ -337,15 +337,6 @@ BigInt BigInt::vadd(BigInt &x, BigInt &y) const {
       z.insert(tot, 0);
     }
   }
-
-  int i = 0;
-  while (z[i] == 0) {
-    i++;
-  }
-  if (i > 0) {
-    z.numerus.erase(z.numerus.begin(), z.numerus.begin() + i);
-  }
-
   return z;
 }
 
@@ -409,13 +400,7 @@ BigInt BigInt::vmult(BigInt &x, BigInt &y) const {
   std::vector<uint8_t> x_numerus = x.get_numerus();
   std::vector<uint8_t> y_numerus = y.get_numerus();
 
-  if (x_numerus[0] == 0 || y_numerus[0] == 0) {
-
-    return BigInt(0);
-  }
-
   if (n > 10 || m > 10) {
-
     return karatsuba(x, y);
   }
 
@@ -467,9 +452,6 @@ BigInt BigInt::operator*(const BigInt &num) {
     return BigInt("NaN");
   }
 
-  if (x.size() == 0 || y.size() == 0) {
-    return BigInt("NaN");
-  }
   if (x == 0 || y == 0) {
     return BigInt("0");
   }
@@ -520,12 +502,8 @@ void BigInt::operator--() {
   z = z - one;
   *this = z;
 }
-// void BigInt::operator!(){
-//   BigInt z = *this;
-//   z = -z;
-// }
 
-BigInt BigInt::operator/(const BigInt &num) const { return num; }
+//BigInt BigInt::operator/(const BigInt &num) const { return num; }
 
 BigInt BigInt::operator-(const BigInt &num) const {
   BigInt x = *this;
@@ -701,6 +679,7 @@ bool BigInt::operator==(const BigInt &y) const {
 }
 
 bool BigInt::operator<(const BigInt &y) const {
+  
   if (*this == y) {
     return false;
   }

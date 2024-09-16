@@ -342,15 +342,8 @@ BigInt karatsuba(BigInt &x, BigInt &y) {
 
 int main() {
 
-  BigInt eight("8");
-  BigInt mthree("-3");
-
-  BigInt m5("-5");
-
-  BigInt mtwo("-2");
-
-  BigInt z = eight - m5;
-  std::cout << z << "\n";
-
+  BigInt x(0);
+  std::cout << "x[0] = "<< (int)x[0] << "\n";
+ 
   return 0;
 }
