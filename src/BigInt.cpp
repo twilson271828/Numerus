@@ -1,30 +1,34 @@
 #include "../include/BigInt.hpp"
-
 #include <stdio.h>
 
 std::vector<uint8_t> BigInt::get_numerus() {
-
   std::vector<uint8_t> v = numerus;
   return v;
 }
 
+void BigInt::setNumerus(const std::vector<uint8_t> &source) {
+  numerus = source; // or numerus.assign(source.begin(), source.end());
+}
+
 BigInt BigInt::slice(int i, int j) const {
   BigInt z;
+  z.set_sign(this->get_sign());
 
   int d = (j - 1) + 1;
   int ds = this->size() - 1;
+
   if (d > ds) {
-    return BigInt("NAN");
+    return BigInt("NaN");
   }
 
   if (i > j) {
 
-    return BigInt("NAN");
+    return BigInt("NaN");
   }
 
   if ((i < 0) || (j < 0)) {
 
-    return BigInt("NAN");
+    return BigInt("NaN");
   }
 
   // Starting and Ending iterators
@@ -56,15 +60,15 @@ split BigInt::split_it(size_t m) const {
 }
 
 BigInt BigInt::karatsuba(BigInt &x, BigInt &y) const {
-  if (x.size() == 0 || y.size() == 0) {
-    return BigInt("0");
-  }
+
   int n = x.size();
   int m = y.size();
 
-  if (x < 10 || y < 10) {
+  if (x.abs() < 10 && y.abs() < 10) {
 
-    return x * y;
+    int result = (int)x[0] * (int)y[0];
+
+    return BigInt(result);
   }
 
   int k = std::max(n, m);
@@ -82,7 +86,9 @@ BigInt BigInt::karatsuba(BigInt &x, BigInt &y) const {
   BigInt z0 = karatsuba(x_low, y_low);
   BigInt c1 = x_low + x_high;
   BigInt c2 = y_low + y_high;
+
   BigInt z1 = karatsuba(c1, c2);
+
   BigInt z2 = karatsuba(x_high, y_high);
   BigInt z3 = z1 - z2 - z0;
 
@@ -91,73 +97,8 @@ BigInt BigInt::karatsuba(BigInt &x, BigInt &y) const {
   return result;
 }
 
-#if 0
-
-
-std::complex<double> BigInt::exponentiate(size_t k, size_t n, size_t N) {
-
-  double x = 0.0;
-  double y = 0.0;
-  double theta = ((2 * M_PI * k * n) / N);
-
-  x = std::cos(theta);
-  y = std::sin(theta);
-  std::complex<double> omega(x, y);
-  return omega;
-}
-
-std::complex<double> BigInt::dft(std::vector<std::complex<double>> &input,
-                                 size_t n) {
-
-  size_t N = input.size();
-  std::complex<double> coeff(0.0, 0.0);
-
-  for (int k = 0; k < N; k++) {
-    coeff += input[k] / exponentiate(k, n, N);
-  }
-
-  if (abs(coeff.real()) < 1e-6) {
-    coeff.real(0.0);
-  }
-
-  if (abs(coeff.imag()) < 1e-6) {
-    coeff.imag(0.0);
-  }
-
-  return coeff;
-}
-
-std::complex<double> BigInt::dift(std::vector<std::complex<double>> &input,
-                                  size_t n) {
-
-  size_t N = input.size();
-  std::complex<double> coeff(0.0, 0.0);
-
-  for (int k = 0; k < N; k++) {
-    coeff += input[k] * exponentiate(k, n, N);
-  }
-
-  if (abs(coeff.real()) < 1e-6) {
-    coeff.real(0.0);
-  }
-
-  if (abs(coeff.imag()) < 1e-6) {
-    coeff.imag(0.0);
-  }
-
-  coeff /= N;
-  return coeff;
-}
-
-
-
-BigInt BigInt::Schonhage_Strassen(BigInt &x, BigInt &y) const { return x; }
-
-BigInt BigInt::Toom3(BigInt &x, BigInt &y) const { return x; }
-
-#endif
 BigInt::BigInt() {
-  sign = POS;
+  sign = _NULL;
   numerus = std::vector<uint8_t>(0);
 }
 
@@ -171,12 +112,15 @@ BigInt::BigInt(const BigInt &num) {
   sign = num.sign;
 }
 
-BigInt::BigInt(const size_t &num) {
+BigInt::BigInt(const long &num) {
   BigInt z;
+
   long x = num;
   if (x < 0) {
     x *= -1;
     z.sign = NEG;
+  } else {
+    z.sign = POS;
   }
 
   if (x == 0) {
@@ -191,39 +135,58 @@ BigInt::BigInt(const size_t &num) {
   *this = z;
 }
 
+bool BigInt::is_digit(char ch) const {
+
+  return (int(ch) >= int('0') && int(ch) <= int('9'));
+}
+
 BigInt::BigInt(const std::string c) {
   sign = POS;
-  if (c == "NAN") {
+  char ch;
+  int n = c.size();
+  if (n == 0 || c == "NaN") {
     sign = UNDEFINED;
+    return;
   }
-  try {
 
-    int n = c.size();
-    for (int i = 0; i < n; i++) {
+  ch = c[0];
 
-      char ch = c[i];
-
-      if (int(ch) < int('0') || int(ch) > int('9')) {
-        if (i == 0 && int(ch) == 45) {
-          sign = NEG;
-        } else if (int(ch) == 43) {
-          sign = POS;
-        }
-
-        else {
-          throw std::runtime_error("Encountered a non-numeric char character "
-                                   "when attempting to construct a BigInt");
-        }
-      } else {
-
-        uint8_t x = int(ch) - int('0');
-
-        numerus.push_back(x);
-      }
+  if (n == 1) {
+    if (!is_digit(ch)) {
+      sign = UNDEFINED;
+      return;
+    } else {
+      uint8_t x = int(ch) - int('0');
+      numerus.push_back(x);
+      return;
     }
-  } catch (std::exception &e) {
-    std::cout << "Caught Exception:" << e.what() << "\n";
-    std::exit(0);
+  }
+
+  if (int(ch) != 45 && int(ch) != 43 && !is_digit(ch)) {
+    sign = UNDEFINED;
+
+    return;
+  }
+  if (int(ch) == 45) {
+    sign = NEG;
+  }
+  if (int(ch) == 43) {
+    sign = POS;
+  }
+  if (is_digit(ch) && int(ch) != 45 && int(ch) != 43) {
+    uint8_t x = int(ch) - int('0');
+    numerus.push_back(x);
+  }
+
+  for (int i = 1; i < n; i++) {
+    ch = c[i];
+    if (is_digit(ch)) {
+      uint8_t x = int(ch) - int('0');
+      numerus.push_back(x);
+    } else {
+      sign = UNDEFINED;
+      return;
+    }
   }
 }
 
@@ -233,6 +196,7 @@ divmod10 BigInt::divmod(const long n) const {
   divmod10 result;
   int m = z.size();
   if (m <= n) {
+
     return divmod10{BigInt("0"), BigInt(z)};
   }
 
@@ -261,14 +225,6 @@ divmod10 BigInt::divmod(const long n) const {
   return result;
 }
 
-BigInt BigInt::rshift(const int n) const {
-
-  BigInt z(*this);
-  for (int i = 0; i < n; i++) {
-    z.numerus.pop_back();
-  }
-  return z;
-}
 // add_to_front = true
 BigInt BigInt::lshift(const int n) const {
   BigInt z = *this;
@@ -282,10 +238,6 @@ BigInt BigInt::lshift(const int n) const {
   return z;
 }
 
-void BigInt::numerus_ix(const int &ix, const uint8_t &val) {
-  numerus[ix] = val;
-}
-
 std::unique_ptr<std::vector<uint8_t>> BigInt::numerus_ptr() {
   return std::make_unique<std::vector<uint8_t>>(numerus);
 }
@@ -293,53 +245,52 @@ std::unique_ptr<std::vector<uint8_t>> BigInt::numerus_ptr() {
 uint8_t BigInt::operator[](const int i) const { return numerus[i]; }
 
 void BigInt::set_sign(SIGN x) { sign = x; }
-void BigInt::operator!() {
-  if (sign == NEG)
-    sign = POS;
-  if (sign == POS)
-    sign = NEG;
-}
-int BigInt::get_sign() const {
 
-  if (sign == NEG)
-    return -1;
-  else if (sign == POS)
-    return 1;
-  else
-    return 0;
+BigInt BigInt::abs() const {
+  BigInt z = *this;
+  if (z.get_sign() == NEG) {
+    z.set_sign(POS);
+  }
+  return z;
 }
+
+SIGN BigInt::get_sign() const { return sign; }
 
 size_t BigInt::size() const { return numerus.size(); }
 
 std::ostream &operator<<(std::ostream &out, const BigInt &num) {
 
-  size_t n = num.size();
-  if (n == 0) {
+  if (num.sign == UNDEFINED) {
+    out << "NaN";
     return out;
   }
+
+  if (num.sign == _NULL) {
+    out << "_NULL";
+    return out;
+  }
+
   if (num.sign == NEG) {
     out << "-";
   }
+  size_t n = num.size();
 
   int i = 0;
 
   if (num[i] == 0) {
 
     while (num[i] == 0 && i < n) {
-      out << 0;
       ++i;
     }
     while (i < n) {
-      out << (int)(num[i]);
+      out << static_cast<int>(num[i]);
       i++;
     }
-
   } else {
     for (auto x : num.numerus) {
       out << (int)(x);
     }
   }
-  // out << "\n";
 
   return out;
 }
@@ -347,14 +298,6 @@ std::ostream &operator<<(std::ostream &out, const BigInt &num) {
 void BigInt::insert(const uint8_t &val, const int &ix) {
   numerus.insert(numerus.begin() + ix, val);
 }
-
-#if 0
-void BigInt::insert(const int &val, const int &ix) {
-
-  uint8_t x = (uint8_t)val;
-  numerus.insert(numerus.begin() + ix, x);
-}
-#endif
 
 BigInt BigInt::vadd(BigInt &x, BigInt &y) const {
   BigInt z;
@@ -385,9 +328,7 @@ BigInt BigInt::vadd(BigInt &x, BigInt &y) const {
       c = 1;
 
       z.insert(tot % 10, 0);
-      if (k == 1) {
-        z.insert(c, 0);
-      }
+
       if (i == 0) {
         z.insert(c, 0);
       }
@@ -396,18 +337,6 @@ BigInt BigInt::vadd(BigInt &x, BigInt &y) const {
       z.insert(tot, 0);
     }
   }
-
-  int i = 0;
-  while (z[i] == 0) {
-    i++;
-  }
-
-  if (i > 0) {
-
-    std::unique_ptr<std::vector<uint8_t>> ptr = z.numerus_ptr();
-    ptr->erase(ptr->begin(), ptr->begin() + i);
-  }
-
   return z;
 }
 
@@ -471,13 +400,9 @@ BigInt BigInt::vmult(BigInt &x, BigInt &y) const {
   std::vector<uint8_t> x_numerus = x.get_numerus();
   std::vector<uint8_t> y_numerus = y.get_numerus();
 
-  if (x_numerus[0] == 0 || y_numerus[0] == 0) {
-    return BigInt(0);
+  if (n > 10 || m > 10) {
+    return karatsuba(x, y);
   }
-
-  // if (n > 50 && m > 50) {
-  //   return karatsuba(x, y);
-  // }
 
   int shift = 0;
   int carry = 0;
@@ -522,12 +447,36 @@ BigInt BigInt::operator*(const BigInt &num) {
   BigInt x = *this;
   BigInt y = num;
   BigInt z;
+  if (this->sign == UNDEFINED || num.sign == UNDEFINED || this->sign == _NULL ||
+      num.sign == _NULL) {
+    return BigInt("NaN");
+  }
+
+  if (x == 0 || y == 0) {
+    return BigInt("0");
+  }
 
   if (y.size() > x.size()) {
     z = vmult(y, x);
   } else {
 
     z = vmult(x, y);
+  }
+
+  SIGN xsign = x.get_sign();
+  SIGN ysign = y.get_sign();
+
+  if ((xsign == NEG and ysign == POS) or (xsign == NEG and ysign == POS)) {
+
+    z.set_sign(NEG);
+  }
+
+  if (xsign == NEG and ysign == NEG) {
+    z.set_sign(POS);
+  }
+
+  if (xsign == POS and ysign == POS) {
+    z.set_sign(POS);
   }
 
   return z;
@@ -553,17 +502,15 @@ void BigInt::operator--() {
   z = z - one;
   *this = z;
 }
-// void BigInt::operator!(){
-//   BigInt z = *this;
-//   z = -z;
-// }
 
-BigInt BigInt::operator/(const BigInt &num) const { return num; }
+//BigInt BigInt::operator/(const BigInt &num) const { return num; }
 
 BigInt BigInt::operator-(const BigInt &num) const {
   BigInt x = *this;
   BigInt y = num;
+
   BigInt z;
+
   if (x == y) {
     return BigInt("0");
   }
@@ -574,16 +521,12 @@ BigInt BigInt::operator-(const BigInt &num) const {
   int m = std::min(nx, ny);
 
   if (nx < ny) {
-    BigInt zx = x.shift_n(n - m, true);
-
-    x = zx;
+    x = x.shift_n(n - m, true);
   } else if (nx > ny) {
-    BigInt zy = y.shift_n(n - m, true);
-    y = zy;
+    y = y.shift_n(n - m, true);
   }
 
   if (x < y && x.sign == POS && y.sign == POS) {
-    // tested
     // swap x and y
 
     BigInt temp = x;
@@ -596,7 +539,6 @@ BigInt BigInt::operator-(const BigInt &num) const {
   }
 
   if (x < y && x.sign == NEG && y.sign == POS) {
-
     // cannot happen
   }
 
@@ -606,7 +548,6 @@ BigInt BigInt::operator-(const BigInt &num) const {
   }
 
   if (x < y && x.sign == NEG && y.sign == NEG) {
-    // tested
     z = vsub(x, y);
     z.sign = NEG;
 
@@ -614,16 +555,14 @@ BigInt BigInt::operator-(const BigInt &num) const {
   }
 
   if (x > y && x.sign == POS && y.sign == POS) {
-    // tested
     z = vsub(x, y);
-
     z.sign = POS;
 
     return z;
   }
 
   if (x > y && x.sign == POS && y.sign == NEG) {
-    // tested
+
     z = vadd(x, y);
     z.sign = POS;
 
@@ -636,7 +575,6 @@ BigInt BigInt::operator-(const BigInt &num) const {
   }
 
   if (x > y && x.sign == NEG && y.sign == NEG) {
-    // tested
     // swap x and y
     BigInt temp = x;
     x = y;
@@ -658,7 +596,6 @@ BigInt BigInt::shift_n(int m, bool add_to_front) const {
     if (add_to_front) {
 
       z.numerus.insert(z.numerus.begin(), b);
-
     } else {
       z.numerus.push_back(b);
     }
@@ -683,21 +620,21 @@ BigInt BigInt::operator+(const BigInt &num) const {
     y = zy;
   }
 
-  int xsign = x.get_sign();
-  int ysign = y.get_sign();
+  SIGN xsign = x.get_sign();
+  SIGN ysign = y.get_sign();
 
-  if (xsign < 0 && ysign > 0) {
+  if (xsign == NEG && ysign == POS) {
     x.sign = POS;
     return y - x;
   }
-  if (xsign > 0 && ysign < 0) {
+  if (xsign == POS && ysign == NEG) {
     y.sign = POS;
     return x - y;
   }
-  if (xsign < 0 && ysign < 0) {
+  if (xsign == NEG && ysign == NEG) {
     z.sign = NEG;
   }
-  if (xsign > 0 && ysign > 0) {
+  if (xsign == POS && ysign == POS) {
     z.sign = POS;
   }
 
@@ -722,23 +659,10 @@ BigInt BigInt::operator+(const BigInt &num) const {
   return z;
 }
 
-#if 0
-
-BigInt BigInt::operator!() const {
-  BigInt z = *this;
-  if (z.sign == POS) {
-    z.sign = NEG;
-  } else {
-    z.sign = POS;
-  }
-  return z;
-}
-#endif
-
 bool BigInt::operator==(const BigInt &y) const {
   BigInt temp = y;
-  int xsign = get_sign();
-  int ysign = temp.get_sign();
+  SIGN xsign = get_sign();
+  SIGN ysign = temp.get_sign();
   if (xsign != ysign)
     return false;
 
@@ -755,159 +679,96 @@ bool BigInt::operator==(const BigInt &y) const {
 }
 
 bool BigInt::operator<(const BigInt &y) const {
-
-  // -1 == True
-  // 1 == False
-
-  BigInt temp = y;
-  int xsign = get_sign();
-  int ysign = temp.get_sign();
-
-  int n = size();
-  int m = temp.size();
-
-  if (xsign < 0 and ysign > 0)
-    return true;
-  else if (xsign > 0 and ysign < 0)
+  
+  if (*this == y) {
     return false;
-
-  if (n > m) {
-
-    if (xsign == -1 and ysign == -1)
-      return true;
-    else if (xsign == 1 and ysign == 1)
-      return false;
   }
 
-  if (n < m) {
+  SIGN xsign = get_sign();
+  SIGN ysign = y.get_sign();
 
-    if (xsign == -1 and ysign == -1)
+  if (xsign != ysign) {
+    if (xsign == POS) {
       return false;
-    else if (xsign == 1 and ysign == 1) {
-
+    } else {
       return true;
     }
   }
 
-  if (n == m) {
+  int n = size();
+  int m = y.size();
 
-    for (int i = 0; i < n; i++) {
-      size_t numerus_i = numerus[i];
-      size_t temp_i = temp[i];
-      if ((numerus_i > temp_i) && (xsign == -1)) {
+  if (n != m) {
+    return (n > m) == (xsign == NEG);
+  }
 
-        return true;
-      } else if ((numerus_i > temp_i) && (xsign == 1))
-        return false;
-      else if ((temp_i > numerus_i) && (xsign == -1))
-        return false;
-      else if ((temp_i > numerus_i) && (xsign == 1)) {
-
-        return true;
-      }
-    } // end for
+  for (int i = 0; i < n; ++i) {
+    if (numerus[i] != y.numerus[i]) {
+      return (numerus[i] > y.numerus[i]) == (xsign == NEG);
+    }
   }
 
   return false;
 }
 
 bool BigInt::operator<=(const BigInt &y) const {
-  // -1 == True
-  // 1 == False
   if (*this == y) {
     return true;
   }
-  BigInt temp = y;
-  int xsign = get_sign();
-  int ysign = temp.get_sign();
 
-  int n = size();
-  int m = temp.size();
+  SIGN xsign = get_sign();
+  SIGN ysign = y.get_sign();
 
-  if (xsign < 0 and ysign > 0)
-    return true;
-  else if (xsign > 0 and ysign < 0)
-    return false;
-
-  if (n > m) {
-    if (xsign == -1 and ysign == -1)
+  if (xsign != ysign) {
+    if (xsign == POS) {
+      return false;
+    } else {
       return true;
-    else if (xsign == 1 and ysign == 1)
-      return false;
-  }
-
-  if (n < m) {
-    if (xsign == -1 and ysign == -1)
-      return false;
-    else if (xsign == 1 and ysign == 1) {
-
-      return false;
     }
   }
 
-  if (n == m) {
-    for (int i = 0; i < n; i++) {
-      size_t numerus_i = numerus[i];
-      size_t temp_i = temp[i];
-      if ((numerus_i > temp_i) && (xsign == -1)) {
+  int n = size();
+  int m = y.size();
 
-        return true;
-      } else if ((numerus_i > temp_i) && (xsign == 1))
-        return false;
-      else if ((temp_i > numerus_i) && (xsign == -1))
-        return false;
-      else if ((temp_i > numerus_i) && (xsign == 1)) {
+  if (n != m) {
+    return (n > m) == (xsign == NEG);
+  }
 
-        return true;
-      }
-    } // end for
+  for (int i = 0; i < n; ++i) {
+    if (numerus[i] != y.numerus[i]) {
+      return (numerus[i] > y.numerus[i]) == (xsign == NEG);
+    }
   }
 
   return false;
 }
 
 bool BigInt::operator>(const BigInt &y) const {
-  // 1 == True
-  // -1 == False
-  BigInt temp = y;
+  if (*this == y) {
+    return false;
+  }
 
-  int xsign = get_sign();
-  int ysign = temp.get_sign();
+  SIGN xsign = get_sign();
+  SIGN ysign = y.get_sign();
+
+  if (xsign != ysign) {
+    if (xsign == POS) {
+      return true;
+    } else {
+      return false;
+    }
+  }
 
   int n = size();
-  int m = temp.size();
+  int m = y.size();
 
-  if (xsign < 0 and ysign > 0)
-    return false;
-  else if (xsign > 0 and ysign < 0)
-    return true;
-
-  if (n > m) {
-    if (xsign == -1 and ysign == -1)
-      return false;
-    else if (xsign == 1 and ysign == 1)
-      return true;
+  if (n != m) {
+    return (n > m) == (xsign == POS);
   }
 
-  if (n < m) {
-    if (xsign == -1 and ysign == -1)
-      return true;
-    else if (xsign == 1 and ysign == 1)
-      return false;
-  }
-
-  if (n == m) {
-    for (int i = 0; i < n; i++) {
-      size_t numerus_i = numerus[i];
-      size_t temp_i = temp[i];
-      if ((numerus_i > temp_i) && (xsign == -1))
-        return false;
-      else if ((numerus_i > temp_i) && (xsign == 1))
-        return true;
-      else if ((temp_i > numerus_i) && (xsign == -1))
-        return true;
-      else if ((temp_i > numerus_i) && (xsign == 1))
-        return false;
+  for (int i = 0; i < n; ++i) {
+    if (numerus[i] != y.numerus[i]) {
+      return (numerus[i] > y.numerus[i]) == (xsign == POS);
     }
   }
 
@@ -915,70 +776,33 @@ bool BigInt::operator>(const BigInt &y) const {
 }
 
 bool BigInt::operator>=(const BigInt &y) const {
-  // 1 == True
-  // -1 == False
   if (*this == y) {
     return true;
   }
-  BigInt temp = y;
 
-  int xsign = get_sign();
-  int ysign = temp.get_sign();
+  SIGN xsign = get_sign();
+  SIGN ysign = y.get_sign();
+
+  if (xsign != ysign) {
+    if (xsign == POS) {
+      return true;
+    } else {
+      return false;
+    }
+  }
 
   int n = size();
-  int m = temp.size();
+  int m = y.size();
 
-  if (xsign < 0 and ysign > 0)
-    return false;
-  else if (xsign > 0 and ysign < 0)
-    return true;
-
-  if (n > m) {
-    if (xsign == -1 and ysign == -1)
-      return false;
-    else if (xsign == 1 and ysign == 1)
-      return true;
+  if (n != m) {
+    return (n > m) == (xsign == POS);
   }
 
-  if (n < m) {
-    if (xsign == -1 and ysign == -1)
-      return true;
-    else if (xsign == 1 and ysign == 1)
-      return false;
-  }
-
-  if (n == m) {
-    for (int i = 0; i < n; i++) {
-      size_t numerus_i = numerus[i];
-      size_t temp_i = temp[i];
-      if ((numerus_i > temp_i) && (xsign == -1))
-        return false;
-      else if ((numerus_i > temp_i) && (xsign == 1))
-        return true;
-      else if ((temp_i > numerus_i) && (xsign == -1))
-        return true;
-      else if ((temp_i > numerus_i) && (xsign == 1))
-        return false;
+  for (int i = 0; i < n; ++i) {
+    if (numerus[i] != y.numerus[i]) {
+      return (numerus[i] > y.numerus[i]) == (xsign == POS);
     }
   }
 
   return false;
-}
-
-std::bitset<4> convertToBinary(uint8_t &n) {
-  std::bitset<4> b;
-  int i = 0;
-
-  try {
-    while (n > 0) {
-      int r = n % 2;
-      n /= 2;
-      b.set(i, r);
-      i += 1;
-    }
-  } catch (std::out_of_range &e) {
-    std::cout << "std::out_of_range exception caught: " << e.what() << "\n";
-  }
-
-  return b;
 }
