@@ -23,19 +23,6 @@ def split_number_np_decimal(x: np.ndarray, m: int):
     return np.array(parts)
 
 
-
-
-def split_number(x, m):
-    """
-    Splits a large number `x` into k parts of size `m` where k = ceil(len(x)/m).
-    Returns the list of parts.
-    """
-    parts = []
-    while x > 0:
-        parts.insert(0, x & ((1 << m) - 1))  # Extract the last m bits
-        x >>= m
-    return parts
-
 def burnikel_ziegler_divide(u: np.ndarray, v: np.ndarray, m: int):
     """
     Burnikel-Ziegler division algorithm.
@@ -66,9 +53,12 @@ def burnikel_ziegler_divide(u: np.ndarray, v: np.ndarray, m: int):
 
 if __name__=="__main__":
     u = np.array([9, 9, 8, 7, 6, 5, 4, 3, 2, 1], dtype=np.uint8)  # Dividend: 9987654321
-    v = np.array([9, 8, 7], dtype=np.uint8)                      # Divisor: 987
+    v = np.array([9, 8, 7,3,4], dtype=np.uint8)                      # Divisor: 987
     m = 3  # Number of digits in each part
 
+    parts1=split_number_np_decimal(u,m)
+    print("parts1 = ",parts1)
+    parts2=split_number_np_decimal(v,m)
     # Perform the division using Burnikel-Ziegler method
     quotient, remainder = burnikel_ziegler_divide(u, v, m)
     print("Quotient:", quotient)
