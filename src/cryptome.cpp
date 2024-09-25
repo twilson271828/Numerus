@@ -29,12 +29,29 @@ bool isLeadingZeroPresent(const std::string &c) {
   return false;
 }
 
+std::vector<BigInt> split_number(BigInt x,size_t m) {
+
+  std::vector<uint8_t> numerus=x.get_numerus();
+  std::vector<BigInt> result;
+
+   for (int i = numerus.size() - 1; i >= 0; --i) {
+        std::cout << (int)numerus[i] << " ";
+    }
+  std::cout << "\n";
+  
+  return result;
+
+
+
+}
+
 
 
 int main() {
 
-  BigInt x(0);
-  std::cout << "x[0] = "<< (int)x[0] << "\n";
+  BigInt x("7294372378472835723758");
+  int m = 3;
+  std::vector<BigInt> result = split_number(x, m);
  
   return 0;
 }
