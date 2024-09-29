@@ -53,14 +53,9 @@ def burnikel_ziegler_divide(u: np.ndarray, v: np.ndarray, m: int):
 
 if __name__=="__main__":
     u = np.array([9, 9, 8, 7, 6, 5, 4, 3, 2, 1], dtype=np.uint8)  # Dividend: 9987654321
-    v = np.array([9, 8, 7,3,4], dtype=np.uint8)                      # Divisor: 987
-    m = 3  # Number of digits in each part
+   
+    x=np.array([7,2,9,4,3,7,2,3,7,8,4,7,2,8,3,5,7,2,3,7,5,8],dtype=np.uint8)
 
-    parts1=split_number_np_decimal(u,m)
-    print("parts1 = ",parts1)
-    parts2=split_number_np_decimal(v,m)
-    # Perform the division using Burnikel-Ziegler method
-    quotient, remainder = burnikel_ziegler_divide(u, v, m)
-    print("Quotient:", quotient)
-    print("Remainder:", remainder)
-    
+    parts=split_number_np_decimal(x, 3)
+
+    print(parts)
