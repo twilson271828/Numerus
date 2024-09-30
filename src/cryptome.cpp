@@ -34,10 +34,9 @@ std::vector<BigInt> split_number(BigInt x,int m) {
   std::vector<uint8_t> numerus=x.get_numerus();
   std::vector<BigInt> result;
   
-   for (int i = numerus.size() - 1; i >= 0; i -= m) {
-    std::cout << "[i-m,i] = [" << i-m << "," << i  << "]\n";
-    BigInt temp = x.slice(i- m,i);
-    std::cout << "temp = " <<temp << "\n";
+   for (int i = numerus.size(); i >= 0; i -= m) {    
+    BigInt temp = x.slice(i- m,i-1);
+    result.push_back(temp);
       
     }
 
@@ -66,7 +65,10 @@ int main() {
   std::cout << "n = " << n << "\n";
   int m = 3;
   std::vector<BigInt> result = split_number(x, m);
-  //BigInt v = x.slice(n-3,n-1);
- // std::cout << "v = " << v << "\n";
+  print_v(result);
+  //std::cout << "n-m = " << n - m << "\n";
+  //std::cout << "n -1 = " << n - 1 << "\n";
+  //BigInt v = x.slice(n-m,n-1);
+  //std::cout << "v = " << v << "\n";
   return 0;
 }

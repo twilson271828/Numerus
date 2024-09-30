@@ -18,6 +18,7 @@ BigInt BigInt::slice(int i, int j) const {
   int ds = this->size() - 1;
 
   if (d > ds) {
+    std::cout << "d > ds\n";
     return BigInt("NaN");
   }
 
@@ -27,8 +28,13 @@ BigInt BigInt::slice(int i, int j) const {
   }
 
   if ((i < 0) || (j < 0)) {
-
-    return BigInt("NaN");
+    if (i < 0)  {
+      i = 0;
+    }
+    if (j < 0) {
+      return BigInt("NaN");
+    }
+    
   }
 
   // Starting and Ending iterators
