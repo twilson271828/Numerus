@@ -45,6 +45,18 @@ def burnikel_ziegler_divide(u: np.ndarray, v: np.ndarray, m: int):
     for part in u_parts:
         remainder = remainder * (10**m) + part  # Shift remainder and add next part
         quotient_part = remainder // int("".join(map(str, v)))  # Divide remainder by v
+        quotient_list = [int(digit) for digit in str(quotient_part)]
+        
+        nzeros = m-len(quotient_list)
+        print("nzeros = ",nzeros)
+        if (nzeros>0):
+            for i in range(nzeros):
+                quotient_list.insert(0,0)
+        #This part screws shit up        
+        quotient_part = int("".join(map(str, quotient_list)))
+        
+
+        print("quotient_part = ",quotient_part)
         remainder = remainder % int("".join(map(str, v)))  # Get the new remainder
         quotient.append(quotient_part)
 
@@ -56,6 +68,11 @@ if __name__=="__main__":
    
     x=np.array([7,2,9,4,3,7,2,3,7,8,4,7,2,8,3,5,7,2,3,7,5,8],dtype=np.uint8)
 
-    parts=split_number_np_decimal(x, 3)
+    y = np.array([2,5,6,8],dtype=np.uint8)  # Divisor: 2568
 
-    print(parts)
+    m=4
+
+    quotient,remainder = burnikel_ziegler_divide(x,y,m)
+
+    print(quotient)
+    print(remainder)
