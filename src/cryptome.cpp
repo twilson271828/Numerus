@@ -33,8 +33,13 @@ divmod10 div(BigInt &x,BigInt &y){
   int m = 4;
   std::vector<BigInt> x_parts = split_number(x, m);
   std::vector<BigInt> y_parts = split_number(y, m);
-  printVector(x_parts);
-  printVector(y_parts);
+  BigInt remainder = 0;
+  std::vector<BigInt> quotient_part;
+
+  for (auto &part : x_parts) {
+    remainder = remainder * pow(10, m) + part;
+  }
+
 
   d.quotient=x;
   d.remainder=y;
