@@ -38,6 +38,7 @@ divmod10 div(BigInt &x,BigInt &y){
 
   for (auto &part : x_parts) {
     remainder = remainder * pow(10, m) + part;
+    std::cout << "remainder: " << remainder << "\n";
   }
 
 
