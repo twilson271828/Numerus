@@ -82,8 +82,9 @@ int main() {
 
   BigInt x("7294372378472835723758");
   BigInt y("2568");
+  std::cout << "y = " << y.to_long() << "\n";
   int m = 4;
-  divmod10 z = div(x,y);
+  //divmod10 z = div(x,y);
   
   
   
