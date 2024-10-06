@@ -60,6 +60,7 @@ public:
   std::unique_ptr<std::vector<uint8_t>> numerus_ptr();
   std::vector<uint8_t> get_numerus();
   bool is_digit(char c) const;
+  long to_long() const;
 
   /// @brief
   void insert(const uint8_t &val, const int &ix);

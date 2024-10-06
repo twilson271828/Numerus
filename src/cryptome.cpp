@@ -30,17 +30,22 @@ std::vector<BigInt> split_number(BigInt x,int m) {
 divmod10 div(BigInt &x,BigInt &y){
 
   divmod10 d;
+  long ylong = y.to_long();
   int m = 4;
   std::vector<BigInt> x_parts = split_number(x, m);
+  printVector(x_parts);
   std::vector<BigInt> y_parts = split_number(y, m);
   BigInt remainder = 0;
-  std::vector<BigInt> quotient_part;
+  BigInt quotient_part;
+  std::vector<BigInt> quotient_list;
 
   for (auto &part : x_parts) {
     remainder = remainder * pow(10, m) + part;
-    std::cout << "remainder: " << remainder << "\n";
+    quotient_part = remainder.to_long() / ylong;
+    //std::cout << "quotient_part = " << quotient_part << "\n";
   }
 
+  //printVector(quotient_list);
 
   d.quotient=x;
   d.remainder=y;
@@ -82,8 +87,12 @@ int main() {
 
   BigInt x("7294372378472835723758");
   BigInt y("2568");
-  std::cout << "y = " << y.to_long() << "\n";
+  
   int m = 4;
+
+  divmod10 z = div(x,y);
+
+
   //divmod10 z = div(x,y);
   
   

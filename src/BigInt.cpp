@@ -10,6 +10,14 @@ void BigInt::setNumerus(const std::vector<uint8_t> &source) {
   numerus = source; // or numerus.assign(source.begin(), source.end());
 }
 
+long BigInt::to_long() const {
+  long result = 0;
+  for (int i = 0; i < numerus.size(); i++) {
+    result = result * 10 + numerus[i];
+  }
+  return result;
+}
+
 BigInt BigInt::slice(int i, int j) const {
   BigInt z;
   z.set_sign(this->get_sign());
