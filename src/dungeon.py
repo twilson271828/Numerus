@@ -34,7 +34,7 @@ def burnikel_ziegler_divide(u: np.ndarray, v: np.ndarray, m: int):
     
     # Convert arrays of digits into parts
     u_parts = split_number_np_decimal(u, m)
-    print("u_parts = ",u_parts)
+    #print("u_parts = ",u_parts)
     v_parts = split_number_np_decimal(v, m)
 
     # Initial remainder and quotient
@@ -44,7 +44,11 @@ def burnikel_ziegler_divide(u: np.ndarray, v: np.ndarray, m: int):
     # Burnikel-Ziegler division steps:
     # Step 1: Perform divide-and-conquer division on parts
     for part in u_parts:
+        print("remainder = ",remainder)
+        print("10**m = ",10**m)
+        print("part = ",part)
         remainder = remainder * (10**m) + part  # Shift remainder and add next part
+        print("result = ",remainder)
         quotient_part = remainder // int("".join(map(str, v)))  # Divide remainder by v
         #print("remainder = ",remainder)
         #print("quotient_part = ",quotient_part)
