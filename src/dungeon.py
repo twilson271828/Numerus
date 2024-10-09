@@ -45,13 +45,14 @@ def burnikel_ziegler_divide(u: np.ndarray, v: np.ndarray, m: int):
     # Step 1: Perform divide-and-conquer division on parts
     for part in u_parts:
         print("remainder = ",remainder)
-        print("10**m = ",10**m)
-        print("part = ",part)
+        #print("10**m = ",10**m)
+        #print("part = ",part)
         remainder = remainder * (10**m) + part  # Shift remainder and add next part
-        print("result = ",remainder)
+        #print("result = ",remainder)
         quotient_part = remainder // int("".join(map(str, v)))  # Divide remainder by v
         #print("remainder = ",remainder)
         #print("quotient_part = ",quotient_part)
+        print("*************************************************")
     
         quotient_list = [int(digit) for digit in str(quotient_part)]
         

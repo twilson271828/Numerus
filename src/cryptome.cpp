@@ -42,12 +42,13 @@ divmod10 div(BigInt &x,BigInt &y){
 
   for (auto &part : x_parts) {
     std::cout << "remainder = " << remainder << "\n";
-    std::cout << "10**m = " << std::pow(10, m) << "\n";
-    std::cout << "part = " << part << "\n";
+    //std::cout << "10**m = " << std::pow(10, m) << "\n";
+    //std::cout << "part = " << part << "\n";
     remainder = remainder * std::pow(10, m) + part;
-    std::cout << "result = " << remainder << "\n";
-    quotient_part = remainder.to_long() / ylong;
-    std::cout << "quotient_part = " << quotient_part << "\n";
+    //std::cout << "result = " << remainder << "\n";
+    //quotient_part = remainder.to_long() / ylong;
+    //std::cout << "quotient_part = " << quotient_part << "\n";
+    std::cout << "************************************************\n";
   }
 
   //printVector(quotient_list);
