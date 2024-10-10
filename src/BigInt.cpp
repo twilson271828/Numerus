@@ -290,6 +290,10 @@ std::ostream &operator<<(std::ostream &out, const BigInt &num) {
   size_t n = num.size();
 
   int i = 0;
+  if (n == 1 && num[0] == 0) {
+    out << "0";
+    return out;
+  }
 
   if (num[i] == 0) {
 

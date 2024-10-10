@@ -37,21 +37,26 @@ divmod10 div(BigInt &x,BigInt &y){
   printVector(x_parts);
   std::vector<BigInt> y_parts = split_number(y, m);
   BigInt remainder = 0;
-  BigInt quotient_part;
+  long quotient_part;
   std::vector<BigInt> quotient_list;
 
   for (auto &part : x_parts) {
     std::cout << "remainder = " << remainder << "\n";
+    std::cout << "part = " << part << "\n";
     //std::cout << "10**m = " << std::pow(10, m) << "\n";
     //std::cout << "part = " << part << "\n";
-    remainder = remainder * std::pow(10, m) + part;
+    remainder = remainder *std::pow(10,m) + part;
     //std::cout << "result = " << remainder << "\n";
-    //quotient_part = remainder.to_long() / ylong;
+    quotient_part = remainder.to_long() % ylong;
+    remainder = quotient_part;
     //std::cout << "quotient_part = " << quotient_part << "\n";
+    quotient_list.insert(quotient_list.begin(),BigInt(quotient_part));
+
+
     std::cout << "************************************************\n";
   }
 
-  //printVector(quotient_list);
+  
 
   d.quotient=x;
   d.remainder=y;
