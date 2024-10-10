@@ -56,7 +56,15 @@ divmod10 div(BigInt &x,BigInt &y){
     std::cout << "************************************************\n";
   }
 
-  
+  int nzeros = m-quotient_list.size();
+
+  if (nzeros>0){
+            for (int i = 0; i < nzeros; i++) {
+                quotient_list.insert(quotient_list.begin(),BigInt(0));
+            }
+  }
+
+  printVector(quotient_list);
 
   d.quotient=x;
   d.remainder=y;
