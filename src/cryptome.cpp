@@ -43,16 +43,16 @@ divmod10 div(BigInt &x,BigInt &y){
   for (auto &part : x_parts) {
     std::cout << "remainder = " << remainder << "\n";
     std::cout << "part = " << part << "\n";
-    //std::cout << "10**m = " << std::pow(10, m) << "\n";
-    //std::cout << "part = " << part << "\n";
+    
     remainder = remainder *std::pow(10,m) + part;
     //std::cout << "result = " << remainder << "\n";
-    quotient_part = remainder.to_long() % ylong;
-    remainder = quotient_part;
-    //std::cout << "quotient_part = " << quotient_part << "\n";
+    quotient_part = remainder.to_long() / ylong;
+    
+    std::cout << "quotient_part = " << quotient_part << "\n";
     quotient_list.insert(quotient_list.begin(),BigInt(quotient_part));
-
-
+    remainder = remainder - BigInt(quotient_part) * y;
+    std::cout << "quotient_list = ";
+    printVector(quotient_list);
     std::cout << "************************************************\n";
   }
 
@@ -63,8 +63,7 @@ divmod10 div(BigInt &x,BigInt &y){
                 quotient_list.insert(quotient_list.begin(),BigInt(0));
             }
   }
-
-  printVector(quotient_list);
+ 
 
   d.quotient=x;
   d.remainder=y;

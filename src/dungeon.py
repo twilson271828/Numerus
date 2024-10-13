@@ -50,7 +50,7 @@ def burnikel_ziegler_divide(u: np.ndarray, v: np.ndarray, m: int):
         #print("result = ",remainder)
         quotient_part = remainder // int("".join(map(str, v)))  # Divide remainder by v
         #print("remainder = ",remainder)
-        #print("quotient_part = ",quotient_part)
+        print("quotient_part = ",quotient_part)
         print("*************************************************")
     
         quotient_list = [int(digit) for digit in str(quotient_part)]
