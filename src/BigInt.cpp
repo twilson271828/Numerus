@@ -18,8 +18,6 @@ std::vector<int> BigInt::to_list() const {
   return result;
 }
 
-
-
 long BigInt::to_long() const {
   long result = 0;
   for (int i = 0; i < numerus.size(); i++) {
@@ -46,13 +44,12 @@ BigInt BigInt::slice(int i, int j) const {
   }
 
   if ((i < 0) || (j < 0)) {
-    if (i < 0)  {
+    if (i < 0) {
       i = 0;
     }
     if (j < 0) {
       return BigInt("NaN");
     }
-    
   }
 
   // Starting and Ending iterators
@@ -121,31 +118,38 @@ BigInt BigInt::karatsuba(BigInt &x, BigInt &y) const {
   return result;
 }
 
-  BigInt::BigInt(const std::vector<BigInt> &v,SIGN s) {
-    BigInt z;
-    for (auto x : v) {
-      z = z + x;
+BigInt::BigInt(const std::vector<BigInt> &v, SIGN s) {
+
+  std::vector<uint8_t> result;
+  std::vector<uint8_t> temp;
+
+  for (auto x : v) {
+    temp = x.get_numerus();
+    for (auto y : temp) {
+      result.push_back(y);
     }
-    *this = z;
   }
+  BigInt z(result, s);
 
-  BigInt::BigInt(const std::vector<int> &v,SIGN s){
+  *this = z;
+}
 
-    std::vector<uint8_t> result;
-    for (auto x : v) {
-      result.push_back((uint8_t)x);
-    }
-    numerus = result;
-    sign = s;
+BigInt::BigInt(const std::vector<int> &v, SIGN s) {
+
+  std::vector<uint8_t> result;
+  for (auto x : v) {
+    result.push_back((uint8_t)x);
   }
-
+  numerus = result;
+  sign = s;
+}
 
 BigInt::BigInt() {
   sign = _NULL;
   numerus = std::vector<uint8_t>(0);
 }
 
-BigInt::BigInt(const std::vector<uint8_t> &num) {
+BigInt::BigInt(const std::vector<uint8_t> &num, SIGN s) {
   numerus = num;
   sign = POS;
 }
@@ -550,7 +554,7 @@ void BigInt::operator--() {
   *this = z;
 }
 
-//BigInt BigInt::operator/(const BigInt &num) const { return num; }
+// BigInt BigInt::operator/(const BigInt &num) const { return num; }
 
 BigInt BigInt::operator-(const BigInt &num) const {
   BigInt x = *this;
@@ -726,7 +730,7 @@ bool BigInt::operator==(const BigInt &y) const {
 }
 
 bool BigInt::operator<(const BigInt &y) const {
-  
+
   if (*this == y) {
     return false;
   }
