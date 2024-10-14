@@ -10,6 +10,16 @@ void BigInt::setNumerus(const std::vector<uint8_t> &source) {
   numerus = source; // or numerus.assign(source.begin(), source.end());
 }
 
+std::vector<int> BigInt::to_list() const {
+  std::vector<int> result;
+  for (auto x : numerus) {
+    result.push_back((int)x);
+  }
+  return result;
+}
+
+
+
 long BigInt::to_long() const {
   long result = 0;
   for (int i = 0; i < numerus.size(); i++) {
@@ -110,6 +120,25 @@ BigInt BigInt::karatsuba(BigInt &x, BigInt &y) const {
 
   return result;
 }
+
+  BigInt::BigInt(const std::vector<BigInt> &v,SIGN s) {
+    BigInt z;
+    for (auto x : v) {
+      z = z + x;
+    }
+    *this = z;
+  }
+
+  BigInt::BigInt(const std::vector<int> &v,SIGN s){
+
+    std::vector<uint8_t> result;
+    for (auto x : v) {
+      result.push_back((uint8_t)x);
+    }
+    numerus = result;
+    sign = s;
+  }
+
 
 BigInt::BigInt() {
   sign = _NULL;

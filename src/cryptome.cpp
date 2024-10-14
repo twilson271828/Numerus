@@ -6,7 +6,9 @@
 #include <sstream>
 #include <cmath>
 
-void printVector(std::vector<BigInt> &x) {
+
+template <typename T>
+void printVector(std::vector<T> &x) {
   for (auto &i : x) {
     std::cout << i << " ";
   }
@@ -38,7 +40,8 @@ divmod10 div(BigInt &x,BigInt &y){
   std::vector<BigInt> y_parts = split_number(y, m);
   BigInt remainder = 0;
   long quotient_part;
-  std::vector<BigInt> quotient_list;
+  std::vector<BigInt> quotient;
+  std::vector<int> quotient_list;
 
   for (auto &part : x_parts) {
     std::cout << "remainder = " << remainder << "\n";
@@ -47,25 +50,30 @@ divmod10 div(BigInt &x,BigInt &y){
     remainder = remainder *std::pow(10,m) + part;
     //std::cout << "result = " << remainder << "\n";
     quotient_part = remainder.to_long() / ylong;
-    
-    std::cout << "quotient_part = " << quotient_part << "\n";
-    quotient_list.insert(quotient_list.begin(),BigInt(quotient_part));
-    remainder = remainder - BigInt(quotient_part) * y;
-    std::cout << "quotient_list = ";
-    printVector(quotient_list);
-    std::cout << "************************************************\n";
-  }
-
-  int nzeros = m-quotient_list.size();
+    quotient_list = BigInt(quotient_part).to_list();
+    int nzeros = m-quotient_list.size();
 
   if (nzeros>0){
             for (int i = 0; i < nzeros; i++) {
-                quotient_list.insert(quotient_list.begin(),BigInt(0));
+                quotient_list.insert(quotient_list.begin(),0);
             }
   }
- 
+    
+    std::cout << "quotient_list = ";
+    printVector(quotient_list);
+    
+    remainder = remainder - BigInt(quotient_part) * y;
 
-  d.quotient=x;
+    quotient.insert(quotient.begin(),BigInt(quotient_list));
+   
+    
+    std::cout << "************************************************\n";
+  }
+
+  
+
+  printVector(quotient);
+  d.quotient=BigInt(quotient);
   d.remainder=y;
 
 
@@ -109,6 +117,9 @@ int main() {
   int m = 4;
 
   divmod10 z = div(x,y);
+  std::cout << "quotient = " << z.quotient << "\n";
+  std::cout << "remainder = " << z.remainder << "\n";
+
 
 
   

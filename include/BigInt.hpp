@@ -44,6 +44,8 @@ public:
 
   BigInt(const long &num);
 
+  BigInt(const std::vector<int> &v,SIGN s=POS);
+  BigInt(const std::vector<BigInt> &v,SIGN s=POS);
   void setNumerus(const std::vector<uint8_t>& source);
   BigInt(const std::vector<uint8_t> &num);
   BigInt karatsuba(BigInt &x, BigInt &y) const;
@@ -61,6 +63,7 @@ public:
   std::vector<uint8_t> get_numerus();
   bool is_digit(char c) const;
   long to_long() const;
+  std::vector<int> to_list() const;
 
   /// @brief
   void insert(const uint8_t &val, const int &ix);

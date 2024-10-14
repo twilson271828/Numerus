@@ -54,7 +54,7 @@ def burnikel_ziegler_divide(u: np.ndarray, v: np.ndarray, m: int):
         print("*************************************************")
     
         quotient_list = [int(digit) for digit in str(quotient_part)]
-        print("quotient_list = ",quotient_list)
+        #print("quotient_list = ",quotient_list)
         
         nzeros = m-len(quotient_list)
         
@@ -81,5 +81,5 @@ if __name__=="__main__":
 
     quotient,remainder = burnikel_ziegler_divide(x,y,m)
 
-    #print(quotient)
-    #print(remainder)
+    print(quotient)
+    print(remainder)
