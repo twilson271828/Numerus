@@ -64,7 +64,7 @@ divmod10 div(BigInt &x,BigInt &y){
     
     remainder = remainder - BigInt(quotient_part) * y;
 
-    quotient.insert(quotient.begin(),BigInt(quotient_list));
+    quotient.push_back(quotient_list);
    
     
     std::cout << "************************************************\n";
@@ -96,16 +96,6 @@ bool isLeadingZeroPresent(const std::string &c) {
     return true;
   }
   return false;
-}
-
-
-
-
-void print_v(std::vector<BigInt> &x) {
-  for (auto &i : x) {
-    std::cout << i << " ";
-  }
-  std::cout << "\n";
 }
 
 
