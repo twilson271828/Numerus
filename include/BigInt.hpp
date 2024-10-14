@@ -5,11 +5,10 @@
 #include <iostream>
 #include <memory>
 #include <string>
-#include <vector>
 #include <typeinfo>
+#include <vector>
 
-
-enum SIGN { POS, NEG, UNDEFINED,_NULL};
+enum SIGN { POS, NEG, UNDEFINED, _NULL };
 
 struct split;
 struct divmod10;
@@ -20,11 +19,11 @@ private:
   std::vector<uint8_t> numerus;
 
   SIGN sign;
-  
+
   BigInt vsub(BigInt &x, BigInt &y) const;
   BigInt vadd(BigInt &x, BigInt &y) const;
   BigInt vmult(BigInt &x, BigInt &y) const;
-  //bool is_digit_char(char c) const;
+  // bool is_digit_char(char c) const;
 
   // BigInt Schonhage_Strassen(BigInt &x, BigInt &y) const;
   // BigInt Toom3(BigInt &x, BigInt &y) const;
@@ -44,8 +43,10 @@ public:
 
   BigInt(const long &num);
 
-  void setNumerus(const std::vector<uint8_t>& source);
-  BigInt(const std::vector<uint8_t> &num);
+  BigInt(const std::vector<int> &v, SIGN s = POS);
+  BigInt(const std::vector<BigInt> &v, SIGN s = POS);
+  void setNumerus(const std::vector<uint8_t> &source);
+  BigInt(const std::vector<uint8_t> &num, SIGN s = POS);
   BigInt karatsuba(BigInt &x, BigInt &y) const;
   BigInt lshift(const int n) const;
   BigInt shift_n(const int n, bool add_to_front = false) const;
@@ -60,10 +61,12 @@ public:
   std::unique_ptr<std::vector<uint8_t>> numerus_ptr();
   std::vector<uint8_t> get_numerus();
   bool is_digit(char c) const;
+  long to_long() const;
+  std::vector<int> to_list() const;
 
   /// @brief
   void insert(const uint8_t &val, const int &ix);
-  
+
   BigInt operator*(const BigInt &num);
   BigInt operator/(const BigInt &num) const;
 

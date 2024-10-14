@@ -10,6 +10,22 @@ void BigInt::setNumerus(const std::vector<uint8_t> &source) {
   numerus = source; // or numerus.assign(source.begin(), source.end());
 }
 
+std::vector<int> BigInt::to_list() const {
+  std::vector<int> result;
+  for (auto x : numerus) {
+    result.push_back((int)x);
+  }
+  return result;
+}
+
+long BigInt::to_long() const {
+  long result = 0;
+  for (int i = 0; i < numerus.size(); i++) {
+    result = result * 10 + numerus[i];
+  }
+  return result;
+}
+
 BigInt BigInt::slice(int i, int j) const {
   BigInt z;
   z.set_sign(this->get_sign());
@@ -18,6 +34,7 @@ BigInt BigInt::slice(int i, int j) const {
   int ds = this->size() - 1;
 
   if (d > ds) {
+    std::cout << "d > ds\n";
     return BigInt("NaN");
   }
 
@@ -27,8 +44,12 @@ BigInt BigInt::slice(int i, int j) const {
   }
 
   if ((i < 0) || (j < 0)) {
-
-    return BigInt("NaN");
+    if (i < 0) {
+      i = 0;
+    }
+    if (j < 0) {
+      return BigInt("NaN");
+    }
   }
 
   // Starting and Ending iterators
@@ -97,12 +118,38 @@ BigInt BigInt::karatsuba(BigInt &x, BigInt &y) const {
   return result;
 }
 
+BigInt::BigInt(const std::vector<BigInt> &v, SIGN s) {
+
+  std::vector<uint8_t> result;
+  std::vector<uint8_t> temp;
+
+  for (auto x : v) {
+    temp = x.get_numerus();
+    for (auto y : temp) {
+      result.push_back(y);
+    }
+  }
+  BigInt z(result, s);
+
+  *this = z;
+}
+
+BigInt::BigInt(const std::vector<int> &v, SIGN s) {
+
+  std::vector<uint8_t> result;
+  for (auto x : v) {
+    result.push_back((uint8_t)x);
+  }
+  numerus = result;
+  sign = s;
+}
+
 BigInt::BigInt() {
   sign = _NULL;
   numerus = std::vector<uint8_t>(0);
 }
 
-BigInt::BigInt(const std::vector<uint8_t> &num) {
+BigInt::BigInt(const std::vector<uint8_t> &num, SIGN s) {
   numerus = num;
   sign = POS;
 }
@@ -276,6 +323,10 @@ std::ostream &operator<<(std::ostream &out, const BigInt &num) {
   size_t n = num.size();
 
   int i = 0;
+  if (n == 1 && num[0] == 0) {
+    out << "0";
+    return out;
+  }
 
   if (num[i] == 0) {
 
@@ -503,7 +554,7 @@ void BigInt::operator--() {
   *this = z;
 }
 
-//BigInt BigInt::operator/(const BigInt &num) const { return num; }
+// BigInt BigInt::operator/(const BigInt &num) const { return num; }
 
 BigInt BigInt::operator-(const BigInt &num) const {
   BigInt x = *this;
@@ -679,7 +730,7 @@ bool BigInt::operator==(const BigInt &y) const {
 }
 
 bool BigInt::operator<(const BigInt &y) const {
-  
+
   if (*this == y) {
     return false;
   }
