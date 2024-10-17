@@ -194,6 +194,19 @@ TEST_F(BigIntTest, MultiplicationTests) {
   EXPECT_EQ(z30, BigInt("14811252664572"));
 }
 
+TEST_F(BigIntTest, DivisionTests) {
+ BigInt x("7294372378472835723758");
+ BigInt y("2568");
+
+ divmod10 z = x/y;
+
+ EXPECT_EQ(z.quotient, BigInt("2840487686321197711"));
+ EXPECT_EQ(z.remainder, BigInt("1910"));
+
+}
+
+
+
 TEST_F(BigIntTest, LEQ) {
   // n == m
   BigInt e("271828");
