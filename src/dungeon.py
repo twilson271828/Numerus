@@ -1,6 +1,6 @@
 import numpy as np
 
-import numpy as np
+
 
 def split_number_np_decimal(x: np.ndarray, m: int):
     """

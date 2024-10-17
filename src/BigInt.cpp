@@ -1,7 +1,7 @@
 #include "../include/BigInt.hpp"
 #include <stdio.h>
 
-std::vector<uint8_t> BigInt::get_numerus() {
+std::vector<uint8_t> BigInt::get_numerus() const {
   std::vector<uint8_t> v = numerus;
   return v;
 }
@@ -289,7 +289,7 @@ std::unique_ptr<std::vector<uint8_t>> BigInt::numerus_ptr() {
   return std::make_unique<std::vector<uint8_t>>(numerus);
 }
 
-uint8_t BigInt::operator[](const int i) const { return numerus[i]; }
+int BigInt::operator[](const int i) const { return (int)numerus[i]; }
 
 void BigInt::set_sign(SIGN x) { sign = x; }
 
@@ -554,7 +554,59 @@ void BigInt::operator--() {
   *this = z;
 }
 
-// BigInt BigInt::operator/(const BigInt &num) const { return num; }
+std::vector<BigInt> BigInt::split_number(const BigInt x, const int m) const {
+
+  std::vector<uint8_t> numerus = x.get_numerus();
+  std::vector<BigInt> result;
+
+  for (int i = numerus.size(); i >= 0; i -= m) {
+    BigInt temp = x.slice(i - m, i - 1);
+    result.insert(result.begin(), temp);
+  }
+  return result;
+}
+
+divmod10 BigInt::burnikel_ziegler(const BigInt &x, const BigInt &y) const {
+
+  divmod10 d;
+  long ylong = y.to_long();
+  const int m =
+      4; // change this to some optimized value determined the the inputs.
+  std::vector<BigInt> x_parts = split_number(x, m);
+  std::vector<BigInt> y_parts = split_number(y, m);
+  BigInt remainder = 0;
+  long quotient_part;
+  std::vector<BigInt> quotient;
+  std::vector<int> quotient_list;
+
+  for (auto &part : x_parts) {
+    remainder = remainder * std::pow(10, m) + part;
+    quotient_part = remainder.to_long() / ylong;
+    quotient_list = BigInt(quotient_part).to_list();
+    int nzeros = m - quotient_list.size();
+
+    if (nzeros > 0) {
+      for (int i = 0; i < nzeros; i++) {
+        quotient_list.insert(quotient_list.begin(), 0);
+      }
+    }
+    remainder = remainder - BigInt(quotient_part) * y;
+    quotient.push_back(quotient_list);
+  }
+
+  d.quotient = BigInt(quotient);
+  d.remainder = remainder;
+
+  return d;
+}
+
+divmod10 BigInt::operator/(const BigInt &num) const {
+  BigInt x = *this;
+  BigInt y = num;
+  divmod10 d = burnikel_ziegler(x, y);
+
+  return d;
+}
 
 BigInt BigInt::operator-(const BigInt &num) const {
   BigInt x = *this;
