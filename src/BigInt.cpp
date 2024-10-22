@@ -66,14 +66,19 @@ BigInt BigInt::slice(int i, int j) const {
   return z;
 }
 
-split BigInt::split_it(size_t m) const {
-  size_t n = this->size();
+split BigInt::split_it(int m) const {
+  int n = this->size();
 
   BigInt r;
   BigInt c;
 
   split z;
-
+  if (n < m) {
+    z.xleft = BigInt("NaN");
+    z.xright = BigInt("NaN");
+    z.m = m;
+    return z;
+  }
   z.xright = this->slice(n - m, n - 1);
   z.xleft = this->slice(0, n - m - 1);
   z.m = m;
@@ -766,16 +771,23 @@ bool BigInt::operator==(const BigInt &y) const {
   BigInt temp = y;
   SIGN xsign = get_sign();
   SIGN ysign = temp.get_sign();
-  if (xsign != ysign)
+  if (xsign != ysign){
     return false;
+    
+  }
 
   int m = size();
   int n = temp.size();
-  if (m != n)
+  if (m != n) {
     return false;
+  }
+
   for (int i = 0; i < n; i++) {
-    if (numerus[i] != temp[i])
+    if ((int)numerus[i] != temp[i]){
+      std::cout << "i = " << i << "\n";
+      std::cout << "numerus[i] = " << (int)numerus[i] << " temp[i] = " << temp[i] << "\n";
       return false;
+    }
   }
 
   return true;
