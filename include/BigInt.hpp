@@ -54,7 +54,7 @@ public:
   divmod10 divmod(const long n) const;
   BigInt slice(int i, int j) const;
   int operator[](const int i) const;
-  size_t size() const;
+  int size() const;
   void print_numerus() const;
   BigInt abs() const;
   SIGN get_sign() const;
@@ -91,7 +91,7 @@ public:
 
   void operator--();
 
-  split split_it(size_t m) const;
+  split split_it(int m) const;
 
   friend std::ostream &operator<<(std::ostream &out, const BigInt &num);
 };

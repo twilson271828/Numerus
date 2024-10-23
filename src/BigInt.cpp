@@ -308,7 +308,7 @@ BigInt BigInt::abs() const {
 
 SIGN BigInt::get_sign() const { return sign; }
 
-size_t BigInt::size() const { return numerus.size(); }
+int BigInt::size() const { return numerus.size(); }
 
 std::ostream &operator<<(std::ostream &out, const BigInt &num) {
 
@@ -768,24 +768,29 @@ BigInt BigInt::operator+(const BigInt &num) const {
 }
 
 bool BigInt::operator==(const BigInt &y) const {
+  std::cout << "x = " << *this << " y = " << y << "\n";
   BigInt temp = y;
   SIGN xsign = get_sign();
   SIGN ysign = temp.get_sign();
   if (xsign != ysign){
+    std::cout << "a" << "\n";
     return false;
     
   }
 
   int m = size();
   int n = temp.size();
+  std::cout << "m = " << m << " n = " << n << "\n";
   if (m != n) {
+    std::cout << "b" << "\n";
     return false;
   }
-
+  
   for (int i = 0; i < n; i++) {
-    if ((int)numerus[i] != temp[i]){
+    int x = (int)numerus[i];
+    if (x != temp[i]){
       std::cout << "i = " << i << "\n";
-      std::cout << "numerus[i] = " << (int)numerus[i] << " temp[i] = " << temp[i] << "\n";
+      std::cout << "numerus[i] = " << x << " temp[i] = " << temp[i] << "\n";
       return false;
     }
   }
