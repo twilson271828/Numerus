@@ -308,7 +308,15 @@ BigInt BigInt::abs() const {
 
 SIGN BigInt::get_sign() const { return sign; }
 
-int BigInt::size() const { return numerus.size(); }
+int BigInt::size() const { 
+  
+
+  
+  
+  return numerus.size(); 
+  
+  
+  }
 
 std::ostream &operator<<(std::ostream &out, const BigInt &num) {
 
@@ -336,6 +344,7 @@ std::ostream &operator<<(std::ostream &out, const BigInt &num) {
   if (num[i] == 0) {
 
     while (num[i] == 0 && i < n) {
+      out << static_cast<int>(num[i]);
       ++i;
     }
     while (i < n) {
@@ -572,12 +581,13 @@ std::vector<BigInt> BigInt::split_number(const BigInt x, const int m) const {
 }
 
 divmod10 BigInt::burnikel_ziegler(const BigInt &x, const BigInt &y) const {
-
+  std::cout << "burnikel_ziegler\n";
   divmod10 d;
   long ylong = y.to_long();
-  const int m =
-      4; // change this to some optimized value determined the the inputs.
+  const int m = 4; // change this to some optimized value determined the the inputs.
   std::vector<BigInt> x_parts = split_number(x, m);
+  std::cout << "x = " << x << "\n";
+  
   std::vector<BigInt> y_parts = split_number(y, m);
   BigInt remainder = 0;
   long quotient_part;
@@ -589,7 +599,7 @@ divmod10 BigInt::burnikel_ziegler(const BigInt &x, const BigInt &y) const {
     quotient_part = remainder.to_long() / ylong;
     quotient_list = BigInt(quotient_part).to_list();
     int nzeros = m - quotient_list.size();
-
+    
     if (nzeros > 0) {
       for (int i = 0; i < nzeros; i++) {
         quotient_list.insert(quotient_list.begin(), 0);
@@ -600,6 +610,10 @@ divmod10 BigInt::burnikel_ziegler(const BigInt &x, const BigInt &y) const {
   }
 
   d.quotient = BigInt(quotient);
+  std::cout << "quotient = " << d.quotient << "\n";
+  for (auto x : quotient){
+    std::cout << x << "\n";
+  } 
   d.remainder = remainder;
 
   return d;
@@ -768,29 +782,25 @@ BigInt BigInt::operator+(const BigInt &num) const {
 }
 
 bool BigInt::operator==(const BigInt &y) const {
-  std::cout << "x = " << *this << " y = " << y << "\n";
+  
   BigInt temp = y;
   SIGN xsign = get_sign();
   SIGN ysign = temp.get_sign();
   if (xsign != ysign){
-    std::cout << "a" << "\n";
     return false;
-    
   }
 
   int m = size();
   int n = temp.size();
-  std::cout << "m = " << m << " n = " << n << "\n";
+  
   if (m != n) {
-    std::cout << "b" << "\n";
+    
     return false;
   }
   
   for (int i = 0; i < n; i++) {
     int x = (int)numerus[i];
     if (x != temp[i]){
-      std::cout << "i = " << i << "\n";
-      std::cout << "numerus[i] = " << x << " temp[i] = " << temp[i] << "\n";
       return false;
     }
   }
