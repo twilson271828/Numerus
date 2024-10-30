@@ -86,12 +86,18 @@ split BigInt::split_it(int m) const {
 }
 
 BigInt BigInt::karatsuba(BigInt &x, BigInt &y) const {
-
+  
   int n = x.size();
   int m = y.size();
+  
 
   if (x.abs() < 10 && y.abs() < 10) {
-
+    std::cout << "x = " << x << "\n";
+    std::cout << "y = " << y << "\n";
+    std::cout << "x.size() = " << x.size() << "\n";
+    std::cout << "y.size() = " << y.size() << "\n";
+    
+    std::cout << "********************************\n";
     int result = (int)x[0] * (int)y[0];
 
     return BigInt(result);
@@ -185,6 +191,19 @@ BigInt::BigInt(const long &num) {
   }
 
   *this = z;
+}
+void BigInt::trim_zeros() {
+  int n = numerus.size();
+  if (n==0 || n == 1) {
+    return;
+  }
+  int i = 0;
+  while (numerus[i] == 0) {
+    i++;
+  }
+  if (i > 0) {
+    numerus.erase(numerus.begin(), numerus.begin() + i);
+  }
 }
 
 bool BigInt::is_digit(char ch) const {
@@ -337,7 +356,7 @@ std::ostream &operator<<(std::ostream &out, const BigInt &num) {
 
   int i = 0;
   if (n == 1 && num[0] == 0) {
-    out << "0";
+    out << static_cast<int>(num[0]);
     return out;
   }
 
@@ -524,8 +543,9 @@ BigInt BigInt::operator*(const BigInt &num) {
   if (y.size() > x.size()) {
     z = vmult(y, x);
   } else {
-
+     
     z = vmult(x, y);
+   
   }
 
   SIGN xsign = x.get_sign();
@@ -782,15 +802,16 @@ BigInt BigInt::operator+(const BigInt &num) const {
 }
 
 bool BigInt::operator==(const BigInt &y) const {
-  
+  BigInt x = *this;
   BigInt temp = y;
   SIGN xsign = get_sign();
   SIGN ysign = temp.get_sign();
   if (xsign != ysign){
     return false;
   }
-
-  int m = size();
+  x.trim_zeros();
+  temp.trim_zeros();
+  int m = x.size();
   int n = temp.size();
   
   if (m != n) {
@@ -799,10 +820,10 @@ bool BigInt::operator==(const BigInt &y) const {
   }
   
   for (int i = 0; i < n; i++) {
-    int x = (int)numerus[i];
-    if (x != temp[i]){
+    if (x[i] != temp[i]) {
       return false;
     }
+    
   }
 
   return true;

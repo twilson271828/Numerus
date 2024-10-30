@@ -24,7 +24,7 @@ private:
   BigInt vsub(BigInt &x, BigInt &y) const;
   BigInt vadd(BigInt &x, BigInt &y) const;
   BigInt vmult(BigInt &x, BigInt &y) const;
-  // bool is_digit_char(char c) const;
+  
 
   // BigInt Schonhage_Strassen(BigInt &x, BigInt &y) const;
   // BigInt Toom3(BigInt &x, BigInt &y) const;
@@ -35,7 +35,7 @@ private:
 
 public:
   BigInt();
-
+  void trim_zeros();
   /// @brief
   /// @param c
   BigInt(const std::string c);

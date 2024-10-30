@@ -90,13 +90,18 @@ bool isLeadingZeroPresent(const std::string &c) {
 int main() {
 
 
-  BigInt x("7294372378472835723758");
-  BigInt y("2568");
+  BigInt x("0000007294372378472835723758");
+  //BigInt y("2568");
 
-  divmod10 z = x/y;
+  std::cout << "x = " << x << "\n";
+  x.trim_zeros();
 
-  std::cout << "Quotient = " << z.quotient << "\n";
-  std::cout << "Remainder = " << z.remainder << "\n";
+  std::cout << "x = " << x << "\n";
+
+  //divmod10 z = x/y;
+
+  //std::cout << "Quotient = " << z.quotient << "\n";
+  //std::cout << "Remainder = " << z.remainder << "\n";
 
 
 

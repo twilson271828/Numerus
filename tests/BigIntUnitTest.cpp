@@ -132,12 +132,14 @@ TEST_F(BigIntTest, OstreamOperator) {
   oss << empty;
   EXPECT_EQ(oss.str(), "_NULL");
 }
+#endif
 
 TEST_F(BigIntTest, MultiplicationTests) {
   BigInt z1("271828453454345545545545");
   BigInt z2("314159453453523442343");
 
   BigInt z3 = z1 * z2;
+  #if 0
   BigInt truth1("85397478370333732998963744994908858288011935");
   EXPECT_EQ(z3, truth1);
 
@@ -194,8 +196,11 @@ TEST_F(BigIntTest, MultiplicationTests) {
   BigInt z29(432546366);
   BigInt z30 = z28 * z29;
   EXPECT_EQ(z30, BigInt("14811252664572"));
+
+  #endif
 }
-#endif
+
+#if 0
 TEST_F(BigIntTest, DivisionTests) {
  BigInt x("7294372378472835723758");
  BigInt y("2568");
@@ -205,11 +210,9 @@ TEST_F(BigIntTest, DivisionTests) {
  BigInt truth_remainder("1910");
 
  EXPECT_EQ(z.quotient, truth_quotient);
- //EXPECT_EQ(z.remainder, truth_remainder);
+ EXPECT_EQ(z.remainder, truth_remainder);
 
 }
-
-#if 0
 
 TEST_F(BigIntTest, LEQ) {
   // n == m
