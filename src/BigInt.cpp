@@ -5,7 +5,6 @@ void BigInt::setNumerus(const std::vector<uint8_t> &source) {
   numerus = source;
 }
 
-
 std::vector<uint8_t> BigInt::getNumerus() const {
   std::vector<uint8_t> v = numerus;
   return v;
@@ -35,7 +34,7 @@ BigInt BigInt::slice(int i, int j) const {
   int ds = this->size() - 1;
 
   if (d > ds) {
-    std::cout << "d > ds\n";
+
     return BigInt("NaN");
   }
 
@@ -87,18 +86,12 @@ split BigInt::split_it(int m) const {
 }
 
 BigInt BigInt::karatsuba(BigInt &x, BigInt &y) const {
-  
+
   int n = x.size();
   int m = y.size();
-  
 
   if (x.abs() < 10 && y.abs() < 10) {
-    std::cout << "x = " << x << "\n";
-    std::cout << "y = " << y << "\n";
-    std::cout << "x.size() = " << x.size() << "\n";
-    std::cout << "y.size() = " << y.size() << "\n";
-    
-    std::cout << "********************************\n";
+
     int result = (int)x[0] * (int)y[0];
 
     return BigInt(result);
@@ -194,21 +187,20 @@ BigInt::BigInt(const long &num) {
   *this = z;
 }
 
-BigInt BigInt::trim_zeros() const{
+BigInt BigInt::trim_zeros() const {
   int n = numerus.size();
   BigInt z = *this;
   std::vector<uint8_t> numerus = z.getNumerus();
 
-  if (n==0 || n == 1) {
+  if (n == 0 || n == 1) {
     return *this;
-    
   }
   int i = 0;
   while (numerus[i] == 0) {
     i++;
   }
   if (i > 0) {
-    
+
     numerus.erase(numerus.begin(), numerus.begin() + i);
     z.setNumerus(numerus);
   }
@@ -336,15 +328,7 @@ BigInt BigInt::abs() const {
 
 SIGN BigInt::get_sign() const { return sign; }
 
-int BigInt::size() const { 
-  
-
-  
-  
-  return numerus.size(); 
-  
-  
-  }
+int BigInt::size() const { return numerus.size(); }
 
 std::ostream &operator<<(std::ostream &out, const BigInt &num) {
 
@@ -372,7 +356,7 @@ std::ostream &operator<<(std::ostream &out, const BigInt &num) {
   if (num[i] == 0) {
 
     while (num[i] == 0 && i < n) {
-      out << static_cast<int>(num[i]);
+      // out << static_cast<int>(num[i]);
       ++i;
     }
     while (i < n) {
@@ -552,9 +536,8 @@ BigInt BigInt::operator*(const BigInt &num) {
   if (y.size() > x.size()) {
     z = vmult(y, x);
   } else {
-     
+
     z = vmult(x, y);
-   
   }
 
   SIGN xsign = x.get_sign();
@@ -610,13 +593,13 @@ std::vector<BigInt> BigInt::split_number(const BigInt x, const int m) const {
 }
 
 divmod10 BigInt::burnikel_ziegler(const BigInt &x, const BigInt &y) const {
-  std::cout << "burnikel_ziegler\n";
+
   divmod10 d;
   long ylong = y.to_long();
-  const int m = 4; // change this to some optimized value determined the the inputs.
+  const int m =
+      4; // change this to some optimized value determined the the inputs.
   std::vector<BigInt> x_parts = split_number(x, m);
-  std::cout << "x = " << x << "\n";
-  
+
   std::vector<BigInt> y_parts = split_number(y, m);
   BigInt remainder = 0;
   long quotient_part;
@@ -628,7 +611,7 @@ divmod10 BigInt::burnikel_ziegler(const BigInt &x, const BigInt &y) const {
     quotient_part = remainder.to_long() / ylong;
     quotient_list = BigInt(quotient_part).to_list();
     int nzeros = m - quotient_list.size();
-    
+
     if (nzeros > 0) {
       for (int i = 0; i < nzeros; i++) {
         quotient_list.insert(quotient_list.begin(), 0);
@@ -638,12 +621,8 @@ divmod10 BigInt::burnikel_ziegler(const BigInt &x, const BigInt &y) const {
     quotient.push_back(quotient_list);
   }
 
-  d.quotient = BigInt(quotient);
-  std::cout << "quotient = " << d.quotient << "\n";
-  for (auto x : quotient){
-    std::cout << x << "\n";
-  } 
-  d.remainder = remainder;
+  d.quotient = BigInt(quotient).trim_zeros();
+  d.remainder = remainder.trim_zeros();
 
   return d;
 }
@@ -811,29 +790,28 @@ BigInt BigInt::operator+(const BigInt &num) const {
 }
 
 bool BigInt::operator==(const BigInt &y) const {
-  
+
   BigInt x = *this;
   BigInt temp = y;
   SIGN xsign = get_sign();
   SIGN ysign = temp.get_sign();
-  if (xsign != ysign){
+  if (xsign != ysign) {
     return false;
   }
-  BigInt x1 = x.trim_zeros();
-  BigInt temp1 = temp.trim_zeros();
-  int m = x1.size();
-  int n = temp1.size();
-  
+  // BigInt x1 = x.trim_zeros();
+  // BigInt temp1 = temp.trim_zeros();
+  int m = x.size();
+  int n = temp.size();
+
   if (m != n) {
-    
+
     return false;
   }
-  
+
   for (int i = 0; i < n; i++) {
-    if (x1[i] != temp1[i]) {
+    if (x[i] != temp[i]) {
       return false;
     }
-    
   }
 
   return true;

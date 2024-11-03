@@ -37,7 +37,6 @@ public:
   BigInt mpi;
 };
 
-#if 0
 TEST_F(BigIntTest, LongConstructorTests) {
   EXPECT_EQ(zero_long, c0);
   EXPECT_EQ(pi_long, pi);
@@ -84,7 +83,7 @@ TEST_F(BigIntTest, ConstructorTests) {
 TEST_F(BigIntTest, Get_Numerus) {
   BigInt z1("271828");
   std::vector<uint8_t> v1 = {2, 7, 1, 8, 2, 8};
-  EXPECT_EQ(z1.get_numerus(), v1);
+  EXPECT_EQ(z1.getNumerus(), v1);
 }
 
 TEST_F(BigIntTest, OstreamOperator) {
@@ -132,17 +131,13 @@ TEST_F(BigIntTest, OstreamOperator) {
   oss << empty;
   EXPECT_EQ(oss.str(), "_NULL");
 }
-#endif
 
 TEST_F(BigIntTest, MultiplicationTests) {
-  //BigInt z1("271828453454345545545545");
-  //BigInt z2("314159453453523442343");
-  BigInt z1("2222222222222222222222222222");
-  BigInt z2("2");
+  BigInt z1("271828453454345545545545");
+  BigInt z2("314159453453523442343");
 
   BigInt z3 = z1 * z2;
-  std::cout << "z3 = " << z3 << std::endl;
-  #if 0
+
   BigInt truth1("85397478370333732998963744994908858288011935");
   EXPECT_EQ(z3, truth1);
 
@@ -199,22 +194,18 @@ TEST_F(BigIntTest, MultiplicationTests) {
   BigInt z29(432546366);
   BigInt z30 = z28 * z29;
   EXPECT_EQ(z30, BigInt("14811252664572"));
-
-  #endif
 }
 
-#if 0
 TEST_F(BigIntTest, DivisionTests) {
- BigInt x("7294372378472835723758");
- BigInt y("2568");
+  BigInt x("7294372378472835723758");
+  BigInt y("2568");
 
- divmod10 z = x/y;     
- BigInt truth_quotient("2840487686321197711");
- BigInt truth_remainder("1910");
+  divmod10 z = x / y;
+  BigInt truth_quotient("2840487686321197711");
+  BigInt truth_remainder("1910");
 
- EXPECT_EQ(z.quotient, truth_quotient);
- EXPECT_EQ(z.remainder, truth_remainder);
-
+  EXPECT_EQ(z.quotient, truth_quotient);
+  EXPECT_EQ(z.remainder, truth_remainder);
 }
 
 TEST_F(BigIntTest, LEQ) {
@@ -390,7 +381,7 @@ TEST_F(BigIntTest, EqualityTests) {
   EXPECT_NE(e, pi);
 }
 
-TEST_F(BigIntTest,NotEqual){
+TEST_F(BigIntTest, NotEqual) {
 
   BigInt pi("314159");
   BigInt e("271828");
@@ -400,7 +391,6 @@ TEST_F(BigIntTest,NotEqual){
 
   bool t2 = e != e;
   EXPECT_EQ(t2, 0);
-
 }
 // Demonstrate some basic assertions.
 TEST_F(BigIntTest, AdditionTests) {
@@ -543,7 +533,7 @@ TEST_F(BigIntTest, GetNumerusPtrTest) {
   std::vector<uint8_t> v1 = {2, 3, 4, 3, 2, 4, 3, 2, 4, 2, 3, 4};
   EXPECT_EQ(*v, v1);
 }
-#endif
+
 int main(int argc, char **argv) {
 
   ::testing::InitGoogleTest(&argc, argv);
