@@ -1,13 +1,14 @@
 #include "../include/BigInt.hpp"
 #include <stdio.h>
 
-std::vector<uint8_t> BigInt::get_numerus() const {
-  std::vector<uint8_t> v = numerus;
-  return v;
+void BigInt::setNumerus(const std::vector<uint8_t> &source) {
+  numerus = source;
 }
 
-void BigInt::setNumerus(const std::vector<uint8_t> &source) {
-  numerus = source; // or numerus.assign(source.begin(), source.end());
+
+std::vector<uint8_t> BigInt::getNumerus() const {
+  std::vector<uint8_t> v = numerus;
+  return v;
 }
 
 std::vector<int> BigInt::to_list() const {
@@ -135,7 +136,7 @@ BigInt::BigInt(const std::vector<BigInt> &v, SIGN s) {
   std::vector<uint8_t> temp;
 
   for (auto x : v) {
-    temp = x.get_numerus();
+    temp = x.getNumerus();
     for (auto y : temp) {
       result.push_back(y);
     }
@@ -192,18 +193,26 @@ BigInt::BigInt(const long &num) {
 
   *this = z;
 }
-void BigInt::trim_zeros() {
+
+BigInt BigInt::trim_zeros() const{
   int n = numerus.size();
+  BigInt z = *this;
+  std::vector<uint8_t> numerus = z.getNumerus();
+
   if (n==0 || n == 1) {
-    return;
+    return *this;
+    
   }
   int i = 0;
   while (numerus[i] == 0) {
     i++;
   }
   if (i > 0) {
+    
     numerus.erase(numerus.begin(), numerus.begin() + i);
+    z.setNumerus(numerus);
   }
+  return z;
 }
 
 bool BigInt::is_digit(char ch) const {
@@ -399,8 +408,8 @@ BigInt BigInt::vadd(BigInt &x, BigInt &y) const {
     }
   }
 
-  std::vector<uint8_t> x_numerus = x.get_numerus();
-  std::vector<uint8_t> y_numerus = y.get_numerus();
+  std::vector<uint8_t> x_numerus = x.getNumerus();
+  std::vector<uint8_t> y_numerus = y.getNumerus();
 
   int c = 0;
   int tot = 0;
@@ -438,8 +447,8 @@ BigInt BigInt::vsub(BigInt &x, BigInt &y) const {
 
   std::vector<uint8_t> result(k);
   std::fill(result.begin(), result.end(), uint8_t(0));
-  std::vector<uint8_t> x_numerus = x.get_numerus();
-  std::vector<uint8_t> y_numerus = y.get_numerus();
+  std::vector<uint8_t> x_numerus = x.getNumerus();
+  std::vector<uint8_t> y_numerus = y.getNumerus();
 
   int carry = 0;
   for (int i = k - 1; i >= 0; i--) {
@@ -481,8 +490,8 @@ BigInt BigInt::vmult(BigInt &x, BigInt &y) const {
   int n = x.size();
   int m = y.size();
 
-  std::vector<uint8_t> x_numerus = x.get_numerus();
-  std::vector<uint8_t> y_numerus = y.get_numerus();
+  std::vector<uint8_t> x_numerus = x.getNumerus();
+  std::vector<uint8_t> y_numerus = y.getNumerus();
 
   if (n > 10 || m > 10) {
     return karatsuba(x, y);
@@ -590,7 +599,7 @@ void BigInt::operator--() {
 
 std::vector<BigInt> BigInt::split_number(const BigInt x, const int m) const {
 
-  std::vector<uint8_t> numerus = x.get_numerus();
+  std::vector<uint8_t> numerus = x.getNumerus();
   std::vector<BigInt> result;
 
   for (int i = numerus.size(); i >= 0; i -= m) {
@@ -802,6 +811,7 @@ BigInt BigInt::operator+(const BigInt &num) const {
 }
 
 bool BigInt::operator==(const BigInt &y) const {
+  
   BigInt x = *this;
   BigInt temp = y;
   SIGN xsign = get_sign();
@@ -809,10 +819,10 @@ bool BigInt::operator==(const BigInt &y) const {
   if (xsign != ysign){
     return false;
   }
-  x.trim_zeros();
-  temp.trim_zeros();
-  int m = x.size();
-  int n = temp.size();
+  BigInt x1 = x.trim_zeros();
+  BigInt temp1 = temp.trim_zeros();
+  int m = x1.size();
+  int n = temp1.size();
   
   if (m != n) {
     
@@ -820,7 +830,7 @@ bool BigInt::operator==(const BigInt &y) const {
   }
   
   for (int i = 0; i < n; i++) {
-    if (x[i] != temp[i]) {
+    if (x1[i] != temp1[i]) {
       return false;
     }
     

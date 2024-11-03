@@ -135,10 +135,13 @@ TEST_F(BigIntTest, OstreamOperator) {
 #endif
 
 TEST_F(BigIntTest, MultiplicationTests) {
-  BigInt z1("271828453454345545545545");
-  BigInt z2("314159453453523442343");
+  //BigInt z1("271828453454345545545545");
+  //BigInt z2("314159453453523442343");
+  BigInt z1("2222222222222222222222222222");
+  BigInt z2("2");
 
   BigInt z3 = z1 * z2;
+  std::cout << "z3 = " << z3 << std::endl;
   #if 0
   BigInt truth1("85397478370333732998963744994908858288011935");
   EXPECT_EQ(z3, truth1);

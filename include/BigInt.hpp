@@ -35,7 +35,7 @@ private:
 
 public:
   BigInt();
-  void trim_zeros();
+  BigInt trim_zeros() const;
   /// @brief
   /// @param c
   BigInt(const std::string c);
@@ -60,7 +60,7 @@ public:
   SIGN get_sign() const;
   void set_sign(SIGN x);
   std::unique_ptr<std::vector<uint8_t>> numerus_ptr();
-  std::vector<uint8_t> get_numerus() const;
+  std::vector<uint8_t> getNumerus() const;
   bool is_digit(char c) const;
   long to_long() const;
   std::vector<int> to_list() const;

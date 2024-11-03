@@ -14,7 +14,7 @@ template <typename T> void printVector(std::vector<T> &x) {
 
 std::vector<BigInt> split_number(BigInt x, int m) {
 
-  std::vector<uint8_t> numerus = x.get_numerus();
+  std::vector<uint8_t> numerus = x.getNumerus();
   std::vector<BigInt> result;
 
   for (int i = numerus.size(); i >= 0; i -= m) {
