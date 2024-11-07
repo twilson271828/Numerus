@@ -151,7 +151,8 @@ BigInt::BigInt(const std::vector<int> &v, SIGN s) {
 
 BigInt::BigInt() {
   sign = _NULL;
-  numerus = std::vector<uint8_t>(0);
+  std::vector<uint8_t> v;
+  numerus = v;
 }
 
 BigInt::BigInt(const std::vector<uint8_t> &num, SIGN s) {

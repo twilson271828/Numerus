@@ -351,6 +351,11 @@ TEST_F(BigIntTest, LT) {
 
   bool t10 = e < pi;
   EXPECT_EQ(t10, 1);
+
+  BigInt z1;
+  BigInt z2("0");
+  bool t11 = z1 < z2;
+  EXPECT_EQ(t11, false);
 }
 
 TEST_F(BigIntTest, GT) {
@@ -533,7 +538,7 @@ TEST_F(BigIntTest, SubtractionTests) {
   BigInt truth9("11");
   EXPECT_EQ(eight - mthree, truth9);
 
-  BigInt truth10("_NULL");
+  BigInt truth10;
   BigInt z3;
   EXPECT_EQ(z3-BigInt("-11"), truth10);
   
