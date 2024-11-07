@@ -130,6 +130,25 @@ TEST_F(BigIntTest, OstreamOperator) {
   oss.str("");
   oss << empty;
   EXPECT_EQ(oss.str(), "_NULL");
+
+  oss.str("");
+  oss << BigInt("0");
+  EXPECT_EQ(oss.str(), "0");
+}
+
+TEST_F(BigIntTest, TrimZerosTests) {
+  BigInt z("000271828");
+  BigInt z1("271828");
+  BigInt z2 = z.trim_zeros();
+  EXPECT_EQ(z1, z2);
+
+  BigInt z3;
+  BigInt z4 = z3.trim_zeros();
+  EXPECT_EQ(z4, z3);
+
+  BigInt z5("5");
+  BigInt z6 = z5.trim_zeros();
+  EXPECT_EQ(z5, z6);
 }
 
 TEST_F(BigIntTest, MultiplicationTests) {
@@ -468,6 +487,10 @@ TEST_F(BigIntTest, SliceTests) {
 
   BigInt z7 = z.slice(z.size() - 1, z.size() - 1);
   EXPECT_EQ(z7, BigInt("5"));
+
+  BigInt z9 = z.slice(34,27);
+  EXPECT_EQ(z9.get_sign(), UNDEFINED);
+  EXPECT_EQ(z9, BigInt("NaN"));
 }
 
 TEST_F(BigIntTest, SubtractionTests) {
@@ -509,6 +532,11 @@ TEST_F(BigIntTest, SubtractionTests) {
 
   BigInt truth9("11");
   EXPECT_EQ(eight - mthree, truth9);
+
+  BigInt truth10("_NULL");
+  BigInt z3;
+  EXPECT_EQ(z3-BigInt("-11"), truth10);
+  
 }
 
 TEST_F(BigIntTest, PreIncrementTest) {
