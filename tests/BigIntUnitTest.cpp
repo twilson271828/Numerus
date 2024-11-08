@@ -309,6 +309,11 @@ TEST_F(BigIntTest, GEQ) {
 
   bool t10 = e >= pi;
   EXPECT_EQ(t10, 0);
+
+  BigInt z1;
+  BigInt z2(0);
+  bool t11 = z1 >= z2;
+  EXPECT_EQ(t11, false);
 }
 
 TEST_F(BigIntTest, LT) {
