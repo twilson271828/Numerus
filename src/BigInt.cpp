@@ -861,10 +861,9 @@ bool BigInt::operator<=(const BigInt &y) const {
 
   SIGN xsign = get_sign();
   SIGN ysign = y.get_sign();
-  if (xsign==_NULL || ysign==_NULL) {
+  if (xsign == _NULL || ysign == _NULL) {
     return false;
   }
-
 
   if (xsign != ysign) {
     if (xsign == POS) {
@@ -897,10 +896,9 @@ bool BigInt::operator>(const BigInt &y) const {
 
   SIGN xsign = get_sign();
   SIGN ysign = y.get_sign();
-  if (xsign==_NULL || ysign==_NULL) {
+  if (xsign == _NULL || ysign == _NULL) {
     return false;
   }
-
 
   if (xsign != ysign) {
     if (xsign == POS) {
@@ -928,24 +926,22 @@ bool BigInt::operator>(const BigInt &y) const {
 
 bool BigInt::operator>=(const BigInt &y) const {
   if (*this == y) {
-    std::cout << "A" << std::endl;
+
     return true;
   }
-
   SIGN xsign = get_sign();
   SIGN ysign = y.get_sign();
 
-  if (xsign==_NULL || ysign==_NULL) {
+  if (xsign == _NULL || ysign == _NULL) {
+
     return false;
   }
 
   if (xsign != ysign) {
     if (xsign == POS) {
-          std::cout << "B" << std::endl;
 
       return true;
     } else {
-          std::cout << "C" << std::endl;
 
       return false;
     }
@@ -955,20 +951,16 @@ bool BigInt::operator>=(const BigInt &y) const {
   int m = y.size();
 
   if (n != m) {
-        std::cout << "D" << std::endl;
 
     return (n > m) == (xsign == POS);
   }
 
   for (int i = 0; i < n; ++i) {
     if (numerus[i] != y.numerus[i]) {
-          std::cout << "E" << std::endl;
 
       return (numerus[i] > y.numerus[i]) == (xsign == POS);
     }
   }
-      std::cout << "F" << std::endl;
-
 
   return false;
 }

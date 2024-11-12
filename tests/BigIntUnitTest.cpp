@@ -310,10 +310,12 @@ TEST_F(BigIntTest, GEQ) {
   bool t10 = e >= pi;
   EXPECT_EQ(t10, 0);
 
-  BigInt z1;
+  BigInt z1("0");
+  z1.set_sign(NEG);
   BigInt z2(0);
+  z2.set_sign(NEG);
   bool t11 = z1 >= z2;
-  EXPECT_EQ(t11, false);
+  EXPECT_EQ(t11, 1);
 }
 
 TEST_F(BigIntTest, LT) {
@@ -498,7 +500,7 @@ TEST_F(BigIntTest, SliceTests) {
   BigInt z7 = z.slice(z.size() - 1, z.size() - 1);
   EXPECT_EQ(z7, BigInt("5"));
 
-  BigInt z9 = z.slice(34,27);
+  BigInt z9 = z.slice(34, 27);
   EXPECT_EQ(z9.get_sign(), UNDEFINED);
   EXPECT_EQ(z9, BigInt("NaN"));
 }
@@ -545,8 +547,7 @@ TEST_F(BigIntTest, SubtractionTests) {
 
   BigInt truth10;
   BigInt z3;
-  EXPECT_EQ(z3-BigInt("-11"), truth10);
-  
+  EXPECT_EQ(z3 - BigInt("-11"), truth10);
 }
 
 TEST_F(BigIntTest, PreIncrementTest) {
