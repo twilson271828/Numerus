@@ -1,8 +1,12 @@
 set(HEADER_LIST "${Numerus_SOURCE_DIR}/include/BigInt.hpp")
 
-add_library(BigInt BigInt.cpp ${HEADER_LIST})
+add_library(BigInt SHARED BigInt.cpp ${HEADER_LIST})
 
 target_include_directories(BigInt PUBLIC ../include)
+
+#Set the output directory for the BigInt library
+set_target_properties(BigInt PROPERTIES LIBRARY_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/lib")
+
 
 target_compile_features(BigInt PUBLIC cxx_std_20)
 target_compile_options(BigInt PUBLIC --coverage)
