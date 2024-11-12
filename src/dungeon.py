@@ -64,7 +64,7 @@ def burnikel_ziegler_divide(u: np.ndarray, v: np.ndarray, m: int):
         
         #quotient_part = int("".join(map(str, quotient_list)))
         #print("quotient_part = ",quotient_part)
-        remainder = remainder % int("".join(map(str, v)))  # Get the new remainder
+        reminder = remainder % int("".join(map(str, v)))  # Get the new remainder
         quotient.append(quotient_list)
 
     return quotient, remainder
