@@ -19,11 +19,11 @@ private:
   std::vector<uint8_t> numerus;
 
   SIGN sign;
-
+  divmod10 burnikel_ziegler(BigInt const &x, const BigInt &y) const;
+  std::vector<BigInt> split_number(const BigInt x, const int m) const;
   BigInt vsub(BigInt &x, BigInt &y) const;
   BigInt vadd(BigInt &x, BigInt &y) const;
   BigInt vmult(BigInt &x, BigInt &y) const;
-  // bool is_digit_char(char c) const;
 
   // BigInt Schonhage_Strassen(BigInt &x, BigInt &y) const;
   // BigInt Toom3(BigInt &x, BigInt &y) const;
@@ -34,7 +34,7 @@ private:
 
 public:
   BigInt();
-
+  BigInt trim_zeros() const;
   /// @brief
   /// @param c
   BigInt(const std::string c);
@@ -52,14 +52,14 @@ public:
   BigInt shift_n(const int n, bool add_to_front = false) const;
   divmod10 divmod(const long n) const;
   BigInt slice(int i, int j) const;
-  uint8_t operator[](const int i) const;
-  size_t size() const;
+  int operator[](const int i) const;
+  int size() const;
   void print_numerus() const;
   BigInt abs() const;
   SIGN get_sign() const;
   void set_sign(SIGN x);
   std::unique_ptr<std::vector<uint8_t>> numerus_ptr();
-  std::vector<uint8_t> get_numerus();
+  std::vector<uint8_t> getNumerus() const;
   bool is_digit(char c) const;
   long to_long() const;
   std::vector<int> to_list() const;
@@ -68,7 +68,7 @@ public:
   void insert(const uint8_t &val, const int &ix);
 
   BigInt operator*(const BigInt &num);
-  BigInt operator/(const BigInt &num) const;
+  divmod10 operator/(const BigInt &num) const;
 
   BigInt operator+(const BigInt &num) const;
 
@@ -90,7 +90,7 @@ public:
 
   void operator--();
 
-  split split_it(size_t m) const;
+  split split_it(int m) const;
 
   friend std::ostream &operator<<(std::ostream &out, const BigInt &num);
 };

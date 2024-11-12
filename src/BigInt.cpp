@@ -1,13 +1,13 @@
 #include "../include/BigInt.hpp"
 #include <stdio.h>
 
-std::vector<uint8_t> BigInt::get_numerus() {
-  std::vector<uint8_t> v = numerus;
-  return v;
+void BigInt::setNumerus(const std::vector<uint8_t> &source) {
+  numerus = source;
 }
 
-void BigInt::setNumerus(const std::vector<uint8_t> &source) {
-  numerus = source; // or numerus.assign(source.begin(), source.end());
+std::vector<uint8_t> BigInt::getNumerus() const {
+  std::vector<uint8_t> v = numerus;
+  return v;
 }
 
 std::vector<int> BigInt::to_list() const {
@@ -34,7 +34,7 @@ BigInt BigInt::slice(int i, int j) const {
   int ds = this->size() - 1;
 
   if (d > ds) {
-    std::cout << "d > ds\n";
+
     return BigInt("NaN");
   }
 
@@ -66,14 +66,19 @@ BigInt BigInt::slice(int i, int j) const {
   return z;
 }
 
-split BigInt::split_it(size_t m) const {
-  size_t n = this->size();
+split BigInt::split_it(int m) const {
+  int n = this->size();
 
   BigInt r;
   BigInt c;
 
   split z;
-
+  if (n < m) {
+    z.xleft = BigInt("NaN");
+    z.xright = BigInt("NaN");
+    z.m = m;
+    return z;
+  }
   z.xright = this->slice(n - m, n - 1);
   z.xleft = this->slice(0, n - m - 1);
   z.m = m;
@@ -124,7 +129,7 @@ BigInt::BigInt(const std::vector<BigInt> &v, SIGN s) {
   std::vector<uint8_t> temp;
 
   for (auto x : v) {
-    temp = x.get_numerus();
+    temp = x.getNumerus();
     for (auto y : temp) {
       result.push_back(y);
     }
@@ -146,7 +151,8 @@ BigInt::BigInt(const std::vector<int> &v, SIGN s) {
 
 BigInt::BigInt() {
   sign = _NULL;
-  numerus = std::vector<uint8_t>(0);
+  std::vector<uint8_t> v;
+  numerus = v;
 }
 
 BigInt::BigInt(const std::vector<uint8_t> &num, SIGN s) {
@@ -180,6 +186,26 @@ BigInt::BigInt(const long &num) {
   }
 
   *this = z;
+}
+
+BigInt BigInt::trim_zeros() const {
+  int n = numerus.size();
+  BigInt z = *this;
+  std::vector<uint8_t> numerus = z.getNumerus();
+
+  if (n == 0 || n == 1) {
+    return *this;
+  }
+  int i = 0;
+  while (numerus[i] == 0) {
+    i++;
+  }
+  if (i > 0) {
+
+    numerus.erase(numerus.begin(), numerus.begin() + i);
+    z.setNumerus(numerus);
+  }
+  return z;
 }
 
 bool BigInt::is_digit(char ch) const {
@@ -289,7 +315,7 @@ std::unique_ptr<std::vector<uint8_t>> BigInt::numerus_ptr() {
   return std::make_unique<std::vector<uint8_t>>(numerus);
 }
 
-uint8_t BigInt::operator[](const int i) const { return numerus[i]; }
+int BigInt::operator[](const int i) const { return (int)numerus[i]; }
 
 void BigInt::set_sign(SIGN x) { sign = x; }
 
@@ -303,7 +329,7 @@ BigInt BigInt::abs() const {
 
 SIGN BigInt::get_sign() const { return sign; }
 
-size_t BigInt::size() const { return numerus.size(); }
+int BigInt::size() const { return numerus.size(); }
 
 std::ostream &operator<<(std::ostream &out, const BigInt &num) {
 
@@ -324,13 +350,14 @@ std::ostream &operator<<(std::ostream &out, const BigInt &num) {
 
   int i = 0;
   if (n == 1 && num[0] == 0) {
-    out << "0";
+    out << static_cast<int>(num[0]);
     return out;
   }
 
   if (num[i] == 0) {
 
     while (num[i] == 0 && i < n) {
+      // out << static_cast<int>(num[i]);
       ++i;
     }
     while (i < n) {
@@ -366,8 +393,8 @@ BigInt BigInt::vadd(BigInt &x, BigInt &y) const {
     }
   }
 
-  std::vector<uint8_t> x_numerus = x.get_numerus();
-  std::vector<uint8_t> y_numerus = y.get_numerus();
+  std::vector<uint8_t> x_numerus = x.getNumerus();
+  std::vector<uint8_t> y_numerus = y.getNumerus();
 
   int c = 0;
   int tot = 0;
@@ -405,8 +432,8 @@ BigInt BigInt::vsub(BigInt &x, BigInt &y) const {
 
   std::vector<uint8_t> result(k);
   std::fill(result.begin(), result.end(), uint8_t(0));
-  std::vector<uint8_t> x_numerus = x.get_numerus();
-  std::vector<uint8_t> y_numerus = y.get_numerus();
+  std::vector<uint8_t> x_numerus = x.getNumerus();
+  std::vector<uint8_t> y_numerus = y.getNumerus();
 
   int carry = 0;
   for (int i = k - 1; i >= 0; i--) {
@@ -448,8 +475,8 @@ BigInt BigInt::vmult(BigInt &x, BigInt &y) const {
   int n = x.size();
   int m = y.size();
 
-  std::vector<uint8_t> x_numerus = x.get_numerus();
-  std::vector<uint8_t> y_numerus = y.get_numerus();
+  std::vector<uint8_t> x_numerus = x.getNumerus();
+  std::vector<uint8_t> y_numerus = y.getNumerus();
 
   if (n > 10 || m > 10) {
     return karatsuba(x, y);
@@ -554,7 +581,60 @@ void BigInt::operator--() {
   *this = z;
 }
 
-// BigInt BigInt::operator/(const BigInt &num) const { return num; }
+std::vector<BigInt> BigInt::split_number(const BigInt x, const int m) const {
+
+  std::vector<uint8_t> numerus = x.getNumerus();
+  std::vector<BigInt> result;
+
+  for (int i = numerus.size(); i >= 0; i -= m) {
+    BigInt temp = x.slice(i - m, i - 1);
+    result.insert(result.begin(), temp);
+  }
+  return result;
+}
+
+divmod10 BigInt::burnikel_ziegler(const BigInt &x, const BigInt &y) const {
+
+  divmod10 d;
+  long ylong = y.to_long();
+  const int m =
+      4; // change this to some optimized value determined the the inputs.
+  std::vector<BigInt> x_parts = split_number(x, m);
+
+  std::vector<BigInt> y_parts = split_number(y, m);
+  BigInt remainder = 0;
+  long quotient_part;
+  std::vector<BigInt> quotient;
+  std::vector<int> quotient_list;
+
+  for (auto &part : x_parts) {
+    remainder = remainder * std::pow(10, m) + part;
+    quotient_part = remainder.to_long() / ylong;
+    quotient_list = BigInt(quotient_part).to_list();
+    int nzeros = m - quotient_list.size();
+
+    if (nzeros > 0) {
+      for (int i = 0; i < nzeros; i++) {
+        quotient_list.insert(quotient_list.begin(), 0);
+      }
+    }
+    remainder = remainder - BigInt(quotient_part) * y;
+    quotient.push_back(quotient_list);
+  }
+
+  d.quotient = BigInt(quotient).trim_zeros();
+  d.remainder = remainder.trim_zeros();
+
+  return d;
+}
+
+divmod10 BigInt::operator/(const BigInt &num) const {
+  BigInt x = *this;
+  BigInt y = num;
+  divmod10 d = burnikel_ziegler(x, y);
+
+  return d;
+}
 
 BigInt BigInt::operator-(const BigInt &num) const {
   BigInt x = *this;
@@ -711,19 +791,28 @@ BigInt BigInt::operator+(const BigInt &num) const {
 }
 
 bool BigInt::operator==(const BigInt &y) const {
+
+  BigInt x = *this;
   BigInt temp = y;
   SIGN xsign = get_sign();
   SIGN ysign = temp.get_sign();
-  if (xsign != ysign)
+  if (xsign != ysign) {
     return false;
-
-  int m = size();
+  }
+  // BigInt x1 = x.trim_zeros();
+  // BigInt temp1 = temp.trim_zeros();
+  int m = x.size();
   int n = temp.size();
-  if (m != n)
+
+  if (m != n) {
+
     return false;
+  }
+
   for (int i = 0; i < n; i++) {
-    if (numerus[i] != temp[i])
+    if (x[i] != temp[i]) {
       return false;
+    }
   }
 
   return true;
@@ -737,6 +826,9 @@ bool BigInt::operator<(const BigInt &y) const {
 
   SIGN xsign = get_sign();
   SIGN ysign = y.get_sign();
+  if (xsign == _NULL || ysign == _NULL) {
+    return false;
+  }
 
   if (xsign != ysign) {
     if (xsign == POS) {
@@ -769,6 +861,9 @@ bool BigInt::operator<=(const BigInt &y) const {
 
   SIGN xsign = get_sign();
   SIGN ysign = y.get_sign();
+  if (xsign == _NULL || ysign == _NULL) {
+    return false;
+  }
 
   if (xsign != ysign) {
     if (xsign == POS) {
@@ -801,6 +896,9 @@ bool BigInt::operator>(const BigInt &y) const {
 
   SIGN xsign = get_sign();
   SIGN ysign = y.get_sign();
+  if (xsign == _NULL || ysign == _NULL) {
+    return false;
+  }
 
   if (xsign != ysign) {
     if (xsign == POS) {
@@ -828,16 +926,23 @@ bool BigInt::operator>(const BigInt &y) const {
 
 bool BigInt::operator>=(const BigInt &y) const {
   if (*this == y) {
+
     return true;
   }
-
   SIGN xsign = get_sign();
   SIGN ysign = y.get_sign();
 
+  if (xsign == _NULL || ysign == _NULL) {
+
+    return false;
+  }
+
   if (xsign != ysign) {
     if (xsign == POS) {
+
       return true;
     } else {
+
       return false;
     }
   }
@@ -846,11 +951,13 @@ bool BigInt::operator>=(const BigInt &y) const {
   int m = y.size();
 
   if (n != m) {
+
     return (n > m) == (xsign == POS);
   }
 
   for (int i = 0; i < n; ++i) {
     if (numerus[i] != y.numerus[i]) {
+
       return (numerus[i] > y.numerus[i]) == (xsign == POS);
     }
   }

@@ -36,6 +36,7 @@ public:
   BigInt me;
   BigInt mpi;
 };
+
 TEST_F(BigIntTest, LongConstructorTests) {
   EXPECT_EQ(zero_long, c0);
   EXPECT_EQ(pi_long, pi);
@@ -82,7 +83,7 @@ TEST_F(BigIntTest, ConstructorTests) {
 TEST_F(BigIntTest, Get_Numerus) {
   BigInt z1("271828");
   std::vector<uint8_t> v1 = {2, 7, 1, 8, 2, 8};
-  EXPECT_EQ(z1.get_numerus(), v1);
+  EXPECT_EQ(z1.getNumerus(), v1);
 }
 
 TEST_F(BigIntTest, OstreamOperator) {
@@ -129,6 +130,25 @@ TEST_F(BigIntTest, OstreamOperator) {
   oss.str("");
   oss << empty;
   EXPECT_EQ(oss.str(), "_NULL");
+
+  oss.str("");
+  oss << BigInt("0");
+  EXPECT_EQ(oss.str(), "0");
+}
+
+TEST_F(BigIntTest, TrimZerosTests) {
+  BigInt z("000271828");
+  BigInt z1("271828");
+  BigInt z2 = z.trim_zeros();
+  EXPECT_EQ(z1, z2);
+
+  BigInt z3;
+  BigInt z4 = z3.trim_zeros();
+  EXPECT_EQ(z4, z3);
+
+  BigInt z5("5");
+  BigInt z6 = z5.trim_zeros();
+  EXPECT_EQ(z5, z6);
 }
 
 TEST_F(BigIntTest, MultiplicationTests) {
@@ -136,6 +156,7 @@ TEST_F(BigIntTest, MultiplicationTests) {
   BigInt z2("314159453453523442343");
 
   BigInt z3 = z1 * z2;
+
   BigInt truth1("85397478370333732998963744994908858288011935");
   EXPECT_EQ(z3, truth1);
 
@@ -192,6 +213,18 @@ TEST_F(BigIntTest, MultiplicationTests) {
   BigInt z29(432546366);
   BigInt z30 = z28 * z29;
   EXPECT_EQ(z30, BigInt("14811252664572"));
+}
+
+TEST_F(BigIntTest, DivisionTests) {
+  BigInt x("7294372378472835723758");
+  BigInt y("2568");
+
+  divmod10 z = x / y;
+  BigInt truth_quotient("2840487686321197711");
+  BigInt truth_remainder("1910");
+
+  EXPECT_EQ(z.quotient, truth_quotient);
+  EXPECT_EQ(z.remainder, truth_remainder);
 }
 
 TEST_F(BigIntTest, LEQ) {
@@ -276,6 +309,13 @@ TEST_F(BigIntTest, GEQ) {
 
   bool t10 = e >= pi;
   EXPECT_EQ(t10, 0);
+
+  BigInt z1("0");
+  z1.set_sign(NEG);
+  BigInt z2(0);
+  z2.set_sign(NEG);
+  bool t11 = z1 >= z2;
+  EXPECT_EQ(t11, 1);
 }
 
 TEST_F(BigIntTest, LT) {
@@ -318,6 +358,11 @@ TEST_F(BigIntTest, LT) {
 
   bool t10 = e < pi;
   EXPECT_EQ(t10, 1);
+
+  BigInt z1;
+  BigInt z2("0");
+  bool t11 = z1 < z2;
+  EXPECT_EQ(t11, false);
 }
 
 TEST_F(BigIntTest, GT) {
@@ -367,7 +412,7 @@ TEST_F(BigIntTest, EqualityTests) {
   EXPECT_NE(e, pi);
 }
 
-TEST_F(BigIntTest,NotEqual){
+TEST_F(BigIntTest, NotEqual) {
 
   BigInt pi("314159");
   BigInt e("271828");
@@ -377,7 +422,6 @@ TEST_F(BigIntTest,NotEqual){
 
   bool t2 = e != e;
   EXPECT_EQ(t2, 0);
-
 }
 // Demonstrate some basic assertions.
 TEST_F(BigIntTest, AdditionTests) {
@@ -455,6 +499,10 @@ TEST_F(BigIntTest, SliceTests) {
 
   BigInt z7 = z.slice(z.size() - 1, z.size() - 1);
   EXPECT_EQ(z7, BigInt("5"));
+
+  BigInt z9 = z.slice(34, 27);
+  EXPECT_EQ(z9.get_sign(), UNDEFINED);
+  EXPECT_EQ(z9, BigInt("NaN"));
 }
 
 TEST_F(BigIntTest, SubtractionTests) {
@@ -496,6 +544,10 @@ TEST_F(BigIntTest, SubtractionTests) {
 
   BigInt truth9("11");
   EXPECT_EQ(eight - mthree, truth9);
+
+  BigInt truth10;
+  BigInt z3;
+  EXPECT_EQ(z3 - BigInt("-11"), truth10);
 }
 
 TEST_F(BigIntTest, PreIncrementTest) {

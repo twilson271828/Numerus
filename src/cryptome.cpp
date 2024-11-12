@@ -14,7 +14,7 @@ template <typename T> void printVector(std::vector<T> &x) {
 
 std::vector<BigInt> split_number(BigInt x, int m) {
 
-  std::vector<uint8_t> numerus = x.get_numerus();
+  std::vector<uint8_t> numerus = x.getNumerus();
   std::vector<BigInt> result;
 
   for (int i = numerus.size(); i >= 0; i -= m) {
@@ -89,15 +89,21 @@ bool isLeadingZeroPresent(const std::string &c) {
 
 int main() {
 
-  BigInt x("7294372378472835723758");
-  BigInt y("2568");
 
-  int m = 4;
+  BigInt x("0000007294372378472835723758");
+  //BigInt y("2568");
 
-  divmod10 z = div(x, y);
-  std::cout << "quotient1 = " << z.quotient << "\n";
-  std::cout << "quotient2 = 2840487686321197711\n";
-  std::cout << "remainder = " << z.remainder << "\n";
+  std::cout << "x = " << x << "\n";
+  x.trim_zeros();
+
+  std::cout << "x = " << x << "\n";
+
+  //divmod10 z = x/y;
+
+  //std::cout << "Quotient = " << z.quotient << "\n";
+  //std::cout << "Remainder = " << z.remainder << "\n";
+
+
 
   return 0;
 }
