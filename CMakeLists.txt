@@ -5,6 +5,11 @@ project(
     VERSION 1.0
     LANGUAGES CXX)
 
+    # Find and link zlib (for gzip support)
+    find_package(ZLIB REQUIRED)
+
+    # Find and link OpenMP
+    find_package(OpenMP REQUIRED)
     
     #Set the build type to Debug if not already set
     if(NOT CMAKE_BUILD_TYPE)
@@ -32,8 +37,6 @@ project(
     add_test(NAME BigIntUnitTest COMMAND BigIntUnitTest)
     set_target_properties(BigIntUnitTest PROPERTIES RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/testbin")
 
-    #message(STATUS "CMAKE_RUNTIME_OUTPUT_DIRECTORY: ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}")
-    #message(STATUS "CMAKE_MODULE_PATH: ${CMAKE_MODULE_PATH}")
 
     
     # Find gcovr
@@ -42,4 +45,4 @@ project(
         message(FATAL_ERROR "gcovr not found! Please install it.")
     endif()
     
-#message(STATUS "CMAKE_SOURCE_DIR: ${CMAKE_SOURCE_DIR}")
+
