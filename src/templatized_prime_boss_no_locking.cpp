@@ -37,7 +37,7 @@ template<typename T>
 void sieve_segment(const T& low, const T& high, const std::vector<int>& base_primes,
                    std::vector<short>& encoded_primes, T& last_prime, T& last_delta) {
     T size = high - low;
-    std::vector<bool> is_prime(static_cast<size_t>(size), true);
+    std::vector<bool> is_prime(static_cast<size_t>(size.to_long()), true);
 
     for (int p : base_primes) {
         T prime = static_cast<T>(p);
@@ -101,7 +101,7 @@ void multithreaded_sieve_and_compress_lockfree(const T& n, const std::string& ou
     T two = 2;
     T segment_size = SEGMENT_SIZE;
     T total_segments = (n - two) / segment_size + 1;
-
+    
     std::vector<CompressedBuffer> compressed_segments(static_cast<size_t>(total_segments.to_long()));
 
     omp_set_num_threads(num_threads);
@@ -110,7 +110,9 @@ void multithreaded_sieve_and_compress_lockfree(const T& n, const std::string& ou
     for (long long segment_idx = 0; segment_idx < total_segments.to_long(); ++segment_idx) {
         T low = two + segment_size * segment_idx;
         T high = low + segment_size;
-        if (high > n + 1) high = n + 1;
+        if (high > n + 1) {
+            high = n + 1;
+        }
 
         std::vector<short> encoded;
         T last_prime = -1;

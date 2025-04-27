@@ -1,9 +1,43 @@
 #include "../include/BigInt.hpp"
 #include <stdio.h>
 
+
+
+BigInt operator/(const BigInt& a, const BigInt& b) {
+  return a.divmod(b.to_long()).quotient;
+}
+
+
+
 void BigInt::setNumerus(const std::vector<uint8_t> &source) {
   numerus = source;
 }
+
+BigInt BigInt::sqrt_bigint(const BigInt& n) {
+  if (n == BigInt(0) || n == BigInt(1))
+      return n;
+
+  BigInt low(0);
+  BigInt high = n;
+  BigInt ans(0);
+
+  while (low <= high) {
+      BigInt mid = (low + high) / 2;
+      BigInt midsq = mid * mid;
+
+      if (midsq == n)
+          return mid;
+      else if (midsq < n) {
+          low = mid + BigInt(1);
+          ans = mid;
+      } else {
+          high = mid - BigInt(1);
+      }
+  }
+
+  return ans;
+}
+
 
 std::vector<uint8_t> BigInt::getNumerus() const {
   std::vector<uint8_t> v = numerus;
@@ -628,6 +662,14 @@ divmod10 BigInt::burnikel_ziegler(const BigInt &x, const BigInt &y) const {
   return d;
 }
 
+
+BigInt BigInt::operator/(const long n) const{
+  BigInt x = *this;
+  divmod10 d = x.divmod(n);
+  return d.quotient;
+}
+
+#if 0
 divmod10 BigInt::operator/(const BigInt &num) const {
   BigInt x = *this;
   BigInt y = num;
@@ -635,6 +677,7 @@ divmod10 BigInt::operator/(const BigInt &num) const {
 
   return d;
 }
+#endif
 
 BigInt BigInt::operator-(const BigInt &num) const {
   BigInt x = *this;
@@ -788,6 +831,16 @@ BigInt BigInt::operator+(const BigInt &num) const {
     }
   }
   return z;
+}
+
+
+
+BigInt& BigInt::operator=(const BigInt& other) {
+  if (this != &other) { // Protect against self-assignment
+      numerus = other.numerus;
+      sign = other.sign;
+  }
+  return *this;
 }
 
 bool BigInt::operator==(const BigInt &y) const {
