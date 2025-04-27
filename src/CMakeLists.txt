@@ -17,6 +17,7 @@ add_executable(driver driver.cpp)
 add_executable(cryptome cryptome.cpp)
 add_executable(prime_boss prime_boss.cpp)
 add_executable(prime_boss_no_locking prime_boss_no_locking.cpp)
+add_executable(templatized_prime_boss_no_locking templatized_prime_boss_no_locking.cpp)
 target_link_libraries(cryptome BigInt)
 target_link_libraries(driver BigInt)
 
@@ -35,13 +36,23 @@ target_link_libraries(prime_boss_no_locking
     gcov
 )
 
+target_link_libraries(templatized_prime_boss_no_locking
+    PRIVATE
+    ZLIB::ZLIB
+    OpenMP::OpenMP_CXX
+    gcov
+)
+
+
 # (Optional) More strict compilation flags
+target_compile_options(templatized_prime_boss_no_locking PRIVATE -Wall -Wextra -O3)
 target_compile_options(prime_boss PRIVATE -Wall -Wextra -O3)
 
 target_compile_options(prime_boss_no_locking PRIVATE -Wall -Wextra -O3)
 
 
-set_target_properties(driver cryptome prime_boss prime_boss_no_locking PROPERTIES RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/bin")
+target_compile_options(templatized_prime_boss_no_locking PRIVATE -Wall -Wextra -O3)
+set_target_properties(driver cryptome prime_boss prime_boss_no_locking templatized_prime_boss_no_locking PROPERTIES RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/bin")
 
 
 source_group(
