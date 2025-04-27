@@ -46,11 +46,11 @@ void sieve_segment(const T& low, const T& high, const std::vector<int>& base_pri
         if (start < low)
             start = ((low + prime - 1) / prime) * prime;
         for (T j = start; j < high; j = j + prime) {
-            is_prime[static_cast<size_t>(j - low)] = false;
+            is_prime[static_cast<size_t>((j - low).to_long())] = false;
         }
     }
 
-    for (size_t i = 0; i < static_cast<size_t>(size); ++i) {
+    for (size_t i = 0; i < static_cast<size_t>(size.to_long()); ++i) {
         if (is_prime[i]) {
             T prime = low + static_cast<T>(i);
             if (prime > 1) {

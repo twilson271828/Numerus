@@ -38,6 +38,7 @@ target_link_libraries(prime_boss_no_locking
 
 target_link_libraries(templatized_prime_boss_no_locking
     PRIVATE
+    BigInt
     ZLIB::ZLIB
     OpenMP::OpenMP_CXX
     gcov

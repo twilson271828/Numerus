@@ -669,15 +669,15 @@ BigInt BigInt::operator/(const long n) const{
   return d.quotient;
 }
 
-#if 0
-divmod10 BigInt::operator/(const BigInt &num) const {
+
+divmod10 BigInt::div(const BigInt &num) const {
   BigInt x = *this;
   BigInt y = num;
   divmod10 d = burnikel_ziegler(x, y);
 
   return d;
 }
-#endif
+
 
 BigInt BigInt::operator-(const BigInt &num) const {
   BigInt x = *this;

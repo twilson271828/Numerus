@@ -72,7 +72,7 @@ public:
   BigInt operator/(const long n) const;
   
 
-  //divmod10 operator/(const BigInt &num) const;
+  divmod10 div(const BigInt &num) const;
 
   BigInt operator+(const BigInt &num) const;
 
