@@ -219,7 +219,7 @@ TEST_F(BigIntTest, DivisionTests) {
   BigInt x("7294372378472835723758");
   BigInt y("2568");
 
-  divmod10 z = x / y;
+  divmod10 z = x.div(y);
   BigInt truth_quotient("2840487686321197711");
   BigInt truth_remainder("1910");
 

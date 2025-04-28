@@ -48,6 +48,7 @@ public:
   void setNumerus(const std::vector<uint8_t> &source);
   BigInt(const std::vector<uint8_t> &num, SIGN s = POS);
   BigInt karatsuba(BigInt &x, BigInt &y) const;
+  BigInt sqrt_bigint(const BigInt& n);
   BigInt lshift(const int n) const;
   BigInt shift_n(const int n, bool add_to_front = false) const;
   divmod10 divmod(const long n) const;
@@ -68,7 +69,10 @@ public:
   void insert(const uint8_t &val, const int &ix);
 
   BigInt operator*(const BigInt &num);
-  divmod10 operator/(const BigInt &num) const;
+  BigInt operator/(const long n) const;
+  
+
+  divmod10 div(const BigInt &num) const;
 
   BigInt operator+(const BigInt &num) const;
 
@@ -84,6 +88,8 @@ public:
 
   bool operator!=(const BigInt &num) const;
 
+  BigInt& operator=(const BigInt& other);
+  
   bool operator==(const BigInt &num) const;
 
   void operator++();
@@ -94,6 +100,8 @@ public:
 
   friend std::ostream &operator<<(std::ostream &out, const BigInt &num);
 };
+
+BigInt operator/(const BigInt& a, const BigInt& b);
 
 struct split {
   BigInt xleft;
