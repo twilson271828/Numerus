@@ -4,7 +4,7 @@ import struct
 import gzip
 
 def simple_sieve(limit):
-    """Simple sieve to generate primes up to sqrt(n)."""
+    
     sieve = np.ones(limit + 1, dtype=bool)
     sieve[0:2] = False
     for i in range(2, int(math.isqrt(limit)) + 1):
@@ -13,12 +13,12 @@ def simple_sieve(limit):
     return np.flatnonzero(sieve)
 
 def save_deltas_binary(deltas, file_handle):
-    """Save a list of deltas to a binary (possibly compressed) file."""
+   
     data = struct.pack(f"{len(deltas)}H", *deltas)  # 'H' = unsigned short
     file_handle.write(data)
 
 def segmented_sieve_delta_binary_gzip(n, output_filename, buffer_size=100000):
-    """Segmented sieve saving delta-encoded primes into compressed binary (.gz)."""
+  
     limit = int(math.isqrt(n)) + 1
     base_primes = simple_sieve(limit)
 
@@ -65,7 +65,7 @@ def segmented_sieve_delta_binary_gzip(n, output_filename, buffer_size=100000):
 
 
 def load_binary_deltas_gzip(filename):
-    """Load packed delta-encoded primes from a compressed binary file (.gz)."""
+    
     with gzip.open(filename, "rb") as f:
         data = f.read()
     deltas = struct.unpack(f"{len(data) // 2}H", data)

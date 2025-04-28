@@ -3,7 +3,7 @@ import math
 import struct
 
 def simple_sieve(limit):
-    """Simple sieve to generate primes up to sqrt(n)."""
+   
     sieve = np.ones(limit + 1, dtype=bool)
     sieve[0:2] = False
     for i in range(2, int(math.isqrt(limit)) + 1):
@@ -12,17 +12,17 @@ def simple_sieve(limit):
     return np.flatnonzero(sieve)
 
 def save_deltas_binary(deltas, file_handle):
-    """Save a list of deltas to a binary file as unsigned shorts."""
+   
     # Pack all deltas as unsigned short (2 bytes each)
     data = struct.pack(f"{len(deltas)}H", *deltas)  # 'H' = unsigned short
     file_handle.write(data)
 
 def segmented_sieve_delta_binary(n, output_filename, buffer_size=100000):
-    """Segmented sieve with delta encoding, saving packed binary to disk."""
+    
     limit = int(math.isqrt(n)) + 1
     base_primes = simple_sieve(limit)
 
-    segment_size = max(limit, 10_000_000)
+    segment_size = max(limit, 10000000)
 
     with open(output_filename, "wb") as f:  # Binary write
         buffer = []
@@ -64,7 +64,7 @@ def segmented_sieve_delta_binary(n, output_filename, buffer_size=100000):
             save_deltas_binary(buffer, f)
 
 def load_binary_deltas(filename):
-    """Load packed delta-encoded primes from a binary file."""
+   
     with open(filename, "rb") as f:
         data = f.read()
     deltas = struct.unpack(f"{len(data) // 2}H", data)  # 'H' = 2 bytes unsigned short
@@ -75,16 +75,11 @@ def load_binary_deltas(filename):
         primes.append(running_sum)
     return primes
 
-# Example usage:
-primes = load_binary_deltas("prime_deltas_up_to_100.bin")
-print(primes)
-
-
 
 
 if __name__ == "__main__":
     n = 100
-    output_file = "prime_deltas_up_to_100.bin"
+    output_file = "prime_deltas_up_to_"+str(n)+".bin"
 
     print(f"Generating primes up to {n} with delta encoding into binary {output_file}...")
     segmented_sieve_delta_binary(n, output_file)

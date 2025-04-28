@@ -5,7 +5,7 @@ import math
 WHEEL = np.array([1, 7, 11, 13, 17, 19, 23, 29], dtype=int)
 
 def simple_sieve(limit):
-    """Simple sieve to generate primes up to sqrt(n)."""
+   
     sieve = np.ones(limit + 1, dtype=bool)
     sieve[0:2] = False
     for i in range(2, int(math.isqrt(limit)) + 1):
@@ -14,7 +14,7 @@ def simple_sieve(limit):
     return np.flatnonzero(sieve)
 
 def segmented_sieve_wheel(n):
-    """Segmented sieve with wheel factorization (2,3,5 wheel) using NumPy."""
+    
     limit = int(math.isqrt(n)) + 1
     base_primes = simple_sieve(limit)
 

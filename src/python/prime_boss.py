@@ -7,7 +7,7 @@ from queue import Queue
 import threading
 
 def simple_sieve(limit):
-    """Simple sieve of Eratosthenes to get primes up to sqrt(n)."""
+    
     sieve = np.ones(limit + 1, dtype=bool)
     sieve[0:2] = False
     for i in range(2, int(math.isqrt(limit)) + 1):
@@ -16,7 +16,7 @@ def simple_sieve(limit):
     return np.flatnonzero(sieve)
 
 def sieve_segment(low, high, base_primes, last_prime_info):
-    """Sieve a single segment and return delta-of-delta encoded primes."""
+    
     size = high - low
     sieve = np.ones(size, dtype=bool)
 
@@ -61,7 +61,7 @@ def writer_thread(filename, queue):
             queue.task_done()
 
 def multithreaded_sieve_and_compress(n, output_filename, num_threads=4):
-    """Main function: Multithreaded segmented sieve and parallel compressed writing."""
+    
     limit = int(math.isqrt(n)) + 1
     base_primes = simple_sieve(limit)
 
@@ -88,7 +88,7 @@ def multithreaded_sieve_and_compress(n, output_filename, num_threads=4):
 
 
 def load_prime_delta_of_delta_gzip(filename):
-    """Load delta-of-delta encoded primes from compressed binary (.gz) and reconstruct primes."""
+    
     with gzip.open(filename, "rb") as f:
         data = f.read()
     # Each delta-of-delta was stored as a signed short ('h'), 2 bytes
@@ -119,7 +119,7 @@ def load_prime_delta_of_delta_gzip(filename):
 
 
 if __name__ == "__main__":
-    n = 10**6  # Or 10**8, 10**9, etc.
+    n = 10**6 
     output_file = "primes_multithreaded_delta_of_delta.bin.gz"
     num_threads = 4
 
