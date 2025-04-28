@@ -13,12 +13,12 @@ target_compile_options(BigInt PUBLIC --coverage)
 
 target_link_libraries(BigInt gcov)
 
-add_executable(driver driver.cpp)
+
 add_executable(cryptome cryptome.cpp)
 add_executable(prime_boss prime_boss.cpp)
 
 target_link_libraries(cryptome BigInt)
-target_link_libraries(driver BigInt)
+
 
 # Link libraries: ZLIB + OpenMP
 target_link_libraries(prime_boss
@@ -34,7 +34,7 @@ target_link_libraries(prime_boss
 
 target_compile_options(prime_boss PRIVATE -Wall -Wextra -O3)
 
-set_target_properties(driver cryptome prime_boss PROPERTIES RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/bin")
+set_target_properties(cryptome prime_boss PROPERTIES RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/bin")
 
 
 source_group(

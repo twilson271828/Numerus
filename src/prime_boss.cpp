@@ -9,13 +9,13 @@
 #include <fstream>
 #include "../include/BigInt.hpp"  // Assuming your BigInt class is here
 
-const int SEGMENT_SIZE = 10'000'000;
+const int SEGMENT_SIZE = 10000000;
 
 struct CompressedBuffer {
     std::vector<unsigned char> data;
 };
 
-// Simple sieve for small integers (always up to sqrt(n) which fits in long long)
+
 std::vector<int> simple_sieve(long long limit) {
     std::vector<bool> is_prime(limit + 1, true);
     is_prime[0] = is_prime[1] = false;
@@ -73,7 +73,7 @@ void sieve_segment(const T& low, const T& high, const std::vector<int>& base_pri
     }
 }
 
-// Compress a vector of shorts into a compressed memory buffer
+
 CompressedBuffer compress_buffer(const std::vector<short>& deltas) {
     uLong source_size = deltas.size() * sizeof(short);
     uLong dest_size = compressBound(source_size);
@@ -208,7 +208,7 @@ std::vector<T> reconstruct_primes(const std::vector<unsigned char>& uncompressed
     return primes;
 }
 
-// Master function: load primes from compressed gz file
+// Boss read function: load primes from compressed gz file
 template<typename T>
 std::vector<T> load_primes_from_compressed_file(const std::string& filename) {
     auto compressed_data = read_entire_file(filename);
