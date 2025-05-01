@@ -3,6 +3,20 @@
 
 
 
+BigInt BigInt::Schonhage_Strassen(BigInt& x, BigInt& y) const {
+  std::vector<int> a(x.numerus.begin(), x.numerus.end());
+  std::vector<int> b(y.numerus.begin(), y.numerus.end());
+
+  auto result = multiply_fft(a, b);
+
+  BigInt product;
+  product.numerus = std::vector<uint8_t>(result.begin(), result.end());
+  product.sign = (x.sign == y.sign) ? POS : NEG;
+
+  return product.trim_zeros();
+}
+
+
 BigInt operator/(const BigInt& a, const BigInt& b) {
   return a.divmod(b.to_long()).quotient;
 }
