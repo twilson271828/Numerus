@@ -8,6 +8,72 @@
 #include <typeinfo>
 #include <vector>
 
+#include <complex>
+#include <cmath>
+
+using cd = std::complex<double>;
+const double PI = acos(-1);
+
+
+void fft(std::vector<cd>& a, bool invert) {
+    size_t n = a.size();
+    if (n == 1) return;
+
+    std::vector<cd> a0(n / 2), a1(n / 2);
+    for (size_t i = 0; 2 * i < n; ++i) {
+        a0[i] = a[i*2];
+        a1[i] = a[i*2+1];
+    }
+
+    fft(a0, invert);
+    fft(a1, invert);
+
+    double ang = 2 * PI / n * (invert ? -1 : 1);
+    cd w(1), wn(cos(ang), sin(ang));
+    for (size_t i = 0; 2 * i < n; ++i) {
+        a[i] = a0[i] + w * a1[i];
+        a[i + n/2] = a0[i] - w * a1[i];
+        if (invert) {
+            a[i] /= 2;
+            a[i + n/2] /= 2;
+        }
+        w *= wn;
+    }
+}
+
+std::vector<int> multiply_fft(const std::vector<int>& a, const std::vector<int>& b) {
+  std::vector<cd> fa(a.begin(), a.end()), fb(b.begin(), b.end());
+  size_t n = 1;
+  while (n < a.size() + b.size()) n <<= 1;
+  fa.resize(n); fb.resize(n);
+
+  fft(fa, false);
+  fft(fb, false);
+  for (size_t i = 0; i < n; ++i)
+      fa[i] *= fb[i];
+  fft(fa, true);
+
+  std::vector<int> result(n);
+  long long carry = 0;
+  for (size_t i = 0; i < n; ++i) {
+      long long val = static_cast<long long>(std::round(fa[i].real())) + carry;
+      result[i] = val % 10;
+      carry = val / 10;
+  }
+
+  while (carry) {
+      result.push_back(carry % 10);
+      carry /= 10;
+  }
+
+  // Remove leading zeros
+  while (result.size() > 1 && result.back() == 0)
+      result.pop_back();
+
+  return result;
+}
+
+
 enum SIGN { POS, NEG, UNDEFINED, _NULL };
 
 struct split;
