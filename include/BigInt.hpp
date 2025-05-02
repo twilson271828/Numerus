@@ -92,7 +92,7 @@ private:
   BigInt vmult(BigInt &x, BigInt &y) const;
   
 
-  BigInt Schonhage_Strassen(BigInt &x, BigInt &y) const;
+  
   // BigInt Toom3(BigInt &x, BigInt &y) const;
   // std::complex<double> exponentiate(size_t k, size_t n, size_t N);
   // std::complex<double> dift(std::vector<std::complex<double>> &input, size_t
@@ -114,6 +114,7 @@ public:
   BigInt(const std::vector<BigInt> &v, SIGN s = POS);
   void setNumerus(const std::vector<uint8_t> &source);
   BigInt(const std::vector<uint8_t> &num, SIGN s = POS);
+  BigInt Schonhage_Strassen(BigInt &x, BigInt &y) const;
   BigInt karatsuba(BigInt &x, BigInt &y) const;
   BigInt sqrt_bigint(const BigInt& n);
   BigInt lshift(const int n) const;

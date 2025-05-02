@@ -89,19 +89,13 @@ bool isLeadingZeroPresent(const std::string &c) {
 
 int main() {
 
+  BigInt a("12345678901234567890");
+BigInt b("98765432109876543210");
+BigInt result = a.Schonhage_Strassen(a, b);
+std::cout << result << std::endl;
+std::cout << "1219326311370217952237463801111263526900" << std::endl;
 
-  BigInt x("0000007294372378472835723758");
-  //BigInt y("2568");
 
-  std::cout << "x = " << x << "\n";
-  x.trim_zeros();
-
-  std::cout << "x = " << x << "\n";
-
-  //divmod10 z = x/y;
-
-  //std::cout << "Quotient = " << z.quotient << "\n";
-  //std::cout << "Remainder = " << z.remainder << "\n";
 
 
 
