@@ -14,7 +14,7 @@
 using cd = std::complex<double>;
 const double PI = acos(-1);
 
-
+#if 0
 void fft(std::vector<cd>& a, bool invert) {
     size_t n = a.size();
     if (n == 1) return;
@@ -72,7 +72,7 @@ std::vector<int> multiply_fft(const std::vector<int>& a, const std::vector<int>&
 
   return result;
 }
-
+#endif
 
 enum SIGN { POS, NEG, UNDEFINED, _NULL };
 
@@ -114,7 +114,7 @@ public:
   BigInt(const std::vector<BigInt> &v, SIGN s = POS);
   void setNumerus(const std::vector<uint8_t> &source);
   BigInt(const std::vector<uint8_t> &num, SIGN s = POS);
-  BigInt Schonhage_Strassen(BigInt &x, BigInt &y) const;
+  //BigInt Schonhage_Strassen(BigInt &x, BigInt &y) const;
   BigInt karatsuba(BigInt &x, BigInt &y) const;
   BigInt sqrt_bigint(const BigInt& n);
   BigInt lshift(const int n) const;

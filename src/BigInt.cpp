@@ -2,7 +2,7 @@
 #include <stdio.h>
 
 
-
+#if 0
 BigInt BigInt::Schonhage_Strassen(BigInt& x, BigInt& y) const {
   std::vector<int> a(x.numerus.begin(), x.numerus.end());
   std::vector<int> b(y.numerus.begin(), y.numerus.end());
@@ -15,7 +15,7 @@ BigInt BigInt::Schonhage_Strassen(BigInt& x, BigInt& y) const {
 
   return product.trim_zeros();
 }
-
+#endif
 
 BigInt operator/(const BigInt& a, const BigInt& b) {
   return a.divmod(b.to_long()).quotient;
