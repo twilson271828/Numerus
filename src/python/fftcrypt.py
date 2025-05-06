@@ -32,20 +32,26 @@ def fft(signal):
 
 if __name__=="__main__":
     # Example usage
-    signal = np.random.randint(0,9,16)  # Example signal
+    signal = np.random.randint(0,9,128)  # Example signal
     x = fft(signal)
     n = len(signal)
     A = np.fft.fft(signal, n)
-    print(type(A))
-    print(x)
-    print(A)
+    
+
+    
     # Plotting the original and transformed signals
-    plt.subplot(2, 1, 1)
+    plt.subplot(3, 1, 1)
     plt.plot(x)
-    plt.title('Original Signal')
-    plt.subplot(2, 1, 2)
-    plt.plot(np.abs(x-A))
-    plt.title('FFT of Signal')
+    plt.title('Open AI FFT')
+    plt.subplot(3, 1, 2)
+    plt.plot(A)
+    plt.title('Numpy FFT')
+
+    plt.subplot(3,1,3)
+    plt.plot(np.abs(x-A))   
+    plt.title('Difference between Open AI FFT and Numpy FFT')
+    plt.tight_layout()
+    
     plt.show()
 
     
