@@ -30,8 +30,11 @@ def schonhage_strassen(x, y):
     b = split_number(y, base)
 
     n = 1 << (len(a) + len(b) - 1).bit_length()
-    A = np.fft.fft(a, n)
-    B = np.fft.fft(b, n)
+    A = np.fft.fft(a,n)
+    B = np.fft.fft(b,n)
+    print(n)
+    print(type(A), type(B))
+    print(A)
     C = A * B
     c = np.fft.ifft(C).real.round().astype(np.int64)
 
