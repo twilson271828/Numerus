@@ -3,7 +3,7 @@ import math
 
 class SchonhageStrassen:
     def __init__(self):
-        pass
+        self.message="SchonhageStrassen class initialized."
 
     def _fft(self, a, invert, n, w):
         """
