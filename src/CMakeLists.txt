@@ -1,4 +1,4 @@
-set(HEADER_LIST "${Numerus_SOURCE_DIR}/include/BigInt.hpp")
+set(HEADER_LIST "${Numerus_SOURCE_DIR}/include/BigInt.hpp" "${Numerus_SOURCE_DIR}/include/maths.h")
 
 add_library(BigInt SHARED BigInt.cpp ${HEADER_LIST})
 

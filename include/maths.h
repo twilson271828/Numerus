@@ -31,4 +31,4 @@ std::vector<uint64_t> precompute_roots(int n);
 void bit_reverse_permute(std::vector<uint64_t>& a);
 void ntt_openmp(std::vector<uint64_t>& a, bool invert, const std::vector<uint64_t>& all_roots);
 void ntt(std::vector<uint64_t>& a, bool invert, const std::vector<uint64_t>& all_roots);
-std::string multiply_large_numbers(const std::string& num1, const std::string& num2)
+std::string multiply_large_numbers(const std::string& num1, const std::string& num2);
