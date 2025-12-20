@@ -6,6 +6,7 @@
 #include <cstdint>
 #include <iomanip>
 
+
 // --- Configuration ---
 // The "Golden Prime" for NTT
 const uint64_t MOD = 998244353;

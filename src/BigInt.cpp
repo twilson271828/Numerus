@@ -1,14 +1,91 @@
 #include "../include/BigInt.hpp"
+#include "../include/maths.h"
 #include <stdio.h>
 
 
 
-BigInt BigInt::Schonhage_Strassen(BigInt& x, BigInt& y) const {
-  std::vector<int> a(x.numerus.begin(), x.numerus.end());
-  std::vector<int> b(y.numerus.begin(), y.numerus.end());
-  return BigInt(0);
-  
+BigInt BigInt::Schonhage_Strassen(const std::string& num1, const std::string& num2) const {
+ // 1. Determine size (Power of 2)
+    // Result can have at most len1 + len2 digits
+    size_t n = 1;
+    while (n < num1.size() + num2.size()) n <<= 1;
+
+    // 2. Precompute Roots (Expensive, do once per size)
+    // Note: In a real library, you'd cache these based on 'n'
+      std::vector<uint64_t> roots = precompute_roots(n);
+
+    // 3. Convert Strings to Polynomials (Integer Vectors)
+    // We process input in reverse order so index 0 is the 1s place
+      std::vector<uint64_t> a(n, 0), b(n, 0);
+    
+    // Parallel Parse is tricky due to string indexing, keeping it serial or simple parallel
+    #pragma omp parallel for
+    for (size_t i = 0; i < num1.size(); i++) {
+        a[i] = num1[num1.size() - 1 - i] - '0';
+    }
+    
+    #pragma omp parallel for
+    for (size_t i = 0; i < num2.size(); i++) {
+        b[i] = num2[num2.size() - 1 - i] - '0';
+    }
+
+    // 4. Perform Forward NTT
+    // We can run these two in parallel using sections
+    #pragma omp parallel sections
+    {
+        #pragma omp section
+        ntt(a, false, roots);
+        
+        #pragma omp section
+        ntt(b, false, roots);
+    }
+
+    // 5. Pointwise Multiplication (Convolution Theorem)
+    #pragma omp parallel for schedule(static)
+    for (int i = 0; i < n; i++) {
+        a[i] = mul(a[i], b[i]);
+    }
+
+    // 6. Perform Inverse NTT
+    ntt(a, true, roots);
+
+    // 7. Carry Propagation (The "Schoolbook" cleanup)
+    // This step is inherently sequential because carry depends on previous result
+    std::vector<int> result;
+    result.reserve(n);
+    
+    uint64_t carry = 0;
+    for (int i = 0; i < n; i++) {
+        uint64_t val = a[i] + carry;
+        result.push_back(val % 10);
+        carry = val / 10;
+    }
+    
+    // Handle remaining carry
+    while (carry) {
+        result.push_back(carry % 10);
+        carry /= 10;
+    }
+
+    // 8. Format Output
+    // Remove trailing zeros (which are leading zeros in the number)
+    while (result.size() > 1 && result.back() == 0) {
+        result.pop_back();
+    }
+    
+    // Convert back to string (reverse logic)
+    std::string res_str;
+    res_str.resize(result.size());
+    
+    #pragma omp parallel for
+    for(size_t i=0; i < result.size(); i++) {
+        res_str[i] = result[result.size() - 1 - i] + '0';
+    }
+    BigInt final_result(res_str);
+    return final_result;
 }
+
+
 
 
 BigInt operator/(const BigInt& a, const BigInt& b) {
