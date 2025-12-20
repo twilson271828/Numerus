@@ -1,6 +1,6 @@
-set(HEADER_LIST "${Numerus_SOURCE_DIR}/include/BigInt.hpp")
+set(HEADER_LIST "${Numerus_SOURCE_DIR}/include/BigInt.hpp" "${Numerus_SOURCE_DIR}/include/maths.h")
 
-add_library(BigInt SHARED BigInt.cpp ${HEADER_LIST})
+add_library(BigInt SHARED BigInt.cpp maths.cpp ${HEADER_LIST})
 
 target_include_directories(BigInt PUBLIC ../include)
 
@@ -11,7 +11,7 @@ set_target_properties(BigInt PROPERTIES LIBRARY_OUTPUT_DIRECTORY "${CMAKE_BINARY
 target_compile_features(BigInt PUBLIC cxx_std_20)
 target_compile_options(BigInt PUBLIC --coverage)
 
-target_link_libraries(BigInt gcov)
+target_link_libraries(BigInt gcov OpenMP::OpenMP_CXX)
 
 
 add_executable(cryptome cryptome.cpp)
