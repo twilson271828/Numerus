@@ -537,7 +537,15 @@ BigInt BigInt::vadd(BigInt &x, BigInt &y) const {
   return z;
 }
 
-void BigInt::print_numerus() const {
+std::string BigInt::to_string() const {
+  std::string result;
+  for (auto x : this->numerus) {
+    result += std::to_string(x);
+  }
+  return result;
+}
+
+void BigInt::print() const {
   for (auto x : this->numerus) {
     std::cout << (int)(x);
   }
@@ -590,15 +598,23 @@ BigInt BigInt::vsub(BigInt &x, BigInt &y) const {
 }
 
 BigInt BigInt::vmult(BigInt &x, BigInt &y) const {
-
+  const int gmp_threshold1 = 2000;
+  const int gmp_threshold2 = 100000;
   int n = x.size();
   int m = y.size();
+  long order = n+m;
 
   std::vector<uint8_t> x_numerus = x.getNumerus();
   std::vector<uint8_t> y_numerus = y.getNumerus();
 
-  if (n > 10 || m > 10) {
+  if (order > gmp_threshold1 && order < gmp_threshold2) {
     return karatsuba(x, y);
+  }
+
+  if (order >= gmp_threshold2) {
+    std::string x_str = x.to_string();  
+    std::string y_str = y.to_string();
+    return Schonhage_Strassen(x_str, y_str);
   }
 
   int shift = 0;
