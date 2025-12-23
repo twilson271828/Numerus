@@ -92,13 +92,6 @@ private:
   BigInt vmult(BigInt &x, BigInt &y) const;
   BigInt Schonhage_Strassen(const std::string& x, const std::string& y) const;
 
-  
-  // BigInt Toom3(BigInt &x, BigInt &y) const;
-  // std::complex<double> exponentiate(size_t k, size_t n, size_t N);
-  // std::complex<double> dift(std::vector<std::complex<double>> &input, size_t
-  // n); std::complex<double> dft(std::vector<std::complex<double>> &input,
-  // size_t n); size_t bitrev(size_t n);
-
 public:
   BigInt();
   BigInt trim_zeros() const;
@@ -123,7 +116,8 @@ public:
   BigInt slice(int i, int j) const;
   int operator[](const int i) const;
   int size() const;
-  void print_numerus() const;
+  void print() const;
+  std::string to_string() const;
   BigInt abs() const;
   SIGN get_sign() const;
   void set_sign(SIGN x);

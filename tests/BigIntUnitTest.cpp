@@ -45,7 +45,7 @@ TEST_F(BigIntTest, LongConstructorTests) {
 
 TEST_F(BigIntTest, print_numerus) {
   BigInt z("271828");
-  z.print_numerus();
+  z.print();
 }
 
 TEST_F(BigIntTest, ConstructorTests) {
