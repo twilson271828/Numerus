@@ -151,6 +151,38 @@ TEST_F(BigIntTest, TrimZerosTests) {
   EXPECT_EQ(z5, z6);
 }
 
+class SSATest : public ::testing::Test {
+protected:
+    // Helper to read the 3-line format: A, B, Expected
+    struct TestCase {
+        std::string a_str;
+        std::string b_str;
+        std::string expected_str;
+    };
+
+    TestCase loadTestCase(const std::string& filename) {
+        std::ifstream file(filename);
+        if (!file.is_open()) {
+            throw std::runtime_error("Could not open test file: " + filename);
+        }
+
+        TestCase tc;
+        std::getline(file, tc.a_str);
+        std::getline(file, tc.b_str);
+        std::getline(file, tc.expected_str);
+        return tc;
+    }
+};
+
+TEST_F(SSATest, MultiplicationTests) {
+    TestCase tc = loadTestCase("testdata/schonhage_strassen_testdata.ipynb");
+    BigInt a(tc.a_str);
+    BigInt b(tc.b_str);
+    BigInt expected(tc.expected_str);
+    BigInt result = a * b;
+    EXPECT_EQ(result, expected);
+}
+
 TEST_F(BigIntTest, MultiplicationTests) {
   BigInt z1("271828453454345545545545");
   BigInt z2("314159453453523442343");
