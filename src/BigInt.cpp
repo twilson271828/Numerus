@@ -4,7 +4,7 @@
 
 
 
-BigInt BigInt::Schonhage_Strassen(const std::string& num1, const std::string& num2) const {
+BigInt internal::BigIntHelper::Schonhage_Strassen(const std::string& num1, const std::string& num2) {
  // 1. Determine size (Power of 2)
     // Result can have at most len1 + len2 digits
     size_t n = 1;
@@ -496,7 +496,7 @@ void BigInt::insert(const uint8_t &val, const int &ix) {
   numerus.insert(numerus.begin() + ix, val);
 }
 
-BigInt BigInt::vadd(BigInt &x, BigInt &y) const {
+BigInt internal::BigIntHelper::vadd(BigInt &x, BigInt &y) {
   BigInt z;
 
   int n = x.size();
@@ -551,7 +551,7 @@ void BigInt::print() const {
   }
   std::cout << "\n";
 }
-BigInt BigInt::vsub(BigInt &x, BigInt &y) const {
+BigInt internal::BigIntHelper::vsub(BigInt &x, BigInt &y) {
 
   int n = x.size();
   int m = y.size();
@@ -597,7 +597,7 @@ BigInt BigInt::vsub(BigInt &x, BigInt &y) const {
   return z;
 }
 
-BigInt BigInt::vmult(BigInt &x, BigInt &y) const {
+BigInt internal::BigIntHelper::vmult(BigInt &x, BigInt &y) {
   const int gmp_threshold1 = 2000;
   const int gmp_threshold2 = 100000;
   int n = x.size();
@@ -608,7 +608,7 @@ BigInt BigInt::vmult(BigInt &x, BigInt &y) const {
   std::vector<uint8_t> y_numerus = y.getNumerus();
 
   if (order > gmp_threshold1 && order < gmp_threshold2) {
-    return karatsuba(x, y);
+    return x.karatsuba(x, y);
   }
 
   if (order >= gmp_threshold2) {
@@ -670,10 +670,10 @@ BigInt BigInt::operator*(const BigInt &num) {
   }
 
   if (y.size() > x.size()) {
-    z = vmult(y, x);
+    z = internal::BigIntHelper::vmult(y, x);
   } else {
 
-    z = vmult(x, y);
+    z = internal::BigIntHelper::vmult(x, y);
   }
 
   SIGN xsign = x.get_sign();
@@ -716,7 +716,7 @@ void BigInt::operator--() {
   *this = z;
 }
 
-std::vector<BigInt> BigInt::split_number(const BigInt x, const int m) const {
+std::vector<BigInt> internal::BigIntHelper::split_number(const BigInt x, const int m) {
 
   std::vector<uint8_t> numerus = x.getNumerus();
   std::vector<BigInt> result;
@@ -728,7 +728,7 @@ std::vector<BigInt> BigInt::split_number(const BigInt x, const int m) const {
   return result;
 }
 
-divmod10 BigInt::burnikel_ziegler(const BigInt &x, const BigInt &y) const {
+divmod10 internal::BigIntHelper::burnikel_ziegler(const BigInt &x, const BigInt &y) {
 
   divmod10 d;
   long ylong = y.to_long();
@@ -774,7 +774,7 @@ BigInt BigInt::operator/(const long n) const{
 divmod10 BigInt::div(const BigInt &num) const {
   BigInt x = *this;
   BigInt y = num;
-  divmod10 d = burnikel_ziegler(x, y);
+  divmod10 d = internal::BigIntHelper::burnikel_ziegler(x, y);
 
   return d;
 }
@@ -807,7 +807,7 @@ BigInt BigInt::operator-(const BigInt &num) const {
     BigInt temp = x;
     x = y;
     y = temp;
-    z = vsub(x, y);
+    z = internal::BigIntHelper::vsub(x, y);
     z.sign = NEG;
 
     return z;
@@ -823,14 +823,14 @@ BigInt BigInt::operator-(const BigInt &num) const {
   }
 
   if (x < y && x.sign == NEG && y.sign == NEG) {
-    z = vsub(x, y);
+    z = internal::BigIntHelper::vsub(x, y);
     z.sign = NEG;
 
     return z;
   }
 
   if (x > y && x.sign == POS && y.sign == POS) {
-    z = vsub(x, y);
+    z = internal::BigIntHelper::vsub(x, y);
     z.sign = POS;
 
     return z;
@@ -838,7 +838,7 @@ BigInt BigInt::operator-(const BigInt &num) const {
 
   if (x > y && x.sign == POS && y.sign == NEG) {
 
-    z = vadd(x, y);
+    z = internal::BigIntHelper::vadd(x, y);
     z.sign = POS;
 
     return z;
@@ -855,7 +855,7 @@ BigInt BigInt::operator-(const BigInt &num) const {
     x = y;
     y = temp;
 
-    z = vsub(x, y);
+    z = internal::BigIntHelper::vsub(x, y);
     z.sign = POS;
 
     return z;

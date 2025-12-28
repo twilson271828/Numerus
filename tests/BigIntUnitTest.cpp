@@ -1,5 +1,6 @@
 #include "../include/BigInt.hpp"
 #include <gtest/gtest.h>
+#include <fstream>
 
 class BigIntTest : public ::testing::Test {
 public:
@@ -175,7 +176,7 @@ protected:
 };
 
 TEST_F(SSATest, MultiplicationTests) {
-    TestCase tc = loadTestCase("testdata/schonhage_strassen_testdata.ipynb");
+    TestCase tc = loadTestCase("testdata/test1_ss_1000000_digits.txt");
     BigInt a(tc.a_str);
     BigInt b(tc.b_str);
     BigInt expected(tc.expected_str);
