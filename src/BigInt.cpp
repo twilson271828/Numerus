@@ -2,127 +2,122 @@
 #include "../include/maths.h"
 #include <stdio.h>
 
+BigInt internal::BigIntHelper::Schonhage_Strassen(const std::string &num1,
+                                                  const std::string &num2) {
+  // 1. Determine size (Power of 2)
+  // Result can have at most len1 + len2 digits
+  size_t n = 1;
+  while (n < num1.size() + num2.size())
+    n <<= 1;
 
+  // 2. Precompute Roots (Expensive, do once per size)
+  // Note: In a real library, you'd cache these based on 'n'
+  std::vector<uint64_t> roots = precompute_roots(n);
 
-BigInt internal::BigIntHelper::Schonhage_Strassen(const std::string& num1, const std::string& num2) {
- // 1. Determine size (Power of 2)
-    // Result can have at most len1 + len2 digits
-    size_t n = 1;
-    while (n < num1.size() + num2.size()) n <<= 1;
+  // 3. Convert Strings to Polynomials (Integer Vectors)
+  // We process input in reverse order so index 0 is the 1s place
+  std::vector<uint64_t> a(n, 0), b(n, 0);
 
-    // 2. Precompute Roots (Expensive, do once per size)
-    // Note: In a real library, you'd cache these based on 'n'
-      std::vector<uint64_t> roots = precompute_roots(n);
+// Parallel Parse is tricky due to string indexing, keeping it serial or simple
+// parallel
+#pragma omp parallel for
+  for (size_t i = 0; i < num1.size(); i++) {
+    a[i] = num1[num1.size() - 1 - i] - '0';
+  }
 
-    // 3. Convert Strings to Polynomials (Integer Vectors)
-    // We process input in reverse order so index 0 is the 1s place
-      std::vector<uint64_t> a(n, 0), b(n, 0);
-    
-    // Parallel Parse is tricky due to string indexing, keeping it serial or simple parallel
-    #pragma omp parallel for
-    for (size_t i = 0; i < num1.size(); i++) {
-        a[i] = num1[num1.size() - 1 - i] - '0';
-    }
-    
-    #pragma omp parallel for
-    for (size_t i = 0; i < num2.size(); i++) {
-        b[i] = num2[num2.size() - 1 - i] - '0';
-    }
+#pragma omp parallel for
+  for (size_t i = 0; i < num2.size(); i++) {
+    b[i] = num2[num2.size() - 1 - i] - '0';
+  }
 
-    // 4. Perform Forward NTT
-    // We can run these two in parallel using sections
-    #pragma omp parallel sections
-    {
-        #pragma omp section
-        ntt(a, false, roots);
-        
-        #pragma omp section
-        ntt(b, false, roots);
-    }
+// 4. Perform Forward NTT
+// We can run these two in parallel using sections
+#pragma omp parallel sections
+  {
+#pragma omp section
+    ntt(a, false, roots);
 
-    // 5. Pointwise Multiplication (Convolution Theorem)
-    #pragma omp parallel for schedule(static)
-    for (int i = 0; i < n; i++) {
-        a[i] = mul(a[i], b[i]);
-    }
+#pragma omp section
+    ntt(b, false, roots);
+  }
 
-    // 6. Perform Inverse NTT
-    ntt(a, true, roots);
+// 5. Pointwise Multiplication (Convolution Theorem)
+#pragma omp parallel for schedule(static)
+  for (int i = 0; i < n; i++) {
+    a[i] = mul(a[i], b[i]);
+  }
 
-    // 7. Carry Propagation (The "Schoolbook" cleanup)
-    // This step is inherently sequential because carry depends on previous result
-    std::vector<int> result;
-    result.reserve(n);
-    
-    uint64_t carry = 0;
-    for (int i = 0; i < n; i++) {
-        uint64_t val = a[i] + carry;
-        result.push_back(val % 10);
-        carry = val / 10;
-    }
-    
-    // Handle remaining carry
-    while (carry) {
-        result.push_back(carry % 10);
-        carry /= 10;
-    }
+  // 6. Perform Inverse NTT
+  ntt(a, true, roots);
 
-    // 8. Format Output
-    // Remove trailing zeros (which are leading zeros in the number)
-    while (result.size() > 1 && result.back() == 0) {
-        result.pop_back();
-    }
-    
-    // Convert back to string (reverse logic)
-    std::string res_str;
-    res_str.resize(result.size());
-    
-    #pragma omp parallel for
-    for(size_t i=0; i < result.size(); i++) {
-        res_str[i] = result[result.size() - 1 - i] + '0';
-    }
-    BigInt final_result(res_str);
-    return final_result;
+  // 7. Carry Propagation (The "Schoolbook" cleanup)
+  // This step is inherently sequential because carry depends on previous result
+  std::vector<int> result;
+  result.reserve(n);
+
+  uint64_t carry = 0;
+  for (int i = 0; i < n; i++) {
+    uint64_t val = a[i] + carry;
+    result.push_back(val % 10);
+    carry = val / 10;
+  }
+
+  // Handle remaining carry
+  while (carry) {
+    result.push_back(carry % 10);
+    carry /= 10;
+  }
+
+  // 8. Format Output
+  // Remove trailing zeros (which are leading zeros in the number)
+  while (result.size() > 1 && result.back() == 0) {
+    result.pop_back();
+  }
+
+  // Convert back to string (reverse logic)
+  std::string res_str;
+  res_str.resize(result.size());
+
+#pragma omp parallel for
+  for (size_t i = 0; i < result.size(); i++) {
+    res_str[i] = result[result.size() - 1 - i] + '0';
+  }
+  BigInt final_result(res_str);
+  return final_result;
 }
 
-
-
-
-BigInt operator/(const BigInt& a, const BigInt& b) {
+BigInt operator/(const BigInt &a, const BigInt &b) {
   return a.divmod(b.to_long()).quotient;
 }
-
-
 
 void BigInt::setNumerus(const std::vector<uint8_t> &source) {
   numerus = source;
 }
 
-BigInt BigInt::sqrt_bigint(const BigInt& n) {
+BigInt BigInt::sqrt_bigint(const BigInt &n) {
   if (n == BigInt(0) || n == BigInt(1))
-      return n;
+    return n;
 
   BigInt low(0);
   BigInt high = n;
   BigInt ans(0);
 
   while (low <= high) {
-      BigInt mid = (low + high) / 2;
-      BigInt midsq = mid * mid;
+    BigInt mid = (low + high) / 2;
+    BigInt midsq = mid * mid;
 
-      if (midsq == n)
-          return mid;
-      else if (midsq < n) {
-          low = mid + BigInt(1);
-          ans = mid;
-      } else {
-          high = mid - BigInt(1);
-      }
+    if (midsq == n)
+      return mid;
+    else if (midsq < n) {
+      low = mid + BigInt(1);
+      ans = mid;
+    } else {
+      high = mid - BigInt(1);
+    }
   }
 
   return ans;
 }
-
 
 std::vector<uint8_t> BigInt::getNumerus() const {
   std::vector<uint8_t> v = numerus;
@@ -276,7 +271,7 @@ BigInt::BigInt() {
 
 BigInt::BigInt(const std::vector<uint8_t> &num, SIGN s) {
   numerus = num;
-  sign = POS;
+  sign = s;
 }
 
 BigInt::BigInt(const BigInt &num) {
@@ -534,6 +529,7 @@ BigInt internal::BigIntHelper::vadd(BigInt &x, BigInt &y) {
       z.insert(tot, 0);
     }
   }
+  z.set_sign(POS);
   return z;
 }
 
@@ -602,7 +598,7 @@ BigInt internal::BigIntHelper::vmult(BigInt &x, BigInt &y) {
   const int gmp_threshold2 = 100000;
   int n = x.size();
   int m = y.size();
-  long order = n+m;
+  long order = n + m;
 
   std::vector<uint8_t> x_numerus = x.getNumerus();
   std::vector<uint8_t> y_numerus = y.getNumerus();
@@ -612,7 +608,7 @@ BigInt internal::BigIntHelper::vmult(BigInt &x, BigInt &y) {
   }
 
   if (order >= gmp_threshold2) {
-    std::string x_str = x.to_string();  
+    std::string x_str = x.to_string();
     std::string y_str = y.to_string();
     return Schonhage_Strassen(x_str, y_str);
   }
@@ -653,7 +649,7 @@ BigInt internal::BigIntHelper::vmult(BigInt &x, BigInt &y) {
   for (int i = 0; i < vecs.size(); i++) {
     a = internal::BigIntHelper::vadd(a, vecs[i]);
   }
-  
+
   return a;
 }
 
@@ -717,7 +713,8 @@ void BigInt::operator--() {
   *this = z;
 }
 
-std::vector<BigInt> internal::BigIntHelper::split_number(const BigInt x, const int m) {
+std::vector<BigInt> internal::BigIntHelper::split_number(const BigInt x,
+                                                         const int m) {
 
   std::vector<uint8_t> numerus = x.getNumerus();
   std::vector<BigInt> result;
@@ -729,7 +726,8 @@ std::vector<BigInt> internal::BigIntHelper::split_number(const BigInt x, const i
   return result;
 }
 
-divmod10 internal::BigIntHelper::burnikel_ziegler(const BigInt &x, const BigInt &y) {
+divmod10 internal::BigIntHelper::burnikel_ziegler(const BigInt &x,
+                                                  const BigInt &y) {
 
   divmod10 d;
   long ylong = y.to_long();
@@ -764,13 +762,11 @@ divmod10 internal::BigIntHelper::burnikel_ziegler(const BigInt &x, const BigInt 
   return d;
 }
 
-
-BigInt BigInt::operator/(const long n) const{
+BigInt BigInt::operator/(const long n) const {
   BigInt x = *this;
   divmod10 d = x.divmod(n);
   return d.quotient;
 }
-
 
 divmod10 BigInt::div(const BigInt &num) const {
   BigInt x = *this;
@@ -779,7 +775,6 @@ divmod10 BigInt::div(const BigInt &num) const {
 
   return d;
 }
-
 
 BigInt BigInt::operator-(const BigInt &num) const {
   BigInt x = *this;
@@ -935,12 +930,10 @@ BigInt BigInt::operator+(const BigInt &num) const {
   return z;
 }
 
-
-
-BigInt& BigInt::operator=(const BigInt& other) {
+BigInt &BigInt::operator=(const BigInt &other) {
   if (this != &other) { // Protect against self-assignment
-      numerus = other.numerus;
-      sign = other.sign;
+    numerus = other.numerus;
+    sign = other.sign;
   }
   return *this;
 }

@@ -1,6 +1,6 @@
 #include "../include/BigInt.hpp"
-#include <gtest/gtest.h>
 #include <fstream>
+#include <gtest/gtest.h>
 
 class BigIntTest : public ::testing::Test {
 public:
@@ -43,12 +43,12 @@ TEST_F(BigIntTest, LongConstructorTests) {
   EXPECT_EQ(pi_long, pi);
   EXPECT_EQ(mpi_long, mpi);
 }
-
+#if 0
 TEST_F(BigIntTest, print_numerus) {
   BigInt z("271828");
   z.print();
 }
-
+#endif
 TEST_F(BigIntTest, ConstructorTests) {
 
   BigInt z1("NaN");
@@ -154,60 +154,54 @@ TEST_F(BigIntTest, TrimZerosTests) {
 
 class SSATest : public ::testing::Test {
 protected:
-    // Helper to read the 3-line format: A, B, Expected
-    struct TestCase {
-        std::string a_str;
-        std::string b_str;
-        std::string expected_str;
-    };
+  // Helper to read the 3-line format: A, B, Expected
+  struct TestCase {
+    std::string a_str;
+    std::string b_str;
+    std::string expected_str;
+  };
 
-    TestCase loadTestCase(const std::string& filename) {
-        std::ifstream file(filename);
-        if (!file.is_open()) {
-            throw std::runtime_error("Could not open test file: " + filename);
-        }
-
-        TestCase tc;
-        std::getline(file, tc.a_str);
-        std::getline(file, tc.b_str);
-        std::getline(file, tc.expected_str);
-        return tc;
+  TestCase loadTestCase(const std::string &filename) {
+    std::ifstream file(filename);
+    if (!file.is_open()) {
+      throw std::runtime_error("Could not open test file: " + filename);
     }
+
+    TestCase tc;
+    std::getline(file, tc.a_str);
+    std::getline(file, tc.b_str);
+    std::getline(file, tc.expected_str);
+    return tc;
+  }
 };
-#if 0
 TEST_F(SSATest, MultiplicationTests) {
-    TestCase tc = loadTestCase("testdata/test1_ss_1000000_digits.txt");
-   
-    BigInt expected(tc.expected_str);
-    BigInt result = internal::BigIntHelper::Schonhage_Strassen(tc.a_str, tc.b_str);
-    EXPECT_EQ(result, expected);
-}
-#endif
+  TestCase tc = loadTestCase("testdata/test1_ss_1000000_digits.txt");
 
-TEST_F(BigIntTest,KaratsubaTest) {
-     BigInt z1("271828453454345545545545");
-     BigInt z2("314159453453523442343");
-
-     BigInt truth1("85397478370333732998963744994908858288011935");
-     BigInt result = internal::BigIntHelper::karatsuba(z1, z2);
-     EXPECT_EQ(result, truth1);
+  BigInt expected(tc.expected_str);
+  BigInt result =
+      internal::BigIntHelper::Schonhage_Strassen(tc.a_str, tc.b_str);
+  EXPECT_EQ(result, expected);
 }
 
-TEST_F(BigIntTest,vmultTest){
-   BigInt z1("271828453454345545545545");
-   BigInt z2("314159453453523442343");
+TEST_F(BigIntTest, KaratsubaTest) {
+  BigInt z1("271828453454345545545545");
+  BigInt z2("314159453453523442343");
 
-   BigInt z3 = internal::BigIntHelper::vmult(z1, z2);
-   std::cout << "z3 = " << z3 << std::endl;
-   BigInt truth1("85397478370333732998963744994908858288011935");
-   std::cout << "truth1 = " << truth1 << std::endl;
-   EXPECT_EQ(z3, truth1);
+  BigInt truth1("85397478370333732998963744994908858288011935");
+  BigInt result = internal::BigIntHelper::karatsuba(z1, z2);
+  EXPECT_EQ(result, truth1);
+}
 
+TEST_F(BigIntTest, vmultTest) {
+  BigInt z1("271828453454345545545545");
+  BigInt z2("314159453453523442343");
 
+  BigInt z3 = internal::BigIntHelper::vmult(z1, z2);
+  BigInt truth1("85397478370333732998963744994908858288011935");
+  EXPECT_EQ(z3, truth1);
 }
 
 TEST_F(BigIntTest, MultiplicationTests) {
- 
 
   BigInt z4("342324327857925787589237572785283797852743784278437472438234432472"
             "24378437892347984378947894378439423789423789423789");
