@@ -1,4 +1,5 @@
 #include "../include/BigInt.hpp"
+#include <chrono>
 #include <fstream>
 #include <gtest/gtest.h>
 
@@ -614,6 +615,29 @@ TEST_F(BigIntTest, GetNumerusPtrTest) {
   std::unique_ptr<std::vector<uint8_t>> v = z.numerus_ptr();
   std::vector<uint8_t> v1 = {2, 3, 4, 3, 2, 4, 3, 2, 4, 2, 3, 4};
   EXPECT_EQ(*v, v1);
+}
+
+TEST(PerformanceTest, LoadLargeNumber) {
+  std::string filename = "testdata/test1_ss_1000000_digits.txt";
+  std::ifstream file(filename);
+  ASSERT_TRUE(file.is_open()) << "Could not open test file: " << filename;
+
+  std::string line;
+  // The first line is one of the numbers to multiply
+  std::getline(file, line);
+  ASSERT_FALSE(line.empty()) << "File is empty or first line is missing";
+
+  // warm up
+  BigInt warm("1234");
+
+  auto start = std::chrono::high_resolution_clock::now();
+  BigInt big_num(line);
+  auto end = std::chrono::high_resolution_clock::now();
+
+  std::chrono::duration<double> distinct = end - start;
+
+  std::cout << "Time taken to load BigInt from " << line.length()
+            << " digits: " << distinct.count() << " seconds" << std::endl;
 }
 
 int main(int argc, char **argv) {
