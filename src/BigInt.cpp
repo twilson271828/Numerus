@@ -204,7 +204,7 @@ split BigInt::split_it(int m) const {
   return z;
 }
 
-BigInt BigInt::karatsuba(BigInt &x, BigInt &y) const {
+BigInt internal::BigIntHelper::karatsuba(BigInt &x, BigInt &y) {
 
   int n = x.size();
   int m = y.size();
@@ -228,13 +228,13 @@ BigInt BigInt::karatsuba(BigInt &x, BigInt &y) const {
   BigInt y_high = dy.quotient;
   BigInt y_low = dy.remainder;
 
-  BigInt z0 = karatsuba(x_low, y_low);
+  BigInt z0 = internal::BigIntHelper::karatsuba(x_low, y_low);
   BigInt c1 = x_low + x_high;
   BigInt c2 = y_low + y_high;
 
-  BigInt z1 = karatsuba(c1, c2);
+  BigInt z1 = internal::BigIntHelper::karatsuba(c1, c2);
 
-  BigInt z2 = karatsuba(x_high, y_high);
+  BigInt z2 = internal::BigIntHelper::karatsuba(x_high, y_high);
   BigInt z3 = z1 - z2 - z0;
 
   BigInt result = z2.lshift(2 * k2) + z3.lshift(k2) + z0;
@@ -608,7 +608,7 @@ BigInt internal::BigIntHelper::vmult(BigInt &x, BigInt &y) {
   std::vector<uint8_t> y_numerus = y.getNumerus();
 
   if (order > gmp_threshold1 && order < gmp_threshold2) {
-    return x.karatsuba(x, y);
+    return internal::BigIntHelper::karatsuba(x, y);
   }
 
   if (order >= gmp_threshold2) {

@@ -43,7 +43,7 @@ public:
   void setNumerus(const std::vector<uint8_t> &source);
   BigInt(const std::vector<uint8_t> &num, SIGN s = POS);
   //BigInt Schonhage_Strassen(BigInt &x, BigInt &y) const;
-  BigInt karatsuba(BigInt &x, BigInt &y) const;
+  //BigInt karatsuba(BigInt &x, BigInt &y) const;
   BigInt sqrt_bigint(const BigInt& n);
   BigInt lshift(const int n) const;
   BigInt shift_n(const int n, bool add_to_front = false) const;
@@ -124,6 +124,7 @@ namespace internal {
         static BigInt vsub(BigInt &x, BigInt &y);
         static BigInt vadd(BigInt &x, BigInt &y);
         static BigInt vmult(BigInt &x, BigInt &y);
+        static BigInt karatsuba(BigInt &x, BigInt &y);
         static BigInt Schonhage_Strassen(const std::string& x, const std::string& y);
     };
 }

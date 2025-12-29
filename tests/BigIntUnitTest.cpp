@@ -177,12 +177,22 @@ protected:
 
 TEST_F(SSATest, MultiplicationTests) {
     TestCase tc = loadTestCase("testdata/test1_ss_1000000_digits.txt");
-    BigInt a(tc.a_str);
-    BigInt b(tc.b_str);
+   
     BigInt expected(tc.expected_str);
-    BigInt result = a * b;
+    BigInt result = internal::BigIntHelper::Schonhage_Strassen(tc.a_str, tc.b_str);
     EXPECT_EQ(result, expected);
 }
+
+TEST_F(BigIntTest,KaratsubaTest) {
+     BigInt z1("271828453454345545545545");
+     BigInt z2("314159453453523442343");
+
+     BigInt truth1("85397478370333732998963744994908858288011935");
+     BigInt result = internal::BigIntHelper::karatsuba(z1, z2);
+     EXPECT_EQ(result, truth1);
+}
+
+
 
 TEST_F(BigIntTest, MultiplicationTests) {
   BigInt z1("271828453454345545545545");
