@@ -651,8 +651,9 @@ BigInt internal::BigIntHelper::vmult(BigInt &x, BigInt &y) {
 
   BigInt a;
   for (int i = 0; i < vecs.size(); i++) {
-    a = vadd(a, vecs[i]);
+    a = internal::BigIntHelper::vadd(a, vecs[i]);
   }
+  
   return a;
 }
 
